@@ -1,6 +1,6 @@
 {
   "source_id": "cf-limits",
-  "sha256": "e352edc30770cf0a18eace0249a9bd6dac2631b1e94cbaf477684990aac97e27",
+  "sha256": "3cfe695034b6da69a6dabfd524668b080a2fdca5fd4c320feff420bbfc93c890",
   "passages": [
     {
       "id": "cf-limits@2026-10-29#top-1",
@@ -93,16 +93,28 @@
       "text": "Cloudflare regularly updates the Workers runtime. During routine updates, processes running the previous version of the Workers runtime give existing Workers requests and connections up to 20 minutes to finish. This includes streaming HTTP responses and WebSocket connections.\nOnce the updated version of the Workers runtime is ready, it handles new incoming HTTP requests. Processes running the previous version stop accepting these requests and drain existing work during their grace period."
     },
     {
+      "id": "cf-limits@2026-10-29#subrequests-1",
+      "source_id": "cf-limits",
+      "heading": "Subrequests",
+      "text": "A subrequest is any request a Worker makes using the Fetch API or to Cloudflare services like R2, KV, or D1."
+    },
+    {
+      "id": "cf-limits@2026-10-29#subrequests-2",
+      "source_id": "cf-limits",
+      "heading": "Subrequests",
+      "text": "| Limit | Workers Free | Workers Paid |\n| Subrequests per invocation | 50 | 10,000 (up to 10M) |\n| Subrequests to internal services | 1,000 | Matches configured limit (default 10,000) |\nEach subrequest in a redirect chain counts against this limit. The total number of subrequests may exceed the number of fetch() calls in your code. You can change the subrequest limit per Worker using the limits configuration in your Wrangler configuration file."
+    },
+    {
       "id": "cf-limits@2026-10-29#subrequests-3",
       "source_id": "cf-limits",
       "heading": "Subrequests",
       "text": "There is no set time limit on individual subrequests. As long as the client remains connected, the Worker can continue making subrequests. When the client disconnects or the response is complete, outstanding work may be canceled unless it is passed to ctx.waitUntil(), which can extend execution for up to 30 seconds."
     },
     {
-      "id": "cf-limits@2026-10-29#simultaneous-open-connections-1",
+      "id": "cf-limits@2026-10-29#simultaneous-open-connections-3",
       "source_id": "cf-limits",
       "heading": "Simultaneous open connections",
-      "text": "Each Worker invocation can have up to six connections simultaneously waiting for response headers. The following API calls count toward this limit while the initial connection is being established and the server has not yet responded:\n- fetch() method of the Fetch API\n- get(), put(), list(), and delete() methods of Workers KV namespace objects\n- put(), match(), and delete() methods of Cache objects\n- list(), get(), put(), delete(), and head() methods of R2"
+      "text": "Once response headers arrive for a connection, it no longer counts toward the six-connection limit. This means a Worker can have many connections open simultaneously, as long as no more than six are in the initial \"waiting for headers\" phase at the same time. If a seventh connection is attempted while six are already waiting for headers, it is queued until one of the existing connections receives its response headers."
     },
     {
       "id": "cf-limits@2026-10-29#environment-variables-1",
@@ -129,10 +141,10 @@
       "text": "| Limit | Workers Free | Workers Paid |\n| Workers per account | 100 | 500 |\nIf you are building a platform where your end customers deploy their own sites or applications, use Workers for Platforms, which runs an unlimited number of user Workers."
     },
     {
-      "id": "cf-limits@2026-10-29#routes-and-domains-1",
+      "id": "cf-limits@2026-10-29#routes-with-wrangler-dev-remote-2",
       "source_id": "cf-limits",
-      "heading": "Routes and domains",
-      "text": "| Limit | Value |\n| Routes per zone | 1,000 |\n| Routes per zone (wrangler dev --remote) | 50 |\n| Custom domains per zone | 100 |\n| Routed zones per Worker | 1,000 |"
+      "heading": "Routes with wrangler dev --remote",
+      "text": "If you require more than 1,000 routes or 1,000 routed zones per Worker, consider using Workers for Platforms. If you require more than 100 custom domains per zone, consider using a wildcard route."
     },
     {
       "id": "cf-limits@2026-10-29#cache-api-limits-1",

@@ -1,6 +1,6 @@
 {
   "source_id": "vc-limits",
-  "sha256": "b998f88d86a2577da059cd57259d33f073284f53e23b219c672229d6a410117a",
+  "sha256": "39211479788a433dbbebc5b102e752c35221cfc7262d284abd1820ce1bc04ab1",
   "passages": [
     {
       "id": "vc-limits@2026-08-24#vercel-functions-limits-1",
@@ -21,16 +21,22 @@
       "text": "| Feature | Limits |\n| Maximum memory | Hobby: 2 GB, Pro and Ent: 4 GB |\n| Maximum duration | Hobby: 300s default and maximum. Pro and Enterprise: 300s default, 800s maximum, and 1800s extended maximum Beta. See max duration for requirements and configuration. |\n| Size (uncompressed) | 250 MB, or 500 MB for Python. Large functions support up to 5 GB Beta. |"
     },
     {
-      "id": "vc-limits@2026-08-24#functions-name-1",
+      "id": "vc-limits@2026-08-24#related-pages-6",
       "source_id": "vc-limits",
-      "heading": "Functions name",
-      "text": "The following limits apply to the function's name when using Node.js runtime:\n- Maximum length of 128 characters. This includes the extension of the file (e.g. apps/admin/api/my-function.js is 29 characters)\n- No spaces are allowed. Replace them with a - or _ (e.g. api/my function.js isn't allowed)"
+      "heading": "Related pages",
+      "text": "| Feature | Limits |\n| Concurrency | Auto-scales up to 30,000 (Hobby and Pro) or 100,000+ (Enterprise) concurrency |\n| Cost | Pay for active CPU time and provisioned memory time |\n| Regions | Runs in a single region by default (iad1), which you can change. Pro and Enterprise teams can set multiple regions |\n| API Coverage | Full Node.js coverage |\n| File descriptors | 1,024 shared across concurrent executions (including runtime usage) |"
     },
     {
       "id": "vc-limits@2026-08-24#bundle-size-limits-1",
       "source_id": "vc-limits",
       "heading": "Bundle size limits",
       "text": "Vercel places restrictions on the maximum size of the deployment bundle for functions to ensure that they execute in a timely manner.\nFor Vercel Functions, the maximum uncompressed size is 250 MB including layers which are automatically used depending on runtimes. These limits are enforced by AWS. For Python functions, the maximum uncompressed size is 500 MB."
+    },
+    {
+      "id": "vc-limits@2026-08-24#bundle-size-limits-2",
+      "source_id": "vc-limits",
+      "heading": "Bundle size limits",
+      "text": "You can use includeFiles and excludeFiles to specify items which may affect the function size. These configurations are not supported in Next.js, instead use outputFileTracingIncludes."
     },
     {
       "id": "vc-limits@2026-08-24#troubleshooting-the-250-mb-limit-1",
@@ -51,10 +57,10 @@
       "text": "Large functions let you deploy uncompressed bundles up to 5 GB. Use them for workloads that ship large dependencies, model files, or binaries. Large functions are supported on Node.js, Bun, and Python runtimes.\nLarge functions require fluid compute with Active CPU enabled. Fluid compute is enabled by default for new projects."
     },
     {
-      "id": "vc-limits@2026-08-24#enable-large-functions-2",
+      "id": "vc-limits@2026-08-24#supported-runtimes-1",
       "source_id": "vc-limits",
-      "heading": "Enable large functions",
-      "text": "In eligible projects, Vercel only uses the large functions beta for Functions that exceed the standard bundle size limit. Functions that fit within the standard limit continue to use the standard path."
+      "heading": "Supported runtimes",
+      "text": "Large functions are supported on the following runtimes:\n- nodejs\n- bun\n- python\nNote: Large functions are supported for projects using\nSecure Compute or\nStatic IPs. They are not yet supported with\nBYOC."
     },
     {
       "id": "vc-limits@2026-08-24#node-js-bun-and-python-runtimes-1",
@@ -81,16 +87,22 @@
       "text": "| | Default | Maximum |\n| Hobby | 2 GB / 1 vCPU | 2 GB / 1 vCPU |\n| Pro / Enterprise | 2 GB / 1 vCPU | 4 GB / 2 vCPU |\nUsers on Pro and Enterprise plans can configure the default memory size for all functions in the dashboard.\nThe maximum size for a Function includes your JavaScript code, imported libraries and files (such as fonts), and all files bundled in the function."
     },
     {
-      "id": "vc-limits@2026-08-24#request-body-size-1",
-      "source_id": "vc-limits",
-      "heading": "Request body size",
-      "text": "In Vercel, the request body size is the maximum amount of data that can be included in the body of a request to a function."
-    },
-    {
       "id": "vc-limits@2026-08-24#request-body-size-2",
       "source_id": "vc-limits",
       "heading": "Request body size",
       "text": "The maximum payload size for the request body or the response body of a Vercel Function is 4.5 MB. The response body limit doesn't apply to streamed responses. If a Vercel Function receives a payload in excess of the limit it will return an error 413: FUNCTION_PAYLOAD_TOO_LARGE. See How do I bypass the 4.5MB body size limit of Vercel Functions for more information."
+    },
+    {
+      "id": "vc-limits@2026-08-24#file-descriptors-1",
+      "source_id": "vc-limits",
+      "heading": "File descriptors",
+      "text": "File descriptors are unique identifiers that the operating system uses to track and manage open resources like files, network connections, and I/O streams. Think of them as handles or references that your application uses to interact with these resources. Each time your code opens a file, establishes a network connection, or creates a socket, the system assigns a file descriptor to track that resource."
+    },
+    {
+      "id": "vc-limits@2026-08-24#file-descriptors-2",
+      "source_id": "vc-limits",
+      "heading": "File descriptors",
+      "text": "Vercel Functions have a limit of 1,024 file descriptors shared across all concurrent executions. This limit includes file descriptors used by the runtime itself, so the actual number available to your application code will be strictly less than 1,024.\nFile descriptors are used for:\n- Open files\n- Network connections (TCP sockets, HTTP requests)\n- Database connections\n- File system operations"
     },
     {
       "id": "vc-limits@2026-08-24#cost-and-usage-2",

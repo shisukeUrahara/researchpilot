@@ -1,6 +1,6 @@
 {
   "source_id": "aws-quotas",
-  "sha256": "ae9b57c28ff2cfd9857afe75b7aedff282aa585b702c9055d38acb4dabf32f2e",
+  "sha256": "9f7c3aeab0a57eaa2c4cf7be85ca452c00f27c6f1acc4ead97972c602fa4bab4",
   "passages": [
     {
       "id": "aws-quotas@2026-11-10#lambda-quotas-1",
@@ -15,10 +15,34 @@
       "text": "AWS Lambda is designed to scale rapidly to meet demand, allowing your functions to scale up to serve traffic in your application. Lambda is designed for short-lived compute tasks that do not retain or rely upon state between invocations. Code can run for up to 15 minutes in a single invocation (up to 90 minutes for Lambda Managed Instances functions invoked asynchronously or through any event source mapping except Amazon MQ and Amazon DocumentDB) and a single function can use up to 10,240 MB of memory."
     },
     {
+      "id": "aws-quotas@2026-11-10#lambda-quotas-3",
+      "source_id": "aws-quotas",
+      "heading": "Lambda quotas",
+      "text": "It's important to understand the guardrails that are put in place to protect your account and the workloads of other customers. Service quotas exist in all AWS services and consist of hard limits, which you cannot change, and soft limits, which you can request increases for. By default, all new accounts are assigned a quota profile that allows exploration of AWS services."
+    },
+    {
+      "id": "aws-quotas@2026-11-10#compute-and-storage-1",
+      "source_id": "aws-quotas",
+      "heading": "Compute and storage",
+      "text": "Lambda sets quotas for the amount of compute and storage resources that you can use to run and store functions. Quotas for concurrent executions and storage apply per AWS Region. Elastic network interface (ENI) quotas apply per virtual private cloud (VPC), regardless of Region. The following quotas can be increased from their default values. For more information, see Requesting a quota increase in the *Service Quotas User Guide*."
+    },
+    {
+      "id": "aws-quotas@2026-11-10#compute-and-storage-2",
+      "source_id": "aws-quotas",
+      "heading": "Compute and storage",
+      "text": "| Resource | Default quota | Can be increased up to |\n| Concurrent executions | 1,000 | Tens of thousands |"
+    },
+    {
       "id": "aws-quotas@2026-11-10#compute-and-storage-3",
       "source_id": "aws-quotas",
       "heading": "Compute and storage",
       "text": "| Resource | Default quota | Can be increased up to |\n| Storage for uploaded functions (.zip file archives) and layers using Lambda-managed storage. Each function version and layer version consumes storage. To avoid storage limits, you can configure your functions and layers to use self-managed S3 code storage instead. For best practices on managing your code storage, see Monitoring Lambda code storage in Serverless Land. | 300 GB (unzipped) | Not increasable. Use self-managed S3 code storage for storage beyond this limit. |"
+    },
+    {
+      "id": "aws-quotas@2026-11-10#compute-and-storage-5",
+      "source_id": "aws-quotas",
+      "heading": "Compute and storage",
+      "text": "For details on concurrency and how Lambda scales your function concurrency in response to traffic, see Understanding Lambda Event Function scaling."
     },
     {
       "id": "aws-quotas@2026-11-10#function-configuration-deployment-and-ex-1",
@@ -81,16 +105,16 @@
       "text": "| Resource | Quota |\n| Invocation requests per function per Region (asynchronous) | Each instance of your execution environment can serve an unlimited number of requests. In other words, the total invocation limit is based only on concurrency available to your function. See Understanding Lambda Event Function scaling. |\n| Invocation requests per function version or alias (requests per second) | 10 x allocated provisioned concurrency This quota applies only to functions that use provisioned concurrency. |"
     },
     {
+      "id": "aws-quotas@2026-11-10#durable-functions-2",
+      "source_id": "aws-quotas",
+      "heading": "Durable functions",
+      "text": "| Resource | Default quota |\n| Maximum running durable executions | 5,000,000 per Region. 10,000,000 in US East (N. Virginia), US West (Oregon), and Europe (Ireland). This is a soft limit that can be increased. |\n| Maximum number of durable operations per durable execution | 30,000 Cannot be increased. For more information, see Available durable operations. |"
+    },
+    {
       "id": "aws-quotas@2026-11-10#durable-functions-3",
       "source_id": "aws-quotas",
       "heading": "Durable functions",
       "text": "| Resource | Default quota |\n| Durable execution storage written in megabytes | 100 MB Cannot be increased. Cumulative payload size persisted by durable functions per execution. For more information, see persisted data per durable operation. |\n| Maximum payload size per durable operation | 1 MB Cannot be increased. Applies to checkpoint and callback payloads. |"
-    },
-    {
-      "id": "aws-quotas@2026-11-10#compute-and-storage-6",
-      "source_id": "aws-quotas",
-      "heading": "Compute and storage",
-      "text": "| Resource | Default quota | Adjustable |"
     },
     {
       "id": "aws-quotas@2026-11-10#compute-and-storage-7",
@@ -105,10 +129,28 @@
       "text": "| Resource | Default quota | Adjustable |\n| Maximum execution duration per MicroVM | 8 hours (28,800 seconds) | No |"
     },
     {
+      "id": "aws-quotas@2026-11-10#images-and-versions-1",
+      "source_id": "aws-quotas",
+      "heading": "Images and versions",
+      "text": "| Resource | Default quota | Adjustable |\n| MicroVM images per account per Region | 100 | Yes |\n| Versions per MicroVM image | 50 | Yes |\n| Concurrent image builds (per account, per Region) | 5 10 in US East (N. Virginia), US West (Oregon), US East (Ohio), and Asia Pacific (Tokyo) | Yes |"
+    },
+    {
       "id": "aws-quotas@2026-11-10#per-microvm-throughput-1",
       "source_id": "aws-quotas",
       "heading": "Per-MicroVM throughput",
       "text": "| Resource | Limit | Adjustable |\n| Concurrent connections per MicroVM | Floor of 150, plus 50 per additional vCPU, up to a maximum of 600 | No |\n| Requests per second per MicroVM | 40 (4 vCPU / 8 GB), 160 (16 vCPU / 32 GB) | No |"
+    },
+    {
+      "id": "aws-quotas@2026-11-10#api-rate-limits-1",
+      "source_id": "aws-quotas",
+      "heading": "API rate limits",
+      "text": "| API operation | Rate (TPS) | Burst | Adjustable |\n| RunMicrovm | 5 | 5 | Yes |\n| ResumeMicrovm | 5 | 5 | Yes |\n| SuspendMicrovm | 2 | 2 | Yes |\n| TerminateMicrovm | 10 | 10 | Yes |\n| GetMicrovm | 100 | 100 | Yes |\n| CreateMicrovmAuthToken | 50 | 50 | Yes |\n| CreateMicrovmShellAuthToken | 5 | 5 | Yes |\nNote"
+    },
+    {
+      "id": "aws-quotas@2026-11-10#lambda-web-functions-2",
+      "source_id": "aws-quotas",
+      "heading": "Lambda Web Functions",
+      "text": "Web Function quotas apply at the following scopes:\n+ Per Web Function – Endpoints and revisions.\n+ Per endpoint – Maximum environments, rate limit, and the number of revisions that share traffic.\n+ Per revision – Deployment package size, environment variable size, and request timeout.\n+ Per execution environment – vCPUs, memory, concurrent requests, /tmp directory size, file descriptors, processes and threads, and initialization timeout.\n+ Per request – Request header size."
     },
     {
       "id": "aws-quotas@2026-11-10#web-function-revision-and-execution-envi-2",
@@ -129,10 +171,16 @@
       "text": "| Resource | Default quota | Adjustable |\n| Initialization timeout (time for your server to start listening) | 10 seconds | No |\n| File descriptors per execution environment | 1,024 | No |\n| Processes and threads per execution environment | 1,024 | No |"
     },
     {
-      "id": "aws-quotas@2026-11-10#endpoint-quotas-3",
+      "id": "aws-quotas@2026-11-10#endpoint-quotas-4",
       "source_id": "aws-quotas",
       "heading": "Endpoint quotas",
-      "text": "| Resource | Default quota | Adjustable |\n| Rate limit per endpoint (throttleConfig.rateLimit) | Optional. Not set by default. Valid values are 0, 100–1,000 in steps of 100, and 2,000–10,000 in steps of 1,000 requests per second. Lambda enforces this limit separately in each Region. A value of 0 blocks all traffic. When not set, the per-endpoint quota of 10,000 requests per second applies. | No |\n| Maximum revisions per endpoint (revision weights) | 2 | No |"
+      "text": "| Resource | Default quota | Adjustable |\n| Revision weight range | 1–100 | No |"
+    },
+    {
+      "id": "aws-quotas@2026-11-10#other-services-2",
+      "source_id": "aws-quotas",
+      "heading": "Other services",
+      "text": "Many applications involving Lambda use multiple AWS services. Because different services have different quotas for various features, it can be challenging to manage these quotas across your entire application. For example, API Gateway has a default throttle limit of 10,000 requests per second, whereas Lambda has a default concurrency limit of 1,000. Because of this mismatch, it's possible to have more incoming requests from API Gateway that Lambda can handle. You can resolve this by requesting a Lambda concurrency limit increase to match the expected level of traffic."
     }
   ]
 }

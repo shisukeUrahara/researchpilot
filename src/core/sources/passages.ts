@@ -25,12 +25,13 @@ export const MAX_WORDS = 80;
 const MAX_DISTRACTORS = 4;
 
 /**
- * A passage is "relevant" when it states a limit: a number with a unit, or a no-limit phrase.
+ * A passage is "relevant" when it states a limit: a number with a unit, a no-limit phrase, or a
+ * concurrency or subrequest count.
  * Everything else is a distractor candidate. Keeping only these also keeps the quoted share of each
  * page small.
  */
 const RELEVANT =
-  /(\b\d[\d,.]*\s?(ms|s|sec|seconds?|min|minutes?|mb|gb|mib|kb|kib)\b)|no (hard|enforced) limit|unlimited|does not count/i;
+  /(\b\d[\d,.]*\s?(ms|s|sec|seconds?|min|minutes?|mb|gb|mib|kb|kib)\b)|no (hard|enforced) limit|unlimited|does not count|concurren\w*|subrequests?|\/request\b/i;
 
 /**
  * Makes one raw line readable and stable: markdown links keep their text, HTML tags, bold and code

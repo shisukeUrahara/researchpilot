@@ -1,6 +1,6 @@
 {
   "source_id": "vc-limits-2025",
-  "sha256": "d0b7d80baa613c0de33902a4b7750315b73b757d0111ca44daaa353f28d611a9",
+  "sha256": "cc5156fd12c5e3809f5bb2cf0b05395c5b314579ba291b50cf674e83a352400a",
   "passages": [
     {
       "id": "vc-limits-2025@2025-03-08#top-1",
@@ -13,6 +13,12 @@
       "source_id": "vc-limits-2025",
       "heading": "Vercel Functions Limits",
       "text": "Feature | Node.js |\nMaximum memory | Hobby: 1024 MB, Pro and Ent: 3009 MB |\nMaximum duration | Hobby: 10s (default) - configurable up to 60s, Pro: 15s (default) - configurable up to 300s, Ent: 15s (default) - configurable up to 900s. If fluid compute is enabled, these values are increased across plans. See max durations for more information. |\nSize (after gzip compression) | 250 MB |"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#vercel-functions-limits-3",
+      "source_id": "vc-limits-2025",
+      "heading": "Vercel Functions Limits",
+      "text": "Feature | Node.js |\nConcurrency | Auto-scales up to 30,000 (Hobby and Pro) or 100,000+ (Enterprise) concurrency |\nCost | Pay for wall-clock time |\nRegions | Executes region-first, can customize location.\nEnterprise teams can set multiple regions |\nAPI Coverage | Full Node.js coverage |"
     },
     {
       "id": "vc-limits-2025@2025-03-08#functions-name-1",
@@ -33,6 +39,12 @@
       "text": "This refers to the longest time a function can process an HTTP request before responding.\nFunctions using the Edge runtime do not have a maximum duration. They must begin sending a response within 25 seconds and can continue streaming a response beyond that time.\nWhile Vercel Functions have a default duration, this duration can be extended using the maxDuration config. If a Vercel Function doesn't respond within the duration, a 504 error code (FUNCTION_INVOCATION_TIMEOUT) is returned."
     },
     {
+      "id": "vc-limits-2025@2025-03-08#max-duration-2",
+      "source_id": "vc-limits-2025",
+      "heading": "Max duration",
+      "text": "Vercel Functions have the following defaults and maximum limits for the duration of a function:"
+    },
+    {
       "id": "vc-limits-2025@2025-03-08#max-duration-3",
       "source_id": "vc-limits-2025",
       "heading": "Max duration",
@@ -45,28 +57,22 @@
       "text": "| Default | Maximum |\nHobby | 60s | 60s |\nPro | 90s | 800s |\nEnterprise | 90s | 800s |"
     },
     {
-      "id": "vc-limits-2025@2025-03-08#memory-size-limits-1",
-      "source_id": "vc-limits-2025",
-      "heading": "Memory size limits",
-      "text": "Vercel Functions have the following defaults and maximum limits:"
-    },
-    {
       "id": "vc-limits-2025@2025-03-08#memory-size-limits-2",
       "source_id": "vc-limits-2025",
       "heading": "Memory size limits",
       "text": "| Default | Maximum |\nHobby | 1024 MB / 0.6 vCPU | 1024 MB / 0.6 vCPU |\nPro /Enterprise | 1769 MB / 1 vCPU | 3009 MB / 1.7 vCPU |\nUsers on Pro and Enterprise plans can configure the default memory size for all functions in the dashboard, or on a per-function basis in your vercel.json."
     },
     {
+      "id": "vc-limits-2025@2025-03-08#memory-size-limits-3",
+      "source_id": "vc-limits-2025",
+      "heading": "Memory size limits",
+      "text": "The maximum size for a Function includes your JavaScript code, imported libraries and files (such as fonts), and all files bundled in the function.\nIf you reach the limit, make sure the code you are importing in your function is used\nand is not too heavy. You can use a package size checker tool like bundle to\ncheck the size of a package and search for a smaller alternative."
+    },
+    {
       "id": "vc-limits-2025@2025-03-08#request-body-size-1",
       "source_id": "vc-limits-2025",
       "heading": "Request body size",
       "text": "In Vercel, the request body size is the maximum amount of data that can be included in the body of a request to a function.\nThe maximum payload size for the request body or the response body of a Vercel Function is 4.5 MB. If a Vercel Function receives a payload in excess of the limit it will return an error 413: FUNCTION_PAYLOAD_TOO_LARGE. See How do I bypass the 4.5MB body size limit of Vercel Functions for more information."
-    },
-    {
-      "id": "vc-limits-2025@2025-03-08#cost-and-usage-1",
-      "source_id": "vc-limits-2025",
-      "heading": "Cost and usage",
-      "text": "The Hobby plan offers functions for free, within limits. The Pro plan extends these limits, and charges usage based on Function Duration for Vercel Functions."
     }
   ]
 }
