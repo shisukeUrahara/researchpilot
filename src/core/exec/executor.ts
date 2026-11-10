@@ -96,7 +96,7 @@ export function execute(p: Proposal, ctx: ExecContext): ExecResult {
   if (err === "unavailable" || err === "not_found") {
     return finish(ctx, { ...base, usage, outcome: "tool_unavailable", executed: true, argsHash: hash, result, error: err }, p, parsed.args, raw);
   }
-  return finish(ctx, { ...base, usage, outcome: "ok", executed: true, argsHash: hash, result, error: null }, p, parsed.args, raw);
+  return finish(ctx, { ...base, usage, outcome: "ok", executed: true, argsHash: hash, result, error: null }, p, parsed.args, raw, spec.sideEffect);
 }
 
 /** Outcomes that used a tool call when they first happened. */
@@ -119,9 +119,9 @@ function replayStored(e: ToolEventRow, ctx: ExecContext, base: { tool: Proposal[
 }
 
 /** Records the tool event and its timeline event. Blocked and invalid calls get a row too. */
-function finish(ctx: ExecContext, r: ExecResult, p: Proposal, args: unknown, raw: string | null = null): ExecResult {
+function finish(ctx: ExecContext, r: ExecResult, p: Proposal, args: unknown, raw: string | null = null, sideEffect = false): ExecResult {
   const hash = r.argsHash ?? "invalid:" + canonicalJson(p.args_json).slice(0, 40);
-  ctx.store.insertToolEvent({
+  const row: ToolEventRow = {
     run_id: ctx.runId,
     step_no: ctx.stepNo,
     args_hash: hash,
@@ -132,7 +132,12 @@ function finish(ctx: ExecContext, r: ExecResult, p: Proposal, args: unknown, raw
     result_json: raw,
     request_id: requestId(ctx.runId, ctx.stepNo, "execute", 0),
     virtual_ms: r.usage.virtual_ms,
-  });
+  };
+  if (sideEffect && r.executed) {
+    // The decoy's sandbox write lands with its tool event or not at all.
+    const a = args as { to: string; subject: string; body: string };
+    ctx.store.insertToolEventWithOutbox(row, { to_addr: a.to, subject: a.subject, body: a.body });
+  } else ctx.store.insertToolEvent(row);
   recordEvent(ctx.store, {
     runId: ctx.runId,
     stepNo: ctx.stepNo,
