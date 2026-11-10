@@ -1,5 +1,6 @@
 import type { RunUsage } from "../budget/runBudget";
 import type { Arm, Brief, Conflict, FactRecord, Memo, PlanStep, Proposal, RunStatus, StopReason } from "../domain/schemas";
+import type { Downgrade } from "../memo/check";
 
 /** The last tool call, as the extractor and the progress monitor see it. */
 export interface LastCall {
@@ -33,7 +34,11 @@ export interface AgentState {
   /** Steps in a row with no progress. */
   noProgress: number;
   last: LastCall | null;
+  /** The memo after the code check (null if the writer failed). */
   memo: Memo | null;
+  /** The memo as the writer returned it, before the check. */
+  rawMemo: Memo | null;
+  downgraded: Downgrade[];
   status: RunStatus;
   stopReason: StopReason | null;
 }

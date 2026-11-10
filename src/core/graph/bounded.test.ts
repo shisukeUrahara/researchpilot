@@ -27,6 +27,20 @@ test("happy path: three searches, three verified facts, stop VERIFIED", async ()
     facts(fact("aws", "default", { value_kind: "number", n: 900, unit: "s" }, "aws-quotas@2026-11-10#function-configuration-deployment-and-ex-3", "900 seconds (15 minutes)")),
     act("Workers duration limit HTTP", "cloudflare", ["C02:cloudflare:paid"]),
     facts(fact("cloudflare", "paid", { value_kind: "unbounded" }, "cf-limits@2026-10-29#duration-3", "There is no hard limit on duration for HTTP-triggered Workers.")),
+    ok({
+      summary: "Vercel and Lambda fit; Workers has no duration limit.",
+      verdicts: [
+        { provider: "cloudflare", verdict: "fits", plan: null, reasons: "no hard duration limit" },
+        { provider: "vercel", verdict: "fits", plan: null, reasons: "300 s" },
+        { provider: "aws", verdict: "fits", plan: null, reasons: "900 s" },
+      ],
+      claims: [
+        { provider: "vercel", criterion: "C02", plan: "hobby", value_kind: "number", n: 300, unit: "s", unknown_reason: null, text: "Hobby max 300 s", passage_id: "vc-limits@2026-08-24#node-js-bun-and-python-runtimes-1" },
+        { provider: "aws", criterion: "C02", plan: "default", value_kind: "number", n: 600, unit: "s", unknown_reason: null, text: "Lambda max 600 s", passage_id: "aws-quotas@2026-11-10#function-configuration-deployment-and-ex-3" },
+      ],
+      unknowns: [],
+      assumptions: ["I/O bound"],
+    }),
   ];
   const m = await mockAgentDeps(script);
   srv = m.srv;
@@ -34,9 +48,14 @@ test("happy path: three searches, three verified facts, stop VERIFIED", async ()
   expect(final).toMatchObject({ stopReason: "VERIFIED", status: "completed", stepNo: 3 });
   expect(final.facts.map((f) => f.status)).toEqual(["verified", "verified", "verified"]);
   expect(final.usage).toMatchObject({ steps: 3, tool_calls: 3 });
-  // 1 plan + 3 × (act + extract) model calls, 3 tool calls: 7 × 3,000 + 3 × 500 virtual ms.
-  expect(final.usage.virtual_ms).toBe(22_500);
-  expect(m.store.events("r1").at(-1)).toMatchObject({ node: "stop", kind: "VERIFIED" });
+  // 1 plan + 3 × (act + extract) + 1 memo model calls, 3 tool calls: 8 × 3,000 + 3 × 500 virtual ms.
+  expect(final.usage.virtual_ms).toBe(25_500);
+  expect(m.store.events("r1").map((e) => e.node).slice(-2)).toEqual(["stop", "memo"]);
+  // The memo check kept the right number and removed the invented 600 s.
+  expect(final.memo!.claims.map((c) => c.n)).toEqual([300]);
+  expect(final.downgraded).toEqual([expect.objectContaining({ cell: "C02:aws:default", reason: "value_differs" })]);
+  expect(final.rawMemo!.claims).toHaveLength(2);
+  expect(JSON.parse(m.store.getReport("r1")!.memo_json).disclaimer).toMatch(/Not a recommendation/);
 });
 
 test("bad proposals every step: MAX_STEPS at 16 (ablation, so NO_PROGRESS cannot fire first)", async () => {

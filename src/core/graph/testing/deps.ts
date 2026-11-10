@@ -59,7 +59,7 @@ export async function mockAgentDeps(script: Reply[], arm: Arm = "bounded", scena
     criteria: loadCriteria(dir),
     manifest,
     passages: all,
-    prompts: { planner: loadPrompt(dir, "planner.v1"), actor: loadPrompt(dir, "actor.v1"), extractor: loadPrompt(dir, "extractor.v1") },
+    prompts: { planner: loadPrompt(dir, "planner.v1"), actor: loadPrompt(dir, "actor.v1"), extractor: loadPrompt(dir, "extractor.v1"), writer: loadPrompt(dir, "writer.v1") },
     approvals,
     now: () => new Date("2026-11-11T10:00:00Z"),
   };

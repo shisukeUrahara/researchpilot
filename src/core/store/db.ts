@@ -155,6 +155,14 @@ export class Store {
     this.db.prepare("UPDATE approvals SET status = ?, decided_at = ? WHERE approval_id = ? AND status = 'pending'").run(status, at, id);
   }
 
+  saveReport(runId: string, memoJson: string, checkJson: string): void {
+    this.db.prepare("INSERT INTO reports VALUES (?, ?, ?) ON CONFLICT(run_id) DO UPDATE SET memo_json = excluded.memo_json, check_json = excluded.check_json").run(runId, memoJson, checkJson);
+  }
+
+  getReport(runId: string): { run_id: string; memo_json: string; check_json: string } | undefined {
+    return this.db.prepare("SELECT * FROM reports WHERE run_id = ?").get(runId) as { run_id: string; memo_json: string; check_json: string } | undefined;
+  }
+
   close(): void {
     this.db.close();
   }

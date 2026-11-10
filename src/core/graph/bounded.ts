@@ -18,7 +18,9 @@ import type { ModelDeps } from "./model";
 import { actNode } from "./nodes/act";
 import { approveStep, type ApprovalMode } from "./nodes/approve";
 import { extractNode, rowsOf } from "./nodes/extract";
+import { memoNode } from "./nodes/memo";
 import { planNode } from "./nodes/plan";
+import { checkMemo, type Downgrade } from "../memo/check";
 import { assessStep, noteLookups, noteUnavailable, resolvedCells } from "./progress";
 import type { AgentState, LastCall } from "./state";
 
@@ -34,7 +36,7 @@ export interface AgentDeps {
   criteria: CriteriaFile;
   manifest: Manifest;
   passages: ReadonlyMap<string, Passage>;
-  prompts: { planner: PromptTemplate; actor: PromptTemplate; extractor: PromptTemplate };
+  prompts: { planner: PromptTemplate; actor: PromptTemplate; extractor: PromptTemplate; writer: PromptTemplate };
   /** Evals use `deny` (no run ever waits); the CLI and web app use `interrupt`. */
   approvals: ApprovalMode;
   now: () => Date;
@@ -59,6 +61,8 @@ export const AgentAnnotation = Annotation.Root({
   noProgress: keep<number>(() => 0),
   last: keep<LastCall | null>(() => null),
   memo: keep<Memo | null>(() => null),
+  rawMemo: keep<Memo | null>(() => null),
+  downgraded: keep<Downgrade[]>(() => []),
   status: keep<RunStatus>(() => "running"),
   stopReason: keep<StopReason | null>(() => null),
 });
@@ -81,13 +85,15 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
     noProgress: 0,
     last: null,
     memo: null,
+    rawMemo: null,
+    downgraded: [],
     status: "running",
     stopReason: null,
   };
 }
 
 /**
- * The bounded research agent: planner → [act → approve → execute → extract (+ assess)] → stop.
+ * The bounded research agent: planner → [act → approve → execute → extract (+ assess)] → memo.
  * Every limit is checked in code: steps in `act`, tool calls and rate limits in the executor, time and
  * money before every model call. The model only proposes; it cannot skip a check or pick a stop reason.
  */
@@ -183,21 +189,44 @@ export function buildBoundedGraph(d: AgentDeps) {
     return a.stop ? { ...out, ...stop(s, a.stop, usage) } : out;
   };
 
+  const memo = async (s: S): Promise<Partial<S>> => {
+    const ledger = ledgerOf(s.facts);
+    const resolved = resolvedCells(s.required, ledger, s.cellQueries, s.unavailableCells);
+    const reasons: Record<string, string> = {};
+    for (const c of s.required) {
+      if (s.unavailableCells.includes(c)) reasons[c] = "source unavailable";
+      else if ((s.cellQueries[c]?.length ?? 0) > 0) reasons[c] = `not found in the corpus (${s.cellQueries[c].length} lookups)`;
+      else reasons[c] = `not researched before the stop (${s.stopReason})`;
+    }
+    const r = await memoNode(d.model, { brief: s.brief, ledger, required: s.required, resolved, unknownReasons: reasons, manifest: d.manifest, prompt: d.prompts.writer, usage: s.usage });
+    if (!r.memo) {
+      event(s, "memo", r.stop ? "memo_skipped" : "memo_invalid", { reason: r.stop }, r.usage);
+      return { usage: r.usage };
+    }
+    const checked = d.arm.memo_check ? checkMemo(r.memo, ledger) : null;
+    const final = checked ? checked.memo : r.memo;
+    d.store.saveReport(s.runId, JSON.stringify(final), JSON.stringify({ downgraded: checked?.downgraded ?? [], memo_check: d.arm.memo_check }));
+    event(s, "memo", "memo", { claims: r.memo.claims.length, downgraded: checked?.downgraded.length ?? 0 }, r.usage);
+    return { usage: r.usage, memo: final, rawMemo: r.memo, downgraded: checked?.downgraded ?? [] };
+  };
+
   const finished = (s: S) => (s.stopReason ? "done" : "go");
 
   return new StateGraph(AgentAnnotation)
-    // Node names may not equal state field names (LangGraph rule), hence "planner" for the plan field.
+    // Node names may not equal state field names (LangGraph rule): "planner" for plan, "writer" for memo.
     .addNode("planner", plan)
     .addNode("act", act)
     .addNode("approve", approve)
     .addNode("execute", exec)
     .addNode("extract", extract)
+    .addNode("writer", memo)
     .addEdge(START, "planner")
-    .addConditionalEdges("planner", finished, { go: "act", done: END })
-    .addConditionalEdges("act", finished, { go: "approve", done: END })
+    .addConditionalEdges("planner", finished, { go: "act", done: "writer" })
+    .addConditionalEdges("act", finished, { go: "approve", done: "writer" })
     .addEdge("approve", "execute")
-    .addConditionalEdges("execute", finished, { go: "extract", done: END })
-    .addConditionalEdges("extract", finished, { go: "act", done: END });
+    .addConditionalEdges("execute", finished, { go: "extract", done: "writer" })
+    .addConditionalEdges("extract", finished, { go: "act", done: "writer" })
+    .addEdge("writer", END);
 }
 
 /** Recursion backstop only: 5 graph steps per agent step, plus slack. Our budgets stop runs long before. */
