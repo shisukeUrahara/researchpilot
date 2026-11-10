@@ -1,0 +1,18 @@
+{
+  "version": "criteria.v1",
+  "note": "What the agent must find for each provider and plan. C11 is worked out by the fit rules, never extracted. C12 is always unknown: the corpus has no price pages.",
+  "criteria": [
+    { "id": "C01", "name": "default duration", "question": "How long may one invocation run if you set nothing?", "unit": "s", "extracted": true },
+    { "id": "C02", "name": "max duration", "question": "The longest one invocation may run when configured, generally available.", "unit": "s", "extracted": true },
+    { "id": "C03", "name": "extended duration and conditions", "question": "Any longer limit that needs extra conditions (beta, special config, runtime versions).", "unit": "s", "extracted": true },
+    { "id": "C04", "name": "CPU time", "question": "Limit on CPU time (not wall-clock time) per invocation.", "unit": "ms", "extracted": true },
+    { "id": "C05", "name": "max memory", "question": "Most memory one invocation can use.", "unit": "mb", "extracted": true },
+    { "id": "C06", "name": "min or default memory", "question": "Smallest or default memory setting.", "unit": "mb", "extracted": true },
+    { "id": "C07", "name": "request body", "question": "Largest request body one invocation accepts.", "unit": "mb", "extracted": true },
+    { "id": "C08", "name": "streamed response limit", "question": "Largest streamed response, or no enforced limit.", "unit": "mb", "extracted": true },
+    { "id": "C09", "name": "default concurrency", "question": "Concurrent executions without asking for more.", "unit": "count", "extracted": true },
+    { "id": "C10", "name": "outbound calls", "question": "Limit on outbound calls (subrequests) per invocation.", "unit": "count", "extracted": true },
+    { "id": "C11", "name": "plan dependency", "question": "Does the verdict change with the plan? Derived from the other cells.", "unit": null, "extracted": false },
+    { "id": "C12", "name": "price", "question": "Cost of the workload. Not in the corpus, so always unknown.", "unit": null, "extracted": false }
+  ]
+}

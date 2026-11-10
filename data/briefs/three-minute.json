@@ -1,0 +1,14 @@
+{
+  "id": "three-minute",
+  "question": "For a workflow that may run around three minutes, mostly waiting on tool and API I/O, needs a 128-256 MB working set and streams progress to the client, compare Cloudflare Workers, Vercel Functions and AWS Lambda. Recommend a shortlist under explicit assumptions. Do not invent prices or omit plan-dependent limits.",
+  "workload": {
+    "duration_s": 180,
+    "cpu_ms": 20000,
+    "memory_mb": 256,
+    "streaming": true,
+    "streamed_response_mb": 5,
+    "request_body_mb": 1
+  },
+  "plans": { "cloudflare": ["paid"], "vercel": ["hobby", "pro"], "aws": ["default"] },
+  "exclusions": []
+}
