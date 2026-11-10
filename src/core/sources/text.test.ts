@@ -6,6 +6,10 @@ test("table rows stay on one line, so a plan stays next to its value", () => {
   expect(htmlToText(html)).toBe("Plan | Max |\nHobby | 60s |\n");
 });
 
+test("headings become markdown headings", () => {
+  expect(htmlToText("<h2 id=x>Max <b>duration</b></h2><p>60s</p>")).toBe("## Max duration\n60s\n");
+});
+
 test("entities are decoded and whitespace normalized", () => {
   expect(htmlToText("<p>128&nbsp;MB &amp; 10&#44;240&nbsp;MB</p>")).toBe("128 MB & 10,240 MB\n");
   expect(normalizeText("  a \t b \r\n\r\n c ")).toBe("a b\nc\n");
@@ -13,7 +17,7 @@ test("entities are decoded and whitespace normalized", () => {
 
 test("markdown passes through, html is converted", () => {
   expect(toText("# T\n\nbody", "text/markdown")).toBe("# T\nbody\n");
-  expect(toText("<h1>T</h1>", "text/html; charset=utf-8")).toBe("T\n");
+  expect(toText("<h1>T</h1>", "text/html; charset=utf-8")).toBe("# T\n");
 });
 
 test("page dates by rule", () => {

@@ -1,0 +1,102 @@
+{
+  "source_id": "vc-limits",
+  "sha256": "b998f88d86a2577da059cd57259d33f073284f53e23b219c672229d6a410117a",
+  "passages": [
+    {
+      "id": "vc-limits@2026-08-24#vercel-functions-limits-1",
+      "source_id": "vc-limits",
+      "heading": "Vercel Functions Limits",
+      "text": "The table below outlines the limits and restrictions of using Vercel Functions with Fluid compute:"
+    },
+    {
+      "id": "vc-limits@2026-08-24#related-pages-1",
+      "source_id": "vc-limits",
+      "heading": "Related pages",
+      "text": "For AI agents: Follow these links to understand how this page connects to the rest of the Vercel ecosystem. For the full cross-link map (inbound, outbound, prerequisites, and semantic neighbors), see the .graph.md link below.\n- Bun runtime now supports large functions and extended max duration\n- Higher defaults and limits for Vercel Functions running Fluid compute\n- Python Vercel Functions bundle size limit increased to 500MB\n- Vercel Functions can now be up to 5GB in package size"
+    },
+    {
+      "id": "vc-limits@2026-08-24#related-pages-5",
+      "source_id": "vc-limits",
+      "heading": "Related pages",
+      "text": "| Feature | Limits |\n| Maximum memory | Hobby: 2 GB, Pro and Ent: 4 GB |\n| Maximum duration | Hobby: 300s default and maximum. Pro and Enterprise: 300s default, 800s maximum, and 1800s extended maximum Beta. See max duration for requirements and configuration. |\n| Size (uncompressed) | 250 MB, or 500 MB for Python. Large functions support up to 5 GB Beta. |"
+    },
+    {
+      "id": "vc-limits@2026-08-24#functions-name-1",
+      "source_id": "vc-limits",
+      "heading": "Functions name",
+      "text": "The following limits apply to the function's name when using Node.js runtime:\n- Maximum length of 128 characters. This includes the extension of the file (e.g. apps/admin/api/my-function.js is 29 characters)\n- No spaces are allowed. Replace them with a - or _ (e.g. api/my function.js isn't allowed)"
+    },
+    {
+      "id": "vc-limits@2026-08-24#bundle-size-limits-1",
+      "source_id": "vc-limits",
+      "heading": "Bundle size limits",
+      "text": "Vercel places restrictions on the maximum size of the deployment bundle for functions to ensure that they execute in a timely manner.\nFor Vercel Functions, the maximum uncompressed size is 250 MB including layers which are automatically used depending on runtimes. These limits are enforced by AWS. For Python functions, the maximum uncompressed size is 500 MB."
+    },
+    {
+      "id": "vc-limits@2026-08-24#troubleshooting-the-250-mb-limit-1",
+      "source_id": "vc-limits",
+      "heading": "Troubleshooting the 250 MB limit",
+      "text": "When a function exceeds the limit, the build fails with this error:\ntxt\nThe Vercel Function \"api/hello\" is 300mb uncompressed which exceeds the maximum uncompressed size limit of 250mb."
+    },
+    {
+      "id": "vc-limits@2026-08-24#troubleshooting-the-250-mb-limit-2",
+      "source_id": "vc-limits",
+      "heading": "Troubleshooting the 250 MB limit",
+      "text": "If your project is eligible for large functions, the function can deploy without other changes once large functions are enabled. To find out what's making a function large, add the VERCEL_ANALYZE_BUILD_OUTPUT environment variable with the value 1 and redeploy. The build logs then list each function's uncompressed size and its largest files:\ntxt\nFunction : /api\nSize : 1991.54 MB\nLarge dependencies:\n• _vendor/tensorflow/libtensorflow_cc.so.2: 972.15 MB\n• _vendor/tensorflow/include: 307.87 MB\nCommon causes of large functions include:"
+    },
+    {
+      "id": "vc-limits@2026-08-24#large-functions-beta-1",
+      "source_id": "vc-limits",
+      "heading": "Large functions Beta",
+      "text": "Large functions let you deploy uncompressed bundles up to 5 GB. Use them for workloads that ship large dependencies, model files, or binaries. Large functions are supported on Node.js, Bun, and Python runtimes.\nLarge functions require fluid compute with Active CPU enabled. Fluid compute is enabled by default for new projects."
+    },
+    {
+      "id": "vc-limits@2026-08-24#enable-large-functions-2",
+      "source_id": "vc-limits",
+      "heading": "Enable large functions",
+      "text": "In eligible projects, Vercel only uses the large functions beta for Functions that exceed the standard bundle size limit. Functions that fit within the standard limit continue to use the standard path."
+    },
+    {
+      "id": "vc-limits@2026-08-24#node-js-bun-and-python-runtimes-1",
+      "source_id": "vc-limits",
+      "heading": "Node.js, Bun, and Python runtimes",
+      "text": "| | Default | Maximum | Extended maximum |\n| Hobby | 300s (5 minutes) | 300s (5 minutes) | - |\n| Pro | 300s (5 minutes) | 800s | 1800s (30 minutes) Beta |\n| Enterprise | 300s (5 minutes) | 800s | 1800s (30 minutes) Beta |\nNote: The 800 second maximum is generally available for Pro and Enterprise teams.\nThe 1800 second extended maximum is in beta. Values above 800 seconds require"
+    },
+    {
+      "id": "vc-limits@2026-08-24#node-js-bun-and-python-runtimes-2",
+      "source_id": "vc-limits",
+      "heading": "Node.js, Bun, and Python runtimes",
+      "text": "function-level configuration and are only supported for specific Node.js,\nBun, and Python runtime versions. Durations above 800 seconds are supported\nwith Secure Compute and\nStatic IPs, but not with\nBYOC. See [configuring maximum\nduration](/docs/functions/configuring-functions/duration#extended-max-duration-beta)\nfor the supported runtimes and examples.\nNote: For workloads that require unlimited execution time, use [Vercel\nWorkflows](/docs/workflows), which allow your code to pause, resume, and\nmaintain state for minutes to months without duration limits."
+    },
+    {
+      "id": "vc-limits@2026-08-24#edge-runtime-1",
+      "source_id": "vc-limits",
+      "heading": "Edge runtime",
+      "text": "Vercel Functions using the Edge runtime must begin sending a response within 25 seconds to maintain streaming capabilities beyond this period, and can continue streaming data for up to 300 seconds."
+    },
+    {
+      "id": "vc-limits@2026-08-24#memory-size-limits-2",
+      "source_id": "vc-limits",
+      "heading": "Memory size limits",
+      "text": "| | Default | Maximum |\n| Hobby | 2 GB / 1 vCPU | 2 GB / 1 vCPU |\n| Pro / Enterprise | 2 GB / 1 vCPU | 4 GB / 2 vCPU |\nUsers on Pro and Enterprise plans can configure the default memory size for all functions in the dashboard.\nThe maximum size for a Function includes your JavaScript code, imported libraries and files (such as fonts), and all files bundled in the function."
+    },
+    {
+      "id": "vc-limits@2026-08-24#request-body-size-1",
+      "source_id": "vc-limits",
+      "heading": "Request body size",
+      "text": "In Vercel, the request body size is the maximum amount of data that can be included in the body of a request to a function."
+    },
+    {
+      "id": "vc-limits@2026-08-24#request-body-size-2",
+      "source_id": "vc-limits",
+      "heading": "Request body size",
+      "text": "The maximum payload size for the request body or the response body of a Vercel Function is 4.5 MB. The response body limit doesn't apply to streamed responses. If a Vercel Function receives a payload in excess of the limit it will return an error 413: FUNCTION_PAYLOAD_TOO_LARGE. See How do I bypass the 4.5MB body size limit of Vercel Functions for more information."
+    },
+    {
+      "id": "vc-limits@2026-08-24#cost-and-usage-2",
+      "source_id": "vc-limits",
+      "heading": "Cost and usage",
+      "text": "Active CPU time is based on the amount of CPU time your code actively consumes, measured in milliseconds. Waiting for I/O (e.g. calling AI models, database queries) does not count towards active CPU time. Provisioned memory time is based on the memory allocated to your function instances multiplied by the time they are running.\nIt is important to make sure you've set a reasonable maximum duration for your function. See \"Managing usage and pricing for Vercel Functions\" for more information."
+    }
+  ]
+}

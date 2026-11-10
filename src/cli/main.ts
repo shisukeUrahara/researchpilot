@@ -1,12 +1,15 @@
 import type { Command, Deps } from "./deps";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
+import { buildPassages, verify } from "./commands/verify";
 import { EXIT } from "./exit";
 
 /** Commands are added one per commit as the agent grows. */
 export const COMMANDS: Record<string, Command> = {
   doctor,
   "fetch-sources": fetchSources,
+  "build-passages": buildPassages,
+  verify,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {

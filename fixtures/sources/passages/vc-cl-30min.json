@@ -1,0 +1,42 @@
+{
+  "source_id": "vc-cl-30min",
+  "sha256": "a327afe4c36ccf1416a4d864509ca997d1ecc98d13fd0479d62a4574ac6452f9",
+  "passages": [
+    {
+      "id": "vc-cl-30min@2026-06-15#vercel-functions-can-now-run-up-to-30-mi-1",
+      "source_id": "vc-cl-30min",
+      "heading": "Vercel Functions can now run up to 30 minutes",
+      "text": "Published: June 15, 2026 | Authors: Florentin Eckl, Craig Andrews, Casey Gowrie, Tiago Ventura Loureiro\nVercel Functions using the Node.js and Python runtimes now support execution durations up to 30 minutes for Pro and Enterprise teams, more than 2x the previous 800 second limit. Support for additional runtimes is coming soon.\nUse longer-running Functions for work that needs more time to finish, including:\n- Long LLM reasoning and tool calls\n- AI responses that stream for several minutes"
+    },
+    {
+      "id": "vc-cl-30min@2026-06-15#vercel-functions-can-now-run-up-to-30-mi-2",
+      "source_id": "vc-cl-30min",
+      "heading": "Vercel Functions can now run up to 30 minutes",
+      "text": "- Document and media processing\n- OCR and extraction\n- Web scraping and browser automation\n- Complex Workflow steps or Queue handlers\nFluid compute keeps long-running work cost-efficient. Active CPU billing only applies while your code is executing, and pauses while your Function is waiting on I/O such as AI model calls, database queries, and third-party APIs.\nSet maxDuration to opt in. For Next.js App Router, configure it in the route file:\napp/api/long-task/route.ts\ntypescript"
+    },
+    {
+      "id": "vc-cl-30min@2026-06-15#vercel-functions-can-now-run-up-to-30-mi-3",
+      "source_id": "vc-cl-30min",
+      "heading": "Vercel Functions can now run up to 30 minutes",
+      "text": "export const maxDuration = 1800; // 30 minutes\nexport async function POST(request: Request) {\nreturn Response.json({ ok: true });\n}\nFor other runtimes and frameworks, configure maxDuration for a specific function path in vercel.json:\nvercel.json\njson\n{\n\"$schema\": \"https://openapi.vercel.sh/vercel.json\",\n\"functions\": {\n\"api/long-task.py\": {\n\"maxDuration\": 1800\n}\n}\n}\nDurations above 800 seconds are in beta and require Fluid compute. Learn more about configuring max duration for Vercel Functions in the documentation."
+    },
+    {
+      "id": "vc-cl-30min@2026-06-15#vercel-functions-can-now-run-up-to-30-mi-4",
+      "source_id": "vc-cl-30min",
+      "heading": "Vercel Functions can now run up to 30 minutes",
+      "text": "📚 More updates: View all changelog entries | Blog"
+    },
+    {
+      "id": "vc-cl-30min@2026-06-15#reference-architecture-1",
+      "source_id": "vc-cl-30min",
+      "heading": "Reference Architecture",
+      "text": "Choose a stack and work through the decisions behind it, with curated documentation, guides, templates, and courses to help you build.\n- Agent stack: Build and operate agents with models, tools, and durable workflows.\n- Web applications: Choose rendering, data, authentication, and caching approaches.\n- Backends: Choose a runtime, connect services, and run background work.\nBrowse all stacks"
+    },
+    {
+      "id": "vc-cl-30min@2026-06-15#build-with-prompts-1",
+      "source_id": "vc-cl-30min",
+      "heading": "Build with prompts",
+      "text": "Build an app, extend an agent, or improve your project with ready-to-use prompts for your coding agent.\nBrowse the prompt library · Read the Markdown index\nIf you encounter incorrect information, can’t find what you need, need a capability Vercel doesn’t currently offer, or have any other feedback to report, please do it by following the instructions at https://vercel.com/feedback.md."
+    }
+  ]
+}

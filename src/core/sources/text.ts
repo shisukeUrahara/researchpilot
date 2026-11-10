@@ -21,7 +21,9 @@ export function htmlToText(html: string): string {
   s = s.replace(/<\/(td|th)>\s*/gi, " | ");
   s = s.replace(/<\/tr>/gi, "\n");
   s = s.replace(/<br\s*\/?>/gi, "\n");
-  s = s.replace(/<\/?(p|div|li|ul|ol|h[1-6]|table|thead|tbody|section|article|header|footer|nav|main|aside|pre|blockquote|dt|dd|dl)\b[^>]*>/gi, "\n");
+  // Headings become markdown headings, so passages can be split under them like on markdown pages.
+  s = s.replace(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi, (_m, n: string, inner: string) => `\n${"#".repeat(Number(n))} ${inner.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()}\n`);
+  s = s.replace(/<\/?(p|div|li|ul|ol|table|thead|tbody|section|article|header|footer|nav|main|aside|pre|blockquote|dt|dd|dl)\b[^>]*>/gi, "\n");
   s = s.replace(/<[^>]+>/g, "");
   return normalizeText(unescapeEntities(s));
 }

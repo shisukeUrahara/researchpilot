@@ -1,0 +1,180 @@
+{
+  "source_id": "cf-limits",
+  "sha256": "e352edc30770cf0a18eace0249a9bd6dac2631b1e94cbaf477684990aac97e27",
+  "passages": [
+    {
+      "id": "cf-limits@2026-10-29#top-1",
+      "source_id": "cf-limits",
+      "heading": "top",
+      "text": "description: Cloudflare Workers plan and platform limits.\ntitle: Limits\nimage: https://developers.cloudflare.com/workers/platform/limits/og.png?v=58be33e8c39614b7\nSkip to content\nDocumentation Index\nFetch the complete documentation index at: https://developers.cloudflare.com/workers/llms.txt\nUse this file to discover all available pages before exploring further."
+    },
+    {
+      "id": "cf-limits@2026-10-29#account-plan-limits-1",
+      "source_id": "cf-limits",
+      "heading": "Account plan limits",
+      "text": "| Feature | Workers Free | Workers Paid |\n| Requests | 100,000/day | No limit |\n| CPU time | 10 ms | 5 min |\n| Memory | 128 MB | 128 MB |\n| Subrequests | 50/request | 10,000/request |\n| Simultaneous outgoing connections/request | 6 | 6 |\n| Environment variables | 64/Worker | 128/Worker |\n| Environment variable size | 5 KB | 5 KB |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#account-plan-limits-2",
+      "source_id": "cf-limits",
+      "heading": "Account plan limits",
+      "text": "| Feature | Workers Free | Workers Paid |\n| Worker size | 64 MiB | 64 MiB |\n| Worker startup time | 1 second | 1 second |\n| Number of Workers | 100 | 500 |\n| Number of Cron Triggers per account | 5 | 250 |\n| Number of Static Asset files per Worker version | 20,000 | 100,000 |\n| Individual Static Asset file size | 25 MiB | 25 MiB |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#request-and-response-limits-1",
+      "source_id": "cf-limits",
+      "heading": "Request and response limits",
+      "text": "| Limit | Value |\n| URL size | 16 KB |\n| Request header size | 128 KB (total) |\n| Response header size | 128 KB (total) |\n| Response body size | No enforced limit |\nFor incoming requests to a Worker on your domain, request body size limits depend on the domain's Cloudflare plan, not your Workers plan. Requests exceeding these limits return a 413 Request entity too large error."
+    },
+    {
+      "id": "cf-limits@2026-10-29#request-and-response-limits-2",
+      "source_id": "cf-limits",
+      "heading": "Request and response limits",
+      "text": "| Cloudflare Plan | Maximum request body size |\n| Free | 100 MB |\n| Pro | 100 MB |\n| Business | 200 MB |\n| Enterprise | Up to 5 GB (self-serve) |\nEnterprise customers can adjust the maximum request body size up to 5 GB themselves from the zone's Network page (Maximum Upload Size). For limits above 5 GB, contact your account team or Cloudflare Support."
+    },
+    {
+      "id": "cf-limits@2026-10-29#request-and-response-limits-3",
+      "source_id": "cf-limits",
+      "heading": "Request and response limits",
+      "text": "Cloudflare limits each HTTP request body sent to an external service by a Durable Object or through a Container outbound handler to 100 MiB by default. Increasing Maximum Upload Size for your domain does not increase this limit. Refer to the product limits for upload guidance and how to request an increase.\nCloudflare does not enforce response body size limits. CDN cache limits apply: 512 MB for Free, Pro, and Business plans, and 5 GB for Enterprise."
+    },
+    {
+      "id": "cf-limits@2026-10-29#cpu-time-1",
+      "source_id": "cf-limits",
+      "heading": "CPU time",
+      "text": "CPU time measures how long the CPU spends executing your Worker code. Waiting on network requests (such as fetch() calls, KV reads, or database queries) does not count toward CPU time."
+    },
+    {
+      "id": "cf-limits@2026-10-29#cpu-time-2",
+      "source_id": "cf-limits",
+      "heading": "CPU time",
+      "text": "| Limit | Workers Free | Workers Paid |\n| CPU time per HTTP request | 10 ms | 5 min (default: 30 seconds) |\n| CPU time per Cron Trigger | 10 ms | 30 seconds (= 1 hour interval) |\nMost Workers consume very little CPU time. The average Worker uses approximately 2.2 ms per request. Heavier workloads that handle authentication, server-side rendering, or parse large payloads typically use 10-20 ms."
+    },
+    {
+      "id": "cf-limits@2026-10-29#error-exceeded-cpu-time-limit-2",
+      "source_id": "cf-limits",
+      "heading": "Error: exceeded CPU time limit",
+      "text": "1. Increase the CPU time limit — On the Workers Paid plan, you can raise the limit from the default 30 seconds up to 5 minutes (300,000 ms). Set this in your Wrangler configuration or in the dashboard.\n2. Optimize your code — Use CPU profiling with DevTools to identify CPU-intensive sections of your code.\n3. Offload work — Move expensive computation to Durable Objects or process data in smaller chunks across multiple requests."
+    },
+    {
+      "id": "cf-limits@2026-10-29#increasing-the-cpu-time-limit-1",
+      "source_id": "cf-limits",
+      "heading": "Increasing the CPU time limit",
+      "text": "On the Workers Paid plan, you can increase the maximum CPU time from the default 30 seconds to 5 minutes (300,000 ms).\njsonc\n{\n// ...rest of your configuration...\n\"limits\": {\n\"cpu_ms\": 300000, // default is 30000 (30 seconds)\n},\n// ...rest of your configuration...\n}\ntoml\n[limits]\ncpu_ms = 300_000\nYou can also change this in the dashboard: go to Workers & Pages > select your Worker > Settings > adjust the CPU time limit."
+    },
+    {
+      "id": "cf-limits@2026-10-29#memory-1",
+      "source_id": "cf-limits",
+      "heading": "Memory",
+      "text": "| Limit | Value |\n| Memory per isolate | 128 MB |\nEach isolate can consume up to 128 MB of memory, including the JavaScript heap and WebAssembly allocations. This limit is per-isolate, not per-invocation. A single isolate can handle many concurrent requests.\nWhen an isolate exceeds 128 MB, the Workers runtime lets in-flight requests complete and creates a new isolate for subsequent requests. During extremely high load, the runtime may cancel some incoming requests to maintain stability."
+    },
+    {
+      "id": "cf-limits@2026-10-29#error-exceeded-memory-limit-3",
+      "source_id": "cf-limits",
+      "heading": "Error: exceeded memory limit",
+      "text": "To view memory errors in the dashboard:\n1. Go to Workers & Pages. Go to Workers & Pages\n2. Select the Worker you want to investigate.\n3. Under Metrics, select Errors > Invocation Statuses and examine Exceeded Memory."
+    },
+    {
+      "id": "cf-limits@2026-10-29#duration-2",
+      "source_id": "cf-limits",
+      "heading": "Duration",
+      "text": "| Trigger type | Duration limit |\n| HTTP request | No limit |\n| Cron Trigger | 15 min |\n| Durable Object Alarm | 15 min |\n| Queue Consumer | 15 min |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#duration-3",
+      "source_id": "cf-limits",
+      "heading": "Duration",
+      "text": "There is no hard limit on duration for HTTP-triggered Workers. As long as the client remains connected, the Worker can continue processing, making subrequests, and streaming a response body. When the client disconnects or the response is complete, tasks associated with that request may be canceled. Use ctx.waitUntil() to perform work after returning a response. waitUntil() can extend execution for up to 30 seconds after the response is sent or the client disconnects."
+    },
+    {
+      "id": "cf-limits@2026-10-29#runtime-updates-1",
+      "source_id": "cf-limits",
+      "heading": "Runtime updates",
+      "text": "Cloudflare regularly updates the Workers runtime. During routine updates, processes running the previous version of the Workers runtime give existing Workers requests and connections up to 20 minutes to finish. This includes streaming HTTP responses and WebSocket connections.\nOnce the updated version of the Workers runtime is ready, it handles new incoming HTTP requests. Processes running the previous version stop accepting these requests and drain existing work during their grace period."
+    },
+    {
+      "id": "cf-limits@2026-10-29#subrequests-3",
+      "source_id": "cf-limits",
+      "heading": "Subrequests",
+      "text": "There is no set time limit on individual subrequests. As long as the client remains connected, the Worker can continue making subrequests. When the client disconnects or the response is complete, outstanding work may be canceled unless it is passed to ctx.waitUntil(), which can extend execution for up to 30 seconds."
+    },
+    {
+      "id": "cf-limits@2026-10-29#simultaneous-open-connections-1",
+      "source_id": "cf-limits",
+      "heading": "Simultaneous open connections",
+      "text": "Each Worker invocation can have up to six connections simultaneously waiting for response headers. The following API calls count toward this limit while the initial connection is being established and the server has not yet responded:\n- fetch() method of the Fetch API\n- get(), put(), list(), and delete() methods of Workers KV namespace objects\n- put(), match(), and delete() methods of Cache objects\n- list(), get(), put(), delete(), and head() methods of R2"
+    },
+    {
+      "id": "cf-limits@2026-10-29#environment-variables-1",
+      "source_id": "cf-limits",
+      "heading": "Environment variables",
+      "text": "| Limit | Workers Free | Workers Paid |\n| Variables per Worker (secrets + text) | 64 | 128 |\n| Variable size | 5 KB | 5 KB |\n| Variables per account | No limit | No limit |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#worker-size-1",
+      "source_id": "cf-limits",
+      "heading": "Worker size",
+      "text": "| Limit | Workers Free | Workers Paid |\n| Worker size (uncompressed) | 64 MiB | 64 MiB |\nThere is no compressed size limit. Only the uncompressed bundle size counts.\nLarger Worker bundles can impact startup time. To check your Worker bundle size:\nsh\nwrangler deploy --outdir bundled/ --dry-run\nsh\nTotal Upload: 259.61 KiB / gzip: 47.23 KiB"
+    },
+    {
+      "id": "cf-limits@2026-10-29#worker-startup-time-1",
+      "source_id": "cf-limits",
+      "heading": "Worker startup time",
+      "text": "| Limit | Value |\n| Startup time | 1 second |\nA Worker must parse and execute its global scope (top-level code outside of handlers) within 1 second. Larger bundles and expensive initialization code in global scope increase startup time."
+    },
+    {
+      "id": "cf-limits@2026-10-29#number-of-workers-1",
+      "source_id": "cf-limits",
+      "heading": "Number of Workers",
+      "text": "| Limit | Workers Free | Workers Paid |\n| Workers per account | 100 | 500 |\nIf you are building a platform where your end customers deploy their own sites or applications, use Workers for Platforms, which runs an unlimited number of user Workers."
+    },
+    {
+      "id": "cf-limits@2026-10-29#routes-and-domains-1",
+      "source_id": "cf-limits",
+      "heading": "Routes and domains",
+      "text": "| Limit | Value |\n| Routes per zone | 1,000 |\n| Routes per zone (wrangler dev --remote) | 50 |\n| Custom domains per zone | 100 |\n| Routed zones per Worker | 1,000 |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#cache-api-limits-1",
+      "source_id": "cf-limits",
+      "heading": "Cache API limits",
+      "text": "| Feature | Workers Free | Workers Paid |\n| Maximum object size | 512 MB | 512 MB |\n| Calls per request | 50 | 1,000 |\nCalls per request is the number of put(), match(), or delete() Cache API calls per request. This shares the same quota as subrequests (fetch()).\nNote"
+    },
+    {
+      "id": "cf-limits@2026-10-29#log-size-1",
+      "source_id": "cf-limits",
+      "heading": "Log size",
+      "text": "| Limit | Value |\n| Log data per request | 256 KB |\nThis limit covers all data emitted via console.log() statements, exceptions, request metadata, and headers for a single request. After exceeding this limit, the system does not record additional context for that request in logs, tail logs, or Tail Workers.\nRefer to the Workers Trace Event Logpush documentation for limits on fields sent to Logpush destinations."
+    },
+    {
+      "id": "cf-limits@2026-10-29#static-assets-1",
+      "source_id": "cf-limits",
+      "heading": "Static Assets",
+      "text": "| Limit | Workers Free | Workers Paid |\n| Files per Worker version | 20,000 | 100,000 |\n| Individual file size | 25 MiB | 25 MiB |\n| _headers rules | 100 | 100 |\n| _headers characters per line | 2,000 | 2,000 |\n| _redirects static redirects | 2,000 | 2,000 |\n| _redirects dynamic redirects | 100 | 100 |\n| _redirects total | 2,100 | 2,100 |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#unbound-and-bundled-plan-limits-2",
+      "source_id": "cf-limits",
+      "heading": "Unbound and Bundled plan limits",
+      "text": "| Feature | Bundled plan limit |\n| Subrequests | 50/request |\n| CPU time (HTTP requests) | 50 ms |\n| CPU time (Cron Triggers) | 50 ms |\n| Cache API calls/request | 50 |\nBundled plan Workers have no duration limits for Cron Triggers, Durable Object Alarms, or Queue Consumers."
+    },
+    {
+      "id": "cf-limits@2026-10-29#wall-time-limits-by-invocation-type-2",
+      "source_id": "cf-limits",
+      "heading": "Wall time limits by invocation type",
+      "text": "| Invocation type | Wall time limit | Details |\n| Incoming HTTP request | Unlimited | No hard limit while the client remains connected. Workers requests are subject to the grace period for runtime updates. A Worker that is still streaming a response body remains active. waitUntil() extends execution for up to 30 seconds after the response or disconnect. |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#wall-time-limits-by-invocation-type-3",
+      "source_id": "cf-limits",
+      "heading": "Wall time limits by invocation type",
+      "text": "| Invocation type | Wall time limit | Details |\n| Cron Triggers | 15 minutes | Scheduled Workers have a maximum wall time of 15 minutes per invocation. |\n| Queue consumers | 15 minutes | Each consumer invocation has a maximum wall time of 15 minutes. |\n| Durable Object alarm handlers | 15 minutes | Alarm handler invocations have a maximum wall time of 15 minutes. |"
+    },
+    {
+      "id": "cf-limits@2026-10-29#wall-time-limits-by-invocation-type-4",
+      "source_id": "cf-limits",
+      "heading": "Wall time limits by invocation type",
+      "text": "| Invocation type | Wall time limit | Details |\n| Durable Objects (RPC / HTTP) | Unlimited | No hard limit while the caller stays connected to the Durable Object. Durable Objects remain active while a request, RPC call, response stream, WebSocket, or pending I/O is in flight. |\n| Workflows (per step) | Unlimited | Each step can run for an unlimited wall time. Individual steps are subject to the configured CPU time limit. |"
+    }
+  ]
+}

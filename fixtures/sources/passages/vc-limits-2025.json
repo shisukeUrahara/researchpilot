@@ -1,0 +1,72 @@
+{
+  "source_id": "vc-limits-2025",
+  "sha256": "d0b7d80baa613c0de33902a4b7750315b73b757d0111ca44daaa353f28d611a9",
+  "passages": [
+    {
+      "id": "vc-limits-2025@2025-03-08#top-1",
+      "source_id": "vc-limits-2025",
+      "heading": "top",
+      "text": "Accessing Build Logs\nClaim Deployments\nDeploy with Vercel CLI\nExclude Files\nInspect OG Metadata\nPreview Deployment Suffix\nPreview Deployments Features\nSharing a Preview Deployment\nDirectory Listing\nDirectory Sync\nDomains\nExpand menu\nWorking with Domains\nExpand menu\nAdding a Domain\nAdding a Domain to an Environment\nAssigning a Domain to a Git Branch\nDeploying & Redirecting Domains\nRemoving a Domain\nRenewing a Domain\nTransferring Domains\nViewing & Searching Domains\nWorking with DNS\nManaging DNS Records\nWorking with Nameservers\nManaging Nameservers"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#vercel-functions-limits-2",
+      "source_id": "vc-limits-2025",
+      "heading": "Vercel Functions Limits",
+      "text": "Feature | Node.js |\nMaximum memory | Hobby: 1024 MB, Pro and Ent: 3009 MB |\nMaximum duration | Hobby: 10s (default) - configurable up to 60s, Pro: 15s (default) - configurable up to 300s, Ent: 15s (default) - configurable up to 900s. If fluid compute is enabled, these values are increased across plans. See max durations for more information. |\nSize (after gzip compression) | 250 MB |"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#functions-name-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Functions name",
+      "text": "The following limits apply to the function's name when using Node.js runtime:\nMaximum length of 128 characters. This includes the extension of the file (e.g. apps/admin/api/my-function.js is 29 characters)\nNo spaces are allowed. Replace them with a - or _ (e.g. api/my function.js isn't allowed)"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#bundle-size-limits-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Bundle size limits",
+      "text": "Vercel places restrictions on the maximum size of the deployment bundle for functions to ensure that they execute in a timely manner.\nFor Vercel Functions, the maximum uncompressed size is 250 MB including layers which are automatically used depending on runtimes. These limits are enforced by AWS.\nYou can use includeFiles and excludeFiles to specify items which may affect the function size, however the limits cannot be configured. These configurations are not supported in Next.js, instead use outputFileTracingIncludes."
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#max-duration-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Max duration",
+      "text": "This refers to the longest time a function can process an HTTP request before responding.\nFunctions using the Edge runtime do not have a maximum duration. They must begin sending a response within 25 seconds and can continue streaming a response beyond that time.\nWhile Vercel Functions have a default duration, this duration can be extended using the maxDuration config. If a Vercel Function doesn't respond within the duration, a 504 error code (FUNCTION_INVOCATION_TIMEOUT) is returned."
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#max-duration-3",
+      "source_id": "vc-limits-2025",
+      "heading": "Max duration",
+      "text": "| Default | Maximum |\nHobby | 10s | 60s |\nPro | 15s | 300s |\nEnterprise | 15s | 900s |\nIf you have enabled fluid compute, the following defaults and maximum limits apply (Applies to the Node.js and Python runtimes):"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#max-duration-4",
+      "source_id": "vc-limits-2025",
+      "heading": "Max duration",
+      "text": "| Default | Maximum |\nHobby | 60s | 60s |\nPro | 90s | 800s |\nEnterprise | 90s | 800s |"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#memory-size-limits-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Memory size limits",
+      "text": "Vercel Functions have the following defaults and maximum limits:"
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#memory-size-limits-2",
+      "source_id": "vc-limits-2025",
+      "heading": "Memory size limits",
+      "text": "| Default | Maximum |\nHobby | 1024 MB / 0.6 vCPU | 1024 MB / 0.6 vCPU |\nPro /Enterprise | 1769 MB / 1 vCPU | 3009 MB / 1.7 vCPU |\nUsers on Pro and Enterprise plans can configure the default memory size for all functions in the dashboard, or on a per-function basis in your vercel.json."
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#request-body-size-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Request body size",
+      "text": "In Vercel, the request body size is the maximum amount of data that can be included in the body of a request to a function.\nThe maximum payload size for the request body or the response body of a Vercel Function is 4.5 MB. If a Vercel Function receives a payload in excess of the limit it will return an error 413: FUNCTION_PAYLOAD_TOO_LARGE. See How do I bypass the 4.5MB body size limit of Vercel Functions for more information."
+    },
+    {
+      "id": "vc-limits-2025@2025-03-08#cost-and-usage-1",
+      "source_id": "vc-limits-2025",
+      "heading": "Cost and usage",
+      "text": "The Hobby plan offers functions for free, within limits. The Pro plan extends these limits, and charges usage based on Function Duration for Vercel Functions."
+    }
+  ]
+}

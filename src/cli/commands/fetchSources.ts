@@ -11,6 +11,10 @@ export const fetchSources: Command = async (argv, deps) => {
   saveManifest(deps.dataDir, manifest);
   for (const r of reports) deps.out(`${r.id.padEnd(16)} ${r.status.padEnd(6)} page date ${r.page_date ?? "none (retrieved date used)"}  sha ${r.new_sha.slice(0, 12)}`);
   const drift = reports.filter((r) => r.status === "drift");
+  if (drift.length > 0 && values.accept) {
+    deps.out(`accepted new versions of ${drift.map((d) => d.id).join(", ")}; rebuild passages with pnpm rp build-passages`);
+    return EXIT.OK;
+  }
   if (drift.length > 0) {
     deps.err(`drift in ${drift.map((d) => d.id).join(", ")}: the frozen copy is kept. New text is in cache/raw/<id>.drift.txt. Use --accept to move to it.`);
     return EXIT.CHECK_FAILED;

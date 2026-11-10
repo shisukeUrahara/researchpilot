@@ -1,0 +1,48 @@
+{
+  "source_id": "vc-cl-fluid",
+  "sha256": "d9e8a1591d2bd6c09e11b801163f1066b34aa5c6b72aa25da97c3f4408ff34bd",
+  "passages": [
+    {
+      "id": "vc-cl-fluid@2025-06-25#higher-defaults-and-limits-for-vercel-fu-1",
+      "source_id": "vc-cl-fluid",
+      "heading": "Higher defaults and limits for Vercel Functions running Fluid compute",
+      "text": "Published: June 25, 2025 | Authors: Tom Lienard, Mariano Cocirio, Doug Harcourt Parsons, Florentin Eckl, Balazs Varga\nNote: Update: Vercel Functions that use supported Node.js & Python runtimes can now run for up to 30 minutes on Pro and Enterprise. Fluid compute is required.\nThe default limits for Vercel Functions using Fluid compute have increased, with longer execution times, more memory, and more CPU.\nThe default execution time, for all projects on all plans, is now 300 seconds (5 minutes):"
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#higher-defaults-and-limits-for-vercel-fu-2",
+      "source_id": "vc-cl-fluid",
+      "heading": "Higher defaults and limits for Vercel Functions running Fluid compute",
+      "text": "| Plan | Default | Maximum |\n| Hobby | 300s (previously 60s) | 300s (previously 60s) |\n| Pro | 300s (previously 90s) | 800s |\n| Enterprise | 300s (previously 90s) | 800s |\n*Pro and Enterprise teams using supported Node.js and Python runtimes can now opt into an extended maximum of 1800s (30 minutes, beta). See the *June 15, 2026 update*.*\nMemory and CPU instance sizes have also been updated:"
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#higher-defaults-and-limits-for-vercel-fu-3",
+      "source_id": "vc-cl-fluid",
+      "heading": "Higher defaults and limits for Vercel Functions running Fluid compute",
+      "text": "- Standard (default) is now 1 vCPU / 2 GB (previously 1 vCPU / 1.7 GB)\n- Performance is now 2 vCPU / 4 GB (previously 1.7 vCPU / 3 GB)\nNote: The Basic CPU instance has been removed. Hobby projects now use Standard CPU.\nThese increased instances are enabled by Active CPU pricing, which charges based on actual compute time. Periods of memory-only usage are billed at a significantly lower rate, making longer executions more cost-efficient."
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#higher-defaults-and-limits-for-vercel-fu-4",
+      "source_id": "vc-cl-fluid",
+      "heading": "Higher defaults and limits for Vercel Functions running Fluid compute",
+      "text": "You can view logs to determine if your functions are hitting execution limits and adjust the max duration or upgrade your plan as needed.\nLearn more about Vercel Function limits."
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#higher-defaults-and-limits-for-vercel-fu-5",
+      "source_id": "vc-cl-fluid",
+      "heading": "Higher defaults and limits for Vercel Functions running Fluid compute",
+      "text": "📚 More updates: View all changelog entries | Blog"
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#reference-architecture-1",
+      "source_id": "vc-cl-fluid",
+      "heading": "Reference Architecture",
+      "text": "Choose a stack and work through the decisions behind it, with curated documentation, guides, templates, and courses to help you build.\n- Agent stack: Build and operate agents with models, tools, and durable workflows.\n- Web applications: Choose rendering, data, authentication, and caching approaches.\n- Backends: Choose a runtime, connect services, and run background work.\nBrowse all stacks"
+    },
+    {
+      "id": "vc-cl-fluid@2025-06-25#build-with-prompts-1",
+      "source_id": "vc-cl-fluid",
+      "heading": "Build with prompts",
+      "text": "Build an app, extend an agent, or improve your project with ready-to-use prompts for your coding agent.\nBrowse the prompt library · Read the Markdown index\nIf you encounter incorrect information, can’t find what you need, need a capability Vercel doesn’t currently offer, or have any other feedback to report, please do it by following the instructions at https://vercel.com/feedback.md."
+    }
+  ]
+}
