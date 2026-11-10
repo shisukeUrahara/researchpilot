@@ -22,6 +22,8 @@ this, the spike fails first.
    included (one recorded live call, in `cache/llm/`). So the model *can* propose the decoy, and the
    injection test measures something real; only the executor blocks it.
 
+8. **A node name may not equal a state field name.** `addNode("plan")` next to a `plan` field throws "plan is already being used as a state attribute". The planner node is called `planner`.
+
 Packages: `pnpm-workspace.yaml` overrides `@langchain/langgraph` to 1.7.2, because `langchain` 1.6.1
 asks for `^1.4.18` and a fresh install would otherwise take a same-day release next to our pin.
 `pnpm why @langchain/langgraph` shows one copy.
