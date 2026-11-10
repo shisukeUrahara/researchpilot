@@ -43,4 +43,36 @@ Running (timeline grows, meter fills), awaiting approval (amber banner: "fetch_l
 Every Stitch prompt carries exact text. Numbers in the designs are **sample data** and are labeled "sample". The built pages read only real runs. No avatars, no vendor logos, no invented customer claims, no "winner" badges. Every verdict line ends with: "For this workload, per the dated official pages listed. Not a recommendation. Independent project, not affiliated with Cloudflare, Vercel or AWS."
 
 ## Project
-Filled in when the screens are generated.
+Owner approved 2026-11-11.
+
+- Stitch project: `projects/6847605314973702490` ("ResearchPilot", private to the owner), made 10 Nov 2026 with `GEMINI_3_5_FLASH_LITE`.
+- The EvalForge design systems could not be reused: the first prompt that named `assets/2132799dc50047c2bae19a7f9cf28581` timed out and its screen came back on a new design system, so Stitch made one per theme from the first prompt:
+  - dark: `assets/714a93e5597f41b599914068ddc3787f` ("ResearchPilot")
+  - light: `assets/a1eb196413f34bfaac719637360d0bf5` ("ResearchPilot")
+
+Fixed on 2026-11-11 after owner review (owner: 'screens look decent, fix the issues'). Two edit passes.
+
+PNGs in `screens/`, desktop shrunk to 1280 px wide, phone kept at 780 px (2x of 390).
+
+| Screen id | Stitch screen id | PNG |
+|---|---|---|
+| run-dark | `f2732b33f6234954909ed63b7b56e297` | `screens/run-dark.png` |
+| memo-dark | `9e575ee99bb84add883dce3adcfd680f` | `screens/memo-dark.png` |
+| evals-dark | `947fd4d21a9243b58f6bd45aac9fd9a0` | `screens/evals-dark.png` |
+| run-light | `1bd13aebe9b04280b4b9c2edc40b4619` | `screens/run-light.png` |
+| memo-light | `38c2c46eb42b42d1a2b04194b6e5a89c` | `screens/memo-light.png` |
+| evals-light | `2dfedb2a101349fcad46ed29fe5ebeff` | `screens/evals-light.png` |
+| run-phone-dark | `a0b8934713d5464c8799e0f210e88f4c` | `screens/run-phone-dark.png` |
+
+Earlier versions left in the project (not used): `b38bd027bec94be9996eddaea017851b`, `9caabdfc7118423aa63e11cf65a7039c`, `a57431b5d1f94fa391b7dd20e712e2ca`, `660b8506c15742ad9a5637d35b8c5f84`, `3b9b16a47b814dd2a205421230ba5692`, `9bf00aa1933f4e1296c5dd9d8e3f0f36`, `d7f6535e367647428a7b581a68e1e14c`, `9995158aed6f4b838b88ed02eb092734`, `0deced5246814ba58bea1c2b32442f87`, `26a62d6856a248b0a3b7961b1fb26911`, `a0cfa5920a5c40e0bfd5c13b4b1b40fe`, `46e15a36b9a94683bc10b946542d3f09`, `fdf3eac5cf4b4f5598c14a4ee5f1bd7c`. Duplicates left by timed-out calls (not used): `904e2b9ee685406db1dbdf3d9f7155b5` (run, dark), `9f76d1a858b246eb9971a598de70b40a` (run, light), `b7ba836cdc7b4639b67f1dff7e470f13` (run, phone), `4a14576901374540b1c08fcfb4093115` (run, dark, stuck on "Generating").
+
+Still off-spec after the fixes, not used in the build (every number is sample data; real values come from runs):
+- run-dark: a faint violet haze with a hard top edge still starts at the budget row on the left (spec: soft corner haze only, plain canvas). Three edits did not remove it; this version has the weakest band.
+- memo-dark: none found.
+- evals-dark: none found.
+- run-light: two source dates wrap in the middle ("2026-" / "09-02") instead of staying on one line.
+- memo-light: none found (claim source and freshness URLs truncated with an ellipsis; minor).
+- evals-light: none found.
+- run-phone-dark: none found.
+
+Note on sample content: the screens' words and numbers are Stitch's sample text, not facts. For example memo-dark blames Cloudflare's CPU time; the real blocker for a 256 MB job is the 128 MB memory per isolate (`docs/sources.md`). The built pages show only real run data. The leftover violet band on run-dark is fixed in the build (plain night canvas).
