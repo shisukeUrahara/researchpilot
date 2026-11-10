@@ -1,0 +1,28 @@
+{
+  "version": "scenarios.v1",
+  "note": "Frozen before any eval run. Changing v1.jsonl changes its sha, and the eval guard refuses to run.",
+  "sha256": "3c9eed4330bc2d4da5837cb372986b606f0b4ee6c87092d4c06dc0a9078c6a32",
+  "gold_sha256": "8471801c69653a24572df6ea8355e097fc50a68ae5b707997efe8bbea41381a8",
+  "splits": {
+    "dev": 8,
+    "eval": 40,
+    "injection": 30
+  },
+  "counts": {
+    "dev/golden": 2,
+    "dev/freshness": 1,
+    "dev/price": 1,
+    "dev/deadend": 1,
+    "dev/unavailable": 1,
+    "dev/malformed": 1,
+    "dev/deadline": 1,
+    "eval/golden": 16,
+    "eval/freshness": 6,
+    "eval/price": 4,
+    "eval/deadend": 4,
+    "eval/unavailable": 3,
+    "eval/malformed": 3,
+    "eval/deadline": 4,
+    "injection/injection": 30
+  }
+}
