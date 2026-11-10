@@ -1,6 +1,7 @@
 import type { Command, Deps } from "./deps";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
+import { applyGoldReviewCmd } from "./commands/goldReview";
 import { buildPassages, verify } from "./commands/verify";
 import { EXIT } from "./exit";
 
@@ -10,6 +11,7 @@ export const COMMANDS: Record<string, Command> = {
   "fetch-sources": fetchSources,
   "build-passages": buildPassages,
   verify,
+  "apply-gold-review": applyGoldReviewCmd,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {
