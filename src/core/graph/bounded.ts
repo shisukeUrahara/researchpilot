@@ -1,4 +1,4 @@
-import { Annotation, END, START, StateGraph, type BaseCheckpointSaver } from "@langchain/langgraph";
+import { Annotation, Command, END, START, StateGraph, type BaseCheckpointSaver } from "@langchain/langgraph";
 import { approvedActions } from "../approvals/approvals";
 import { chargeStep, checkStep, emptyUsage, type BudgetConfig, type RunUsage } from "../budget/runBudget";
 import type { CriteriaFile } from "../domain/criteria";
@@ -16,6 +16,7 @@ import type { ArmConfig, PolicyFile } from "../tools/policy";
 import type { Registry } from "../tools/registry";
 import type { ModelDeps } from "./model";
 import { actNode } from "./nodes/act";
+import { approveStep, type ApprovalMode } from "./nodes/approve";
 import { extractNode, rowsOf } from "./nodes/extract";
 import { planNode } from "./nodes/plan";
 import { assessStep, noteLookups, noteUnavailable, resolvedCells } from "./progress";
@@ -34,6 +35,8 @@ export interface AgentDeps {
   manifest: Manifest;
   passages: ReadonlyMap<string, Passage>;
   prompts: { planner: PromptTemplate; actor: PromptTemplate; extractor: PromptTemplate };
+  /** Evals use `deny` (no run ever waits); the CLI and web app use `interrupt`. */
+  approvals: ApprovalMode;
   now: () => Date;
 }
 
@@ -84,7 +87,7 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
 }
 
 /**
- * The bounded research agent: planner → [act → execute → extract (+ assess)] → stop.
+ * The bounded research agent: planner → [act → approve → execute → extract (+ assess)] → stop.
  * Every limit is checked in code: steps in `act`, tool calls and rate limits in the executor, time and
  * money before every model call. The model only proposes; it cannot skip a check or pick a stop reason.
  */
@@ -120,6 +123,11 @@ export function buildBoundedGraph(d: AgentDeps) {
     event(next, "act", r.proposal.done ? "done" : "proposal", { tool: r.proposal.tool, cells: r.proposal.cells, done: r.proposal.done }, r.usage);
     const last: LastCall = { stepNo: next.stepNo, proposal: r.proposal, outcome: "proposed", executed: false, result: null };
     return { stepNo: next.stepNo, usage: r.usage, last };
+  };
+
+  const approve = async (s: S): Promise<Partial<S>> => {
+    approveStep(s.last, s.runId, d.registry, d.store, d.approvals, d.now());
+    return {};
   };
 
   const exec = async (s: S): Promise<Partial<S>> => {
@@ -181,21 +189,35 @@ export function buildBoundedGraph(d: AgentDeps) {
     // Node names may not equal state field names (LangGraph rule), hence "planner" for the plan field.
     .addNode("planner", plan)
     .addNode("act", act)
+    .addNode("approve", approve)
     .addNode("execute", exec)
     .addNode("extract", extract)
     .addEdge(START, "planner")
     .addConditionalEdges("planner", finished, { go: "act", done: END })
-    .addConditionalEdges("act", finished, { go: "execute", done: END })
+    .addConditionalEdges("act", finished, { go: "approve", done: END })
+    .addEdge("approve", "execute")
     .addConditionalEdges("execute", finished, { go: "extract", done: END })
     .addConditionalEdges("extract", finished, { go: "act", done: END });
 }
 
-/** Recursion backstop only: 4 graph steps per agent step, plus slack. Our budgets stop runs long before. */
-export const recursionLimit = (b: BudgetConfig) => b.limits.max_steps * 4 + 10;
+/** Recursion backstop only: 5 graph steps per agent step, plus slack. Our budgets stop runs long before. */
+export const recursionLimit = (b: BudgetConfig) => b.limits.max_steps * 5 + 10;
 
-/** Runs (or resumes) one research run on a checkpointer, saving after every node. */
-export async function runBounded(d: AgentDeps, init: AgentState | null, threadId: string, saver: BaseCheckpointSaver, signal?: AbortSignal): Promise<AgentState> {
+export type RunInput = AgentState | { resume: unknown } | null;
+
+/**
+ * Runs, continues or resumes one research run on a checkpointer, saving after every node.
+ * `init` = a new run; `null` = continue after a crash; `{ resume }` = answer a paused approval.
+ * A paused run comes back with `paused` set and its state as of the pause.
+ */
+export async function runBounded(d: AgentDeps, init: RunInput, threadId: string, saver: BaseCheckpointSaver, signal?: AbortSignal): Promise<AgentState & { paused: unknown | null }> {
   const graph = buildBoundedGraph(d).compile({ checkpointer: saver });
   const config = { configurable: { thread_id: threadId }, durability: "sync" as const, recursionLimit: recursionLimit(d.budget), signal };
-  return (await graph.invoke(init, config)) as AgentState;
+  const input = init && "resume" in init ? new Command({ resume: init.resume }) : init;
+  // The graph accepts its own state type, a Command, or null; our AgentState is that state as plain data.
+  const out = (await graph.invoke(input as Parameters<typeof graph.invoke>[0], config)) as AgentState & { __interrupt__?: { value: unknown }[] };
+  const pending = out.__interrupt__?.[0]?.value ?? null;
+  const { __interrupt__: _ignored, ...state } = out;
+  void _ignored;
+  return { ...(state as AgentState), status: pending ? "awaiting_approval" : state.status, paused: pending };
 }

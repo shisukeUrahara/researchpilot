@@ -36,7 +36,7 @@ import { fetchLive } from "../../tools/fetchLive";
 import type { AgentDeps } from "../bounded";
 
 /** Full agent deps on the mock model server and an in-memory store, for graph tests. */
-export async function mockAgentDeps(script: Reply[], arm: Arm = "bounded", scenario: Scenario | null = null, runId = "r1") {
+export async function mockAgentDeps(script: Reply[], arm: Arm = "bounded", scenario: Scenario | null = null, runId = "r1", approvals: "deny" | "interrupt" = "deny") {
   const { deps: model, srv } = await mockModelDeps(script, arm);
   const dir = process.cwd();
   const manifest = loadManifest(dir);
@@ -60,6 +60,7 @@ export async function mockAgentDeps(script: Reply[], arm: Arm = "bounded", scena
     manifest,
     passages: all,
     prompts: { planner: loadPrompt(dir, "planner.v1"), actor: loadPrompt(dir, "actor.v1"), extractor: loadPrompt(dir, "extractor.v1") },
+    approvals,
     now: () => new Date("2026-11-11T10:00:00Z"),
   };
   return { deps, srv, store };
