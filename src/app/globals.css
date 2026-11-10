@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f7f6fb;
+  --ink: #1b1a24;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #0f0e17;
+    --ink: #eceaf5;
+  }
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+}
