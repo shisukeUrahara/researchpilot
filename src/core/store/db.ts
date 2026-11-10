@@ -48,6 +48,18 @@ export interface OutboxRow {
   body: string;
 }
 
+export interface ApprovalRow {
+  approval_id: string;
+  run_id: string;
+  action_hash: string;
+  tool: string;
+  args_json: string;
+  status: string;
+  requested_at: string;
+  expires_at: string;
+  decided_at: string | null;
+}
+
 /** The app DB. Every insert is insert-or-ignore on a natural key, so a re-run node writes nothing twice. */
 export class Store {
   readonly db: Database.Database;
@@ -124,6 +136,23 @@ export class Store {
 
   outbox(runId: string): OutboxRow[] {
     return this.db.prepare("SELECT * FROM outbox WHERE run_id = ? ORDER BY step_no").all(runId) as OutboxRow[];
+  }
+
+  /** A new approval request; asking again for the same action keeps the first request. */
+  insertApproval(a: ApprovalRow): boolean {
+    return this.db.prepare(`INSERT OR IGNORE INTO approvals VALUES (@approval_id, @run_id, @action_hash, @tool, @args_json, @status, @requested_at, @expires_at, @decided_at)`).run(a).changes === 1;
+  }
+
+  getApproval(id: string): ApprovalRow | undefined {
+    return this.db.prepare("SELECT * FROM approvals WHERE approval_id = ?").get(id) as ApprovalRow | undefined;
+  }
+
+  approvals(runId: string): ApprovalRow[] {
+    return this.db.prepare("SELECT * FROM approvals WHERE run_id = ? ORDER BY requested_at, approval_id").all(runId) as ApprovalRow[];
+  }
+
+  decideApproval(id: string, status: "approved" | "denied", at: string): void {
+    this.db.prepare("UPDATE approvals SET status = ?, decided_at = ? WHERE approval_id = ? AND status = 'pending'").run(status, at, id);
   }
 
   close(): void {

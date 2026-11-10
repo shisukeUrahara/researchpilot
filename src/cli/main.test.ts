@@ -22,3 +22,15 @@ test("doctor reports mode, folders and approvals", async () => {
   await main(["doctor"], replay.deps);
   expect(replay.out[0]).toMatch(/^replay mode/);
 });
+
+test("approve needs an id and a valid token", async () => {
+  const { mkdtempSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { default: path } = await import("node:path");
+  const stateDir = mkdtempSync(path.join(tmpdir(), "rp-cli-"));
+  const a = testDeps({ stateDir, approverToken: "secret" });
+  expect(await main(["approve"], a.deps)).toBe(64);
+  expect(await main(["approve", "apv_missing", "--token", "wrong"], a.deps)).toBe(3);
+  expect(await main(["approve", "apv_missing", "--token", "secret"], a.deps)).toBe(1);
+  expect(a.err.at(-1)).toMatch(/no approval request/);
+});
