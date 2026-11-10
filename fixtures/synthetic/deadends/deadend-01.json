@@ -1,0 +1,9 @@
+{
+  "_note": "SYNTHETIC test fixture written for ResearchPilot's evals. Not an official source. The 'text' field is what the agent sees as a search result.",
+  "id": "deadend-01",
+  "kind": "dead_end",
+  "source_id": "synthetic:deadend-01",
+  "provider": null,
+  "title": "Platform limits",
+  "text": "Serverless platforms all have limits. Check your provider's documentation for the latest values, as they change often."
+}

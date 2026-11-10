@@ -1,0 +1,9 @@
+{
+  "_note": "SYNTHETIC test fixture written for ResearchPilot's evals. Not an official source. The 'text' field is what the agent sees as a search result.",
+  "id": "deadend-04",
+  "kind": "dead_end",
+  "source_id": "synthetic:deadend-04",
+  "provider": null,
+  "title": "Platform limits",
+  "text": "Choosing a platform depends on many factors, including team experience, ecosystem and pricing. There is no single answer."
+}

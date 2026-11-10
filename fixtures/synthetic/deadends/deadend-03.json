@@ -1,0 +1,9 @@
+{
+  "_note": "SYNTHETIC test fixture written for ResearchPilot's evals. Not an official source. The 'text' field is what the agent sees as a search result.",
+  "id": "deadend-03",
+  "kind": "dead_end",
+  "source_id": "synthetic:deadend-03",
+  "provider": null,
+  "title": "Platform limits",
+  "text": "This page has moved. The content you are looking for is no longer available here."
+}
