@@ -101,7 +101,8 @@ export type Fact = z.infer<typeof Fact>;
 export const FactRecord = Fact.extend({
   id: z.string(),
   step_no: z.number().int().nonnegative(),
-  status: z.enum(["verified", "rejected"]),
+  /** `unchecked` = the arm runs no verifier (naive); such facts are used as they come. */
+  status: z.enum(["verified", "rejected", "unchecked"]),
   /** Why the verifier rejected it; null when verified. */
   reject_reason: z.string().nullable(),
 });
