@@ -3,3 +3,6 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+# One LangGraph copy for langchain and for us (a fresh install would otherwise take a same-day release).
+overrides:
+  "@langchain/langgraph": 1.7.2
