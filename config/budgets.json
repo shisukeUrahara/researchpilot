@@ -1,0 +1,12 @@
+{
+  "note": "The same limits for every arm. Preregistered: changing this file after the eval split is frozen invalidates the eval.",
+  "clock": { "model_ms": 3000, "tool_ms": 500 },
+  "limits": {
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "deadline_ms": 120000,
+    "max_usd": 0.12,
+    "per_tool": { "search_docs": 8, "read_passage": 8, "list_sources": 4, "price_lookup": 2, "fetch_live": 1, "send_email": 1 },
+    "memo_reserve_ms": 3000
+  }
+}
