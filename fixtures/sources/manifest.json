@@ -1,0 +1,89 @@
+{
+  "note": "Official sources ResearchPilot reads. Full pages live in the gitignored cache/raw/; only short passages are committed. Fill and re-check with `pnpm rp fetch-sources`.",
+  "sources": [
+    {
+      "id": "cf-limits",
+      "provider": "cloudflare",
+      "kind": "docs",
+      "url": "https://developers.cloudflare.com/workers/platform/limits/",
+      "fetch_url": "https://developers.cloudflare.com/workers/platform/limits/index.md",
+      "date_rule": "cloudflare_last_updated",
+      "license": "Cloudflare docs, CC BY 4.0 (github.com/cloudflare/cloudflare-docs). Short passages quoted with attribution.",
+      "page_date": "2026-10-29",
+      "date_kind": "page",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "03ac3b33b9bf41ceee579fe5f256cbb2e316f19081b128bcf57015e8fb44a068",
+      "bytes": 27476
+    },
+    {
+      "id": "vc-limits",
+      "provider": "vercel",
+      "kind": "docs",
+      "url": "https://vercel.com/docs/functions/limitations",
+      "fetch_url": "https://vercel.com/docs/functions/limitations.md",
+      "date_rule": "frontmatter_last_updated",
+      "license": "© Vercel, Inc. Short passages quoted with attribution; full page not redistributed.",
+      "page_date": "2026-08-24",
+      "date_kind": "page",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "17b775930ace9ea68f4c66e8e26e289b40b4bd8b87afd1a7de23d4606865b139",
+      "bytes": 17135
+    },
+    {
+      "id": "vc-limits-2025",
+      "provider": "vercel",
+      "kind": "archive",
+      "url": "https://web.archive.org/web/20250308002203/https://vercel.com/docs/functions/limitations",
+      "fetch_url": "https://web.archive.org/web/20250308002203id_/https://vercel.com/docs/functions/limitations",
+      "date_rule": "wayback_timestamp",
+      "license": "© Vercel, Inc., archived by the Internet Archive Wayback Machine. Linked, not re-hosted; short passages quoted.",
+      "page_date": "2025-03-08",
+      "date_kind": "page",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "6d6ffe7ce3e9173b967b960388db675f42ebc33ab664c958bf2d9714f8dff530",
+      "bytes": 16168
+    },
+    {
+      "id": "vc-cl-30min",
+      "provider": "vercel",
+      "kind": "changelog",
+      "url": "https://vercel.com/changelog/vercel-functions-can-now-run-up-to-30-minutes",
+      "fetch_url": "https://vercel.com/changelog/vercel-functions-can-now-run-up-to-30-minutes.md",
+      "date_rule": "changelog_published",
+      "license": "© Vercel, Inc. Short passages quoted with attribution; full page not redistributed.",
+      "page_date": "2026-06-15",
+      "date_kind": "page",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "e05231ffdca84e0d3953569827817db0ec15e09abb869a5a481c323f1855878f",
+      "bytes": 2826
+    },
+    {
+      "id": "vc-cl-fluid",
+      "provider": "vercel",
+      "kind": "changelog",
+      "url": "https://vercel.com/changelog/higher-defaults-and-limits-for-vercel-functions-running-fluid-compute",
+      "fetch_url": "https://vercel.com/changelog/higher-defaults-and-limits-for-vercel-functions-running-fluid-compute.md",
+      "date_rule": "changelog_published",
+      "license": "© Vercel, Inc. Short passages quoted with attribution; full page not redistributed.",
+      "page_date": "2025-06-25",
+      "date_kind": "page",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "1d91b1dae56b82fa393c99509b7400c5c506534df588c78ac5cddff216dfc576",
+      "bytes": 3037
+    },
+    {
+      "id": "aws-quotas",
+      "provider": "aws",
+      "kind": "docs",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
+      "fetch_url": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
+      "date_rule": "none",
+      "license": "© Amazon Web Services, Inc. Short passages quoted with attribution; full page not redistributed.",
+      "page_date": "2026-11-10",
+      "date_kind": "retrieved",
+      "retrieved_at_utc": "2026-11-10T08:47:23.454Z",
+      "sha256": "20cfa84ad222736ba99968ba69d7440d769852746eeb679330b071e063056949",
+      "bytes": 21473
+    }
+  ]
+}
