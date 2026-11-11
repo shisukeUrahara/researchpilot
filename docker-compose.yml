@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    # The key is read at container start, never copied into the image (.env is dockerignored).
+    # Without it the app replays the committed cache: sample runs, memos and evals all work.
+    env_file:
+      - path: .env
+        required: false
+    ports: ["127.0.0.1:${RP_PORT:-3030}:3030"]
+    volumes:
+      - state:/state
+
+volumes:
+  state:
