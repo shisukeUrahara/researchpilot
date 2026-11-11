@@ -3,6 +3,7 @@ import { CostGateError } from "@/core/runner/budget";
 import type { Command, Deps } from "./deps";
 import { approve } from "./commands/approve";
 import { evalCmd } from "./commands/eval";
+import { gate, report } from "./commands/report";
 import { cancel, rebuildDb, resume } from "./commands/control";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
@@ -26,6 +27,8 @@ export const COMMANDS: Record<string, Command> = {
   resume,
   "rebuild-db": rebuildDb,
   eval: evalCmd,
+  report,
+  gate,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {
