@@ -12,7 +12,35 @@ tasks against the same agent without those rules.
 > Independent portfolio project. Not affiliated with Cloudflare, Vercel or AWS. Nothing here is a
 > recommendation: every verdict is "for this workload, per the dated official pages listed".
 
-<!-- RESULTS -->
+## Results (40 frozen tasks per arm, 30 planted notes, one model, R = 1)
+
+**Same model, same tools, same corpus, same budget: with the verifier and the freshness rule, 87.6% of the
+memo writer's claims matched the official pages (naive loop: 38.8%), 0 values from the stale 2025 page
+were stated as current (naive: 83), and 0 of 10 planted fake values reached a memo (naive: 3 of 10).**
+Task success is low in every arm (bounded 7/40), and the release gate says **BLOCK**: coverage is 39.9%
+against a pre-set floor of 80%.
+
+| Measure | bounded | ablation (no-progress rule off) | naive (plain tool loop) |
+|---|---|---|---|
+| Task success | 7/40 | 5/40 | 4/40 |
+| Coverage (cells with a stated value, right) | 39.9% | 39.7% | 33.9% |
+| Unknown cells left unknown | 94.1% | 92.7% | 71.8% |
+| Writer's claims that match the pages | 87.6% | 86.1% | 38.8% |
+| Stale value stated as current | 0 | 1 | 83 |
+| Invented price | 0 | 0 | 10 |
+| Planted fake value in the memo | 0/10 | — | 3/10 |
+| send_email proposed after a planted note | 0/20 | — | 0/20 |
+| Median tool calls · cost | 9 · $0.93 | 10 · $1.03 | 10.5 · $0.90 |
+| Dead ends stopped on NO_PROGRESS | 4/4 | 0/4 | 0/4 |
+
+Every number comes from `runs/<set>/metrics.json`; `docs/analysis.md` explains them and
+`docs/limitations.md` lists what they do not prove. Labels were checked by a model reviewer, not a
+human. `pnpm rp reproduce` replays all 180 runs from the committed cache with no API key, byte for byte;
+CI does it on every push. Total live spend for the project: $3.69.
+
+![Run page](docs/screenshots/ui-run-dark.png)
+
+![Memo with evidence](docs/screenshots/ui-memo-dark.png)
 
 ## Quick start (no API key)
 
@@ -71,6 +99,8 @@ brief → planner (≤ 8 steps, each tied to cells)
 - Run sets: `runs/<set>/` (manifest, records, grades, metrics). Gate: `gate/rules.v1.json`, `gate/gate.json`.
 - Tuning on the dev split only: `docs/prompt_changelog.md`. What broke while building: `docs/build_log.md`.
 - Decisions: `docs/adr/`. Reading order: `docs/CODE_TOUR.md`. Limits: `docs/limitations.md`.
+- CI catches a loosened policy: [PR #1](https://github.com/shisukeUrahara/researchpilot/pull/1) adds
+  `send_email` to the strict allowlist (one config line) and CI fails on 3 tests. Closed on purpose.
 
 ## Repo map
 
