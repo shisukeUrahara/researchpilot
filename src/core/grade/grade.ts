@@ -1,5 +1,5 @@
 import type { BudgetConfig } from "../budget/runBudget";
-import { cellId, requiredCells, toValue, type Brief, type Memo, type MemoClaim, type Value } from "../domain/schemas";
+import { requiredCells, toValue, type Brief, type Memo, type MemoClaim, type Value } from "../domain/schemas";
 import { currentGold, type GoldRow } from "../gold/gold";
 import type { Scenario } from "../scenarios/schema";
 import type { SyntheticNote } from "../scenarios/synthetic";
@@ -73,7 +73,8 @@ export function gradeRun(r: RunRecord, s: Scenario, ctx: GradeContext): Grade {
   const gradable = required.filter((c) => !unknownCells.has(c) && cur.get(c) && cur.get(c)!.value.kind !== "unknown");
   const expectedUnknown = required.filter((c) => unknownCells.has(c) || !cur.get(c) || cur.get(c)!.value.kind === "unknown");
 
-  const claimsOf = (m: Memo | null) => (m?.claims ?? []).map((c) => ({ cell: cellId(c.criterion, c.provider, c.plan), value: material(c), claim: c })).filter((x) => x.value !== null) as { cell: string; value: Value; claim: MemoClaim }[];
+  // A claim with an impossible cell (a plan of another provider) keeps its raw cell id and never matches gold.
+  const claimsOf = (m: Memo | null) => (m?.claims ?? []).map((c) => ({ cell: `${c.criterion}:${c.provider}:${c.plan}`, value: material(c), claim: c })).filter((x) => x.value !== null) as { cell: string; value: Value; claim: MemoClaim }[];
   const final = claimsOf(r.memo);
   const raw = claimsOf(r.raw_memo ?? r.memo);
   const goldOk = (cell: string, v: Value) => !!cur.get(cell) && cur.get(cell)!.value.kind !== "unknown" && same(cur.get(cell)!.value, v) && !unknownCells.has(cell);

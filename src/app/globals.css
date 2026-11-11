@@ -1,18 +1,167 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* "Afterglow" tokens, copied from EvalForge (design/stitch/DESIGN.md). Status: verified / used = success (teal),
+   awaiting approval / superseded / near limit = warn (amber), blocked / rejected / limit hit = danger (coral).
+   Arms: bounded brand, ablation sky (--arm-m), naive muted. Light first, dark under .dark.
+   Text tokens are checked for 4.5:1 contrast on their backgrounds by src/app/tokens.test.ts. */
 :root {
-  --canvas: #f7f6fb;
-  --ink: #1b1a24;
+  --canvas: #f6f6fa;
+  --surface: #ffffff;
+  --surface-2: #f3f3f8;
+  --ink: #14151d;
+  --muted: #5a5f72;
+  --line: #e4e4ee;
+  --primary: #5b45d1;
+  --primary-ink: #ffffff;
+  --brand: #5b45d1;
+  --brand-bg: #efecff;
+  --success: #0f766e;
+  --success-bg: #e6f7f4;
+  --warn: #8a5300;
+  --warn-bg: #fdf3dc;
+  --danger: #b4232a;
+  --danger-bg: #fde8e8;
+  --arm-m: #0369a1;
+  --glow-violet: rgb(124 92 255 / 0.06);
+  --glow-blue: rgb(59 130 246 / 0.06);
+  --shadow: 0 1px 2px rgb(20 20 50 / 0.04), 0 6px 18px rgb(20 20 50 / 0.05);
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --canvas: #0f0e17;
-    --ink: #eceaf5;
+.dark {
+  --canvas: #0b0c12;
+  /* white 3.5% over the canvas, as a solid colour so text contrast can be checked */
+  --surface: #13141b;
+  --surface-2: #1a1b23;
+  --ink: #ecedf3;
+  --muted: #9ba1b4;
+  --line: #262732;
+  --primary: #9b8cf2;
+  --primary-ink: #0b0c12;
+  --brand: #a99cf5;
+  --brand-bg: #221d3d;
+  --success: #2dd4bf;
+  --success-bg: #0e2a28;
+  --warn: #f2b84b;
+  --warn-bg: #2c2312;
+  --danger: #f87171;
+  --danger-bg: #301717;
+  --arm-m: #38bdf8;
+  --glow-violet: rgb(124 92 255 / 0.12);
+  --glow-blue: rgb(59 130 246 / 0.08);
+  --shadow: none;
+  color-scheme: dark;
+}
+
+/* Native <select> popups ignore the theme on some platforms (Chrome on Windows draws them white). */
+select option {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
+  --color-brand: var(--brand);
+  --color-brand-bg: var(--brand-bg);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-arm-m: var(--arm-m);
+  --shadow-card: var(--shadow);
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    overflow-x: hidden;
+    /* The afterglow lives only in the page background: violet top-left, blue bottom-right. */
+    background-image:
+      radial-gradient(55% 45% at 0% -5%, var(--glow-violet), transparent 70%),
+      radial-gradient(45% 40% at 100% 100%, var(--glow-blue), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .fade-up {
+      animation: none !important;
+    }
   }
 }
 
-body {
-  background: var(--canvas);
-  color: var(--ink);
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility micro {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility fade-up {
+  animation: fade-up 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
 }

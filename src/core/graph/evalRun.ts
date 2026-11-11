@@ -36,6 +36,25 @@ export interface EvalResult {
  * approvals denied (no run ever waits). Before each start the spend cap is checked; a run that could
  * push the total past the cap is not started and is listed as not run.
  */
+function errorRecord(runId: string, s: Scenario, arm: string, policy: string, e: Error): RunRecord {
+  return {
+    run_id: runId,
+    scenario_id: s.id,
+    split: s.split,
+    arm,
+    policy,
+    stop_reason: "ERROR",
+    usage: { steps: 0, tool_calls: 0, per_tool: {}, virtual_ms: 0, usd: 0 },
+    facts: [],
+    memo: null,
+    raw_memo: null,
+    downgraded: [{ cell: "-", text: e.message.slice(0, 200), reason: "error" }],
+    tools: [],
+    outbox: 0,
+    note_seen: false,
+  };
+}
+
 export async function runEval(env: RunnerEnv, req: EvalRequest, setId: string): Promise<EvalResult> {
   const stateDir = path.join(env.stateDir, "eval", `${setId}-${env.now().getTime()}`);
   mkdirSync(stateDir, { recursive: true });
@@ -58,9 +77,19 @@ export async function runEval(env: RunnerEnv, req: EvalRequest, setId: string): 
         continue;
       }
       inFlight++;
+      const runId = evalRunId(s.id, req.arm, cfg.policy, sha);
       try {
-        const runId = evalRunId(s.id, req.arm, cfg.policy, sha);
-        const out = await startRun(runEnv, { arm: req.arm, scenario: s, policy: req.policy, approvals: "deny", runId });
+        let out;
+        try {
+          out = await startRun(runEnv, { arm: req.arm, scenario: s, policy: req.policy, approvals: "deny", runId });
+        } catch (e) {
+          // One broken run is an ERROR record, not a lost eval. A missing cache entry in replay is a real error.
+          if ((e as Error).name === "CacheMissError" || (e as Error).name === "CostGateError") throw e;
+          const rec = errorRecord(runId, s, req.arm, cfg.policy, e as Error);
+          records.set(s.id, rec);
+          req.onDone?.(s.id, rec);
+          continue;
+        }
         const store = openStore(stateDir);
         const rec = toRecord({
           state: out.state,

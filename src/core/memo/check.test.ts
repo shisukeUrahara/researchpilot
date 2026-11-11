@@ -41,3 +41,8 @@ test("a number with no ledger value and a broken value are both removed", () => 
   const r = checkMemo(memo([claim({ provider: "aws", plan: "default", n: 900 }), claim({ n: null })]), ledger);
   expect(r.downgraded.map((d) => d.reason)).toEqual(["not_in_ledger", "bad_value"]);
 });
+
+test("found in dev: a claim with another provider's plan is removed, not a crash", () => {
+  const r = checkMemo(memo([claim({ plan: "paid" as MemoClaim["plan"] })]), ledger);
+  expect(r.downgraded).toEqual([expect.objectContaining({ reason: "bad_cell" })]);
+});

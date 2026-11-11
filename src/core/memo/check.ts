@@ -1,4 +1,4 @@
-import { cellId, toValue, type Memo, type MemoClaim } from "../domain/schemas";
+import { cellId, isPlanOf, toValue, type Memo, type MemoClaim } from "../domain/schemas";
 import type { Ledger } from "../evidence/ledger";
 
 /** Added by code to every memo; the model is not trusted to remember it. */
@@ -8,7 +8,7 @@ export const DISCLAIMER =
 export interface Downgrade {
   cell: string;
   text: string;
-  reason: "not_in_ledger" | "value_differs" | "superseded_value" | "bad_value";
+  reason: "not_in_ledger" | "value_differs" | "superseded_value" | "bad_value" | "bad_cell";
 }
 
 export interface CheckedMemo {
@@ -37,6 +37,11 @@ export function checkMemo(raw: Memo, ledger: Ledger, computed: { provider: strin
   const kept: MemoClaim[] = [];
   const downgraded: Downgrade[] = [];
   for (const claim of raw.claims) {
+    // Found in dev round 2: the writer gave a Vercel claim the plan "paid" (a Cloudflare plan).
+    if (!isPlanOf(claim.provider, claim.plan)) {
+      downgraded.push({ cell: `${claim.criterion}:${claim.provider}:${claim.plan}`, text: claim.text, reason: "bad_cell" });
+      continue;
+    }
     const cell = cellId(claim.criterion, claim.provider, claim.plan);
     const v = toValue(claim);
     if (!v) {
