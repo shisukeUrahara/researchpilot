@@ -1,6 +1,6 @@
 {
-  "planner": { "spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": { "temperature": 0, "maxTokens": 800 } },
-  "actor": { "spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": { "temperature": 0, "maxTokens": 300 } },
-  "extractor": { "spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": { "temperature": 0, "maxTokens": 600 } },
-  "writer": { "spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": { "temperature": 0, "maxTokens": 1500 } }
+  "planner": {"spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": {"temperature": 0, "maxTokens": 2500}},
+  "actor": {"spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": {"temperature": 0, "maxTokens": 500}},
+  "extractor": {"spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": {"temperature": 0, "maxTokens": 2000}},
+  "writer": {"spec": "openai:gpt-4.1-mini-2025-04-14", "method": "jsonSchema", "params": {"temperature": 0, "maxTokens": 2500}}
 }

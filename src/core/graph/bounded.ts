@@ -21,7 +21,7 @@ import { extractNode, rowsOf } from "./nodes/extract";
 import { memoNode } from "./nodes/memo";
 import { planNode } from "./nodes/plan";
 import { checkMemo, type Downgrade } from "../memo/check";
-import { assessStep, noteLookups, noteUnavailable, resolvedCells } from "./progress";
+import { assessStep, noteLookups, notePrice, noteUnavailable, resolvedCells } from "./progress";
 import type { AgentState, LastCall } from "./state";
 
 /** Everything a run needs from outside. Built once per run. */
@@ -58,6 +58,9 @@ export const AgentAnnotation = Annotation.Root({
   seenPassages: keep<string[]>(() => []),
   cellQueries: keep<Record<string, string[]>>(() => ({})),
   unavailableCells: keep<string[]>(() => []),
+  priceChecked: keep<string[]>(() => []),
+  stepTries: keep<Record<string, number>>(() => ({})),
+  stepNotes: keep<Record<number, string>>(() => ({})),
   noProgress: keep<number>(() => 0),
   last: keep<LastCall | null>(() => null),
   memo: keep<Memo | null>(() => null),
@@ -73,7 +76,8 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
     runId,
     arm,
     brief,
-    required: requiredCells(brief),
+    // C11 (plan dependency) is worked out by the fit rules from the other cells, never researched.
+    required: requiredCells(brief).filter((c) => !c.startsWith("C11:")),
     plan: [],
     stepNo: 0,
     usage: emptyUsage(),
@@ -82,6 +86,9 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
     seenPassages: [],
     cellQueries: {},
     unavailableCells: [],
+    priceChecked: [],
+    stepTries: {},
+    stepNotes: {},
     noProgress: 0,
     last: null,
     memo: null,
@@ -100,7 +107,7 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
 export function buildBoundedGraph(d: AgentDeps) {
   const providerOf = (sourceId: string) => d.manifest.sources.find((s) => s.id === sourceId)?.provider ?? null;
   const official = new Set(d.manifest.sources.map((s) => s.id));
-  const ledgerOf = (facts: FactRecord[]) => buildLedger(facts, d.manifest);
+  const ledgerOf = (facts: FactRecord[]) => buildLedger(facts, d.manifest, { archiveNeverCurrent: d.arm.verifier });
   const event = (s: S, node: string, kind: string, detail: Record<string, unknown>, usage = s.usage, seq = 0) =>
     recordEvent(d.store, { runId: s.runId, stepNo: s.stepNo, node, seq, kind, virtualMs: usage.virtual_ms, detail });
   const stop = (s: S, reason: StopReason, usage: RunUsage = s.usage): Partial<S> => {
@@ -119,8 +126,8 @@ export function buildBoundedGraph(d: AgentDeps) {
     const limit = checkStep(s.usage, d.budget.limits);
     if (limit) return stop(s, limit);
     const next = { ...s, stepNo: s.stepNo + 1, usage: chargeStep(s.usage) };
-    const resolved = resolvedCells(s.required, ledgerOf(s.facts), s.cellQueries, s.unavailableCells);
-    const r = await actNode(d.model, { question: s.brief.question, plan: s.plan, required: s.required, resolved, history: d.store.toolEvents(s.runId), usage: next.usage, budget: d.budget, prompt: d.prompts.actor });
+    const resolved = resolvedCells(s.required, ledgerOf(s.facts), s.cellQueries, s.unavailableCells, s.priceChecked);
+    const r = await actNode(d.model, { question: s.brief.question, plan: s.plan, required: s.required, resolved, history: d.store.toolEvents(s.runId), stepNotes: s.stepNotes, stepTries: s.stepTries, usage: next.usage, budget: d.budget, prompt: d.prompts.actor });
     if (r.kind === "stop") return { stepNo: next.stepNo, ...stop(next, r.stop, r.usage) };
     if (r.kind === "invalid") {
       event(next, "act", "proposal_invalid", {}, r.usage);
@@ -128,7 +135,8 @@ export function buildBoundedGraph(d: AgentDeps) {
     }
     event(next, "act", r.proposal.done ? "done" : "proposal", { tool: r.proposal.tool, cells: r.proposal.cells, done: r.proposal.done }, r.usage);
     const last: LastCall = { stepNo: next.stepNo, proposal: r.proposal, outcome: "proposed", executed: false, result: null };
-    return { stepNo: next.stepNo, usage: r.usage, last };
+    const stepTries = r.stepId ? { ...s.stepTries, [r.stepId]: (s.stepTries[r.stepId] ?? 0) + 1 } : s.stepTries;
+    return { stepNo: next.stepNo, usage: r.usage, last, stepTries };
   };
 
   const approve = async (s: S): Promise<Partial<S>> => {
@@ -154,6 +162,7 @@ export function buildBoundedGraph(d: AgentDeps) {
       usage: r.usage,
       cellQueries: noteLookups(s.cellQueries, s.last.proposal, r, providerOf),
       unavailableCells: noteUnavailable(s.unavailableCells, s.last.proposal, r, providerOf),
+      priceChecked: notePrice(s.priceChecked, s.last.proposal, r),
       last: { ...s.last, outcome: r.outcome, executed: r.executed, result: r.result },
     };
     return r.stop ? { ...out, ...stop(s, r.stop, r.usage) } : out;
@@ -161,22 +170,30 @@ export function buildBoundedGraph(d: AgentDeps) {
 
   const extract = async (s: S): Promise<Partial<S>> => {
     const rows = s.last ? rowsOf(s.last.result) : [];
-    const before = resolvedCells(s.required, ledgerOf(s.facts), s.cellQueries, s.unavailableCells);
+    const before = resolvedCells(s.required, ledgerOf(s.facts), s.cellQueries, s.unavailableCells, s.priceChecked);
     const seen = new Set(s.seenPassages);
     let facts = s.facts;
     let usage = s.usage;
     let stepFacts: { fact: FactRecord; newPassage: boolean }[] = [];
+    let notes = s.stepNotes;
     if (rows.length > 0) {
-      const open = s.required.filter((c) => !before.has(c));
+      // Only cells of providers the results are about, plus the cells the call aimed at: a short list
+      // keeps the extractor's answer small.
+      const shown = new Set<string>(rows.map((r) => providerOf(r.source_id) ?? ""));
+      const aimed = new Set(s.last?.proposal.cells ?? []);
+      const open = s.required.filter((c) => !before.has(c) && (aimed.has(c) || shown.has(c.split(":")[1])));
       const r = await extractNode(d.model, { stepNo: s.stepNo, rows, cells: open, criteria: d.criteria, passages: d.passages, officialSourceIds: official, verifier: d.arm.verifier, prompt: d.prompts.extractor, usage });
       usage = r.usage;
       if (r.stop) return { ...stop(s, r.stop, usage) };
       stepFacts = r.facts.map((fact) => ({ fact, newPassage: !seen.has(fact.passage_id) }));
       facts = addFacts(s.facts, r.facts);
-      event({ ...s, usage }, "extract", r.invalid ? "extract_invalid" : "facts", { verified: r.facts.filter((f) => f.status === "verified").length, rejected: r.facts.filter((f) => f.status === "rejected").length, unchecked: r.facts.filter((f) => f.status === "unchecked").length }, usage);
+      const ok = r.facts.filter((f) => f.status !== "rejected").length;
+      const bad = r.facts.filter((f) => f.status === "rejected").map((f) => `${f.criterion}:${f.provider}:${f.plan} ${f.reject_reason}`);
+      notes = { ...s.stepNotes, [s.stepNo]: `${ok} facts kept${bad.length ? `, rejected: ${bad.slice(0, 3).join("; ")}` : ""}; passages: ${rows.slice(0, 5).map((x) => x.passage_id).join(", ")}` };
+      event({ ...s, usage }, "extract", r.invalid ? "extract_invalid" : "facts", { verified: r.facts.filter((f) => f.status === "verified").length, rejected: r.facts.filter((f) => f.status === "rejected").map((f) => `${f.criterion}:${f.provider}:${f.plan} ${f.reject_reason}`), unchecked: r.facts.filter((f) => f.status === "unchecked").length }, usage);
     }
     const ledger = ledgerOf(facts);
-    const after = resolvedCells(s.required, ledger, s.cellQueries, s.unavailableCells);
+    const after = resolvedCells(s.required, ledger, s.cellQueries, s.unavailableCells, s.priceChecked);
     const a = assessStep({ required: s.required, resolvedBefore: before, resolvedAfter: after, stepFacts, noProgress: s.noProgress, rule: d.arm.no_progress_rule });
     const out: Partial<S> = {
       facts,
@@ -184,6 +201,7 @@ export function buildBoundedGraph(d: AgentDeps) {
       conflicts: ledger.conflicts,
       seenPassages: [...new Set([...s.seenPassages, ...rows.map((r) => r.passage_id)])].sort(),
       noProgress: a.noProgress,
+      stepNotes: notes,
     };
     event({ ...s, usage }, "assess", a.stop ?? "continue", { resolved: after.size, required: s.required.length, no_progress: a.noProgress }, usage);
     return a.stop ? { ...out, ...stop(s, a.stop, usage) } : out;
@@ -191,10 +209,11 @@ export function buildBoundedGraph(d: AgentDeps) {
 
   const memo = async (s: S): Promise<Partial<S>> => {
     const ledger = ledgerOf(s.facts);
-    const resolved = resolvedCells(s.required, ledger, s.cellQueries, s.unavailableCells);
+    const resolved = resolvedCells(s.required, ledger, s.cellQueries, s.unavailableCells, s.priceChecked);
     const reasons: Record<string, string> = {};
     for (const c of s.required) {
-      if (s.unavailableCells.includes(c)) reasons[c] = "source unavailable";
+      if (c.startsWith("C12:") && s.priceChecked.includes(c.split(":")[1])) reasons[c] = "no price data in the corpus (price_lookup)";
+      else if (s.unavailableCells.includes(c)) reasons[c] = "source unavailable";
       else if ((s.cellQueries[c]?.length ?? 0) > 0) reasons[c] = `not found in the corpus (${s.cellQueries[c].length} lookups)`;
       else reasons[c] = `not researched before the stop (${s.stopReason})`;
     }

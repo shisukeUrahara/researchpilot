@@ -31,6 +31,12 @@ export interface AgentState {
   cellQueries: Record<string, string[]>;
   /** Cells whose source a tool reported as unavailable. */
   unavailableCells: string[];
+  /** Providers whose price_lookup said "no price data": their C12 cells are unknown with evidence. */
+  priceChecked: string[];
+  /** Tries per plan step (see MAX_STEP_TRIES). */
+  stepTries: Record<string, number>;
+  /** What each step's call led to, shown to the actor next time. */
+  stepNotes: Record<number, string>;
   /** Steps in a row with no progress. */
   noProgress: number;
   last: LastCall | null;

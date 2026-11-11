@@ -19,6 +19,8 @@ const input = (over: Partial<ActInput> = {}): ActInput => ({
   required: ["C02:vercel:hobby", "C02:vercel:pro", "C02:aws:default"],
   resolved: new Set(),
   history: [],
+  stepNotes: {},
+  stepTries: {},
   usage: emptyUsage(),
   budget: loadBudgetConfig(dir),
   prompt: loadPrompt(dir, "actor.v1"),
@@ -29,6 +31,8 @@ test("current step = first step with an open cell", () => {
   expect(currentStep(plan, new Set())?.id).toBe("s1");
   expect(currentStep(plan, new Set(["C02:vercel:hobby", "C02:vercel:pro"]))?.id).toBe("s2");
   expect(currentStep(plan, new Set(["C02:vercel:hobby", "C02:vercel:pro", "C02:aws:default"]))).toBeNull();
+  // A step that used its 3 tries is skipped, even with open cells.
+  expect(currentStep(plan, new Set(), { s1: 3 })?.id).toBe("s2");
 });
 
 test("returns the model's proposal; the schema sent to the model lists the decoy tool", async () => {
@@ -55,6 +59,6 @@ test("recent calls are shown to the model so it can avoid repeats", async () => 
   const m = await mockModelDeps([ok({ tool: "read_passage", args_json: "{}", cells: [], reason: "r", done: false })]);
   srv = m.srv;
   const history = [{ run_id: "r", step_no: 1, args_hash: "h", tool: "search_docs", args_json: '{"query":"x"}', outcome: "ok", executed: 1, result_json: null, request_id: "q", virtual_ms: 0 }];
-  await actNode(m.deps, input({ history }));
-  expect(JSON.stringify(srv.requests[0])).toContain('step 1: search_docs {\\"query\\":\\"x\\"} → ok');
+  await actNode(m.deps, input({ history, stepNotes: { 1: "2 facts kept; passages: cf-limits@2026-10-29#memory-1" } }));
+  expect(JSON.stringify(srv.requests[0])).toContain('step 1: search_docs {\\"query\\":\\"x\\"} → ok; 2 facts kept; passages: cf-limits@2026-10-29#memory-1');
 });

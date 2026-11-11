@@ -15,7 +15,57 @@ export type RejectReason =
   | "quote_not_in_passage"
   | "value_not_in_quote"
   | "plan_not_in_quote"
+  | "criterion_mismatch"
+  | "unit_mismatch"
+  | "wrong_product"
   | "unknown_is_not_a_fact";
+
+/** Words that name each kind of limit. A quote's line must not name a different kind and not its own. */
+const KIND: Record<string, RegExp> = {
+  duration: /duration|timeout|wall time|execution time|maxduration|run for|run up to/i,
+  cpu: /\bcpu\b/i,
+  memory: /memory|\bram\b/i,
+  body: /request body|payload|body size|upload/i,
+  response: /response|stream/i,
+  concurrency: /concurren|scal/i,
+  subrequest: /subrequest|outbound|connection/i,
+};
+const KIND_OF: Record<string, string> = { C01: "duration", C02: "duration", C03: "duration", C04: "cpu", C05: "memory", C06: "memory", C07: "body", C08: "response", C09: "concurrency", C10: "subrequest" };
+
+/**
+ * Is it the right kind of limit? Found in the first live run: Cloudflare's "5 min" CPU limit was filed as
+ * max duration; number and plan were right, the kind was wrong. Rule: the passage line(s) holding the
+ * quote may not name another kind of limit unless they also name this one. Lines that name no kind
+ * (a bare table row like "| Pro | 300s | 800s |") pass; the grader still checks values against gold.
+ */
+function criterionOk(fact: Fact, passage: Passage): boolean {
+  const own = KIND_OF[fact.criterion];
+  if (!own) return true;
+  const text = linesOf(fact, passage);
+  if (KIND[own].test(text)) return true;
+  return !Object.entries(KIND).some(([k, re]) => k !== own && re.test(text));
+}
+
+/** Unit kind each criterion needs: a duration is a time, memory is a size, concurrency is a count. */
+const UNIT_KIND: Record<string, "time" | "size" | "count"> = { C01: "time", C02: "time", C03: "time", C04: "time", C05: "size", C06: "size", C07: "size", C08: "size", C09: "count", C10: "count" };
+const unitKind = (u: string) => (u === "s" || u === "ms" ? "time" : u === "mb" ? "size" : "count");
+
+/**
+ * Other products on the same official pages. Found live: Lambda MicroVM's "8 hours" became Lambda's max
+ * duration. Lambda Managed Instances stay in: they are still Lambda functions (with conditions).
+ */
+const OTHER_PRODUCTS: Record<Provider, RegExp> = {
+  aws: /microvm|web function|durable (execution|function|operation)/i,
+  cloudflare: /durable object|workflows?\b|cron trigger|queue consumer|alarm/i,
+  vercel: /edge runtime|vercel workflows/i,
+};
+
+/** The passage line(s) that hold the quote (the quote itself if it spans lines). */
+function linesOf(fact: Fact, passage: Passage): string {
+  const q = norm(fact.quote);
+  const lines = passage.text.split("\n").filter((l) => norm(l).includes(q) || q.includes(norm(l)));
+  return lines.length > 0 ? lines.join("\n") : fact.quote;
+}
 
 const norm = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
 
@@ -52,5 +102,8 @@ export function verifyFact(fact: Fact, passages: ReadonlyMap<string, Passage>, o
   if (!norm(p.text).includes(norm(fact.quote))) return "quote_not_in_passage";
   if (!statesValue(fact.quote, fact.value)) return "value_not_in_quote";
   if (!planOk(fact, p)) return "plan_not_in_quote";
+  if (!criterionOk(fact, p)) return "criterion_mismatch";
+  if (fact.value.kind === "number" && UNIT_KIND[fact.criterion] && unitKind(fact.value.unit) !== UNIT_KIND[fact.criterion]) return "unit_mismatch";
+  if (OTHER_PRODUCTS[fact.provider].test(`${p.heading}\n${linesOf(fact, p)}`)) return "wrong_product";
   return null;
 }

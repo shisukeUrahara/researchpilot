@@ -38,12 +38,21 @@ export function noteUnavailable(cells: string[], p: Proposal, r: ExecResult, pro
 
 /**
  * A cell is resolved when the ledger has a value for it, or when it is "unknown with evidence": at least
- * 2 distinct lookups aimed at it found nothing, or its source was reported unavailable. A bare
- * "unknown" from the model never resolves a cell.
+ * 2 distinct lookups aimed at it found nothing, its source was reported unavailable, or (price) the
+ * price tool said there is no price data. A bare "unknown" from the model never resolves a cell.
  */
-export function resolvedCells(required: string[], ledger: Ledger, cellQueries: Record<string, string[]>, unavailable: string[]): Set<string> {
+export function resolvedCells(required: string[], ledger: Ledger, cellQueries: Record<string, string[]>, unavailable: string[], priceChecked: string[] = []): Set<string> {
   const down = new Set(unavailable);
-  return new Set(required.filter((c) => ledger.current.has(c) || (cellQueries[c]?.length ?? 0) >= UNKNOWN_EVIDENCE || down.has(c)));
+  const priced = new Set(priceChecked);
+  const priceDone = (c: string) => c.startsWith("C12:") && priced.has(c.split(":")[1]);
+  return new Set(required.filter((c) => ledger.current.has(c) || (cellQueries[c]?.length ?? 0) >= UNKNOWN_EVIDENCE || down.has(c) || priceDone(c)));
+}
+
+/** A price_lookup that answered "no price data" settles that provider's price cells as unknown. */
+export function notePrice(priceChecked: string[], p: Proposal, r: ExecResult): string[] {
+  const res = r.result as { status?: string; provider?: string } | null;
+  if (p.tool !== "price_lookup" || r.outcome !== "ok" || res?.status !== "unavailable" || !res.provider) return priceChecked;
+  return [...new Set([...priceChecked, res.provider])].sort();
 }
 
 export interface AssessInput {

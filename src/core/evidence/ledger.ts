@@ -42,8 +42,22 @@ export interface Ledger {
  * both are kept, the source-order rule picks the one to use, and the conflict is always shown.
  * A person's resolution (rp resolve) overrides the rule for that cell.
  */
-export function buildLedger(facts: FactRecord[], manifest: Manifest, resolutions: ReadonlyMap<string, string> = new Map()): Ledger {
+export interface LedgerOptions {
+  /** A person's pick per cell (rp resolve): fact id to use. */
+  resolutions?: ReadonlyMap<string, string>;
+  /**
+   * Freshness rule (arms with the verifier): an archived copy never gives a cell its current value; it
+   * only appears as the superseded side of a conflict. Found live: with no newer fact for Vercel Pro
+   * memory, the 2025 archive value (1769 MB) went straight into the memo.
+   */
+  archiveNeverCurrent?: boolean;
+}
+
+export function buildLedger(facts: FactRecord[], manifest: Manifest, opts: LedgerOptions | ReadonlyMap<string, string> = {}): Ledger {
+  const o: LedgerOptions = opts instanceof Map ? { resolutions: opts } : (opts as LedgerOptions);
+  const resolutions = o.resolutions ?? new Map<string, string>();
   const sources = new Map(manifest.sources.map((s) => [s.id, s]));
+  const isArchive = (f: FactRecord) => sources.get(sourceOfPassage(f.passage_id))?.kind === "archive";
   const byCell = new Map<string, FactRecord[]>();
   for (const f of facts.filter(usable)) byCell.set(cellOf(f), [...(byCell.get(cellOf(f)) ?? []), f]);
 
@@ -54,7 +68,9 @@ export function buildLedger(facts: FactRecord[], manifest: Manifest, resolutions
       (a, b) => compare(sourceRank(sources.get(sourceOfPassage(a.passage_id)), a.criterion), sourceRank(sources.get(sourceOfPassage(b.passage_id)), b.criterion)) || (a.id < b.id ? -1 : 1),
     );
     const chosenId = resolutions.get(cell);
-    const chosen = ranked.find((f) => f.id === chosenId) ?? ranked[0];
+    const pickable = o.archiveNeverCurrent ? ranked.filter((f) => !isArchive(f)) : ranked;
+    const chosen = ranked.find((f) => f.id === chosenId) ?? pickable[0];
+    if (!chosen) continue; // only archive facts: the cell stays open; they show up once a current fact arrives
     current.set(cell, { fact: chosen, value: chosen.value });
     const distinct = ranked.filter((f, i) => ranked.findIndex((g) => sameValue(g.value, f.value)) === i);
     if (distinct.length > 1) {

@@ -58,3 +58,13 @@ test("addFacts skips exact repeats; the fit rules can read the ledger", () => {
   expect(facts.map((x) => x.id)).toEqual(["a", "c"]);
   expect(ledgerLookup(buildLedger(facts, manifest))("C02:vercel:pro")).toEqual({ value: { kind: "number", n: 300, unit: "s" }, conditions: null });
 });
+
+test("freshness rule: archive-only facts never become current; with a newer fact they show as superseded", () => {
+  const only = buildLedger([f("a", OLD, 60)], manifest, { archiveNeverCurrent: true });
+  expect(only.current.has("C02:vercel:hobby")).toBe(false);
+  const both = buildLedger([f("a", OLD, 60), f("b", NEW, 300)], manifest, { archiveNeverCurrent: true });
+  expect(both.current.get("C02:vercel:hobby")!.fact.id).toBe("b");
+  expect(both.conflicts[0].fact_ids).toEqual(["b", "a"]);
+  // Without the rule (naive arm) the archive value is used when it is the only one.
+  expect(buildLedger([f("a", OLD, 60)], manifest).current.get("C02:vercel:hobby")!.value).toMatchObject({ n: 60 });
+});

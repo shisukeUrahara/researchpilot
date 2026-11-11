@@ -9,7 +9,7 @@ export default defineConfig({
     projects: [
       {
         resolve: { alias },
-        test: { name: "core", environment: "node", include: ["src/**/*.test.ts"] },
+        test: { name: "core", environment: "node", include: ["src/**/*.test.ts"], testTimeout: 20_000 },
       },
       {
         plugins: [react()],

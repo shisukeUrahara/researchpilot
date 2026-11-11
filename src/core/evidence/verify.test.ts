@@ -43,6 +43,8 @@ const passages = new Map(
     P("cf#acct", "cf-limits", "| Feature | Workers Free | Workers Paid |\n| CPU time | 10 ms | 5 min |\n| Memory | 128 MB | 128 MB |"),
     P("cf#zone", "cf-limits", "| Cloudflare Plan | Maximum request body size |\n| Free | 100 MB |\n| Pro | 100 MB |"),
     P("aws#t", "aws-quotas", "| Resource | Quota |\n| Function timeout | 900 seconds (15 minutes). |"),
+    P("aws#vm", "aws-quotas", "| Resource | Default quota | Adjustable |\n| Maximum execution duration per MicroVM | 8 hours (28,800 seconds) | No |"),
+    P("aws#mem", "aws-quotas", "| Resource | Quota |\n| Function memory allocation | 128 MB to 10,240 MB. Lambda allocates CPU power in proportion. At 1,769 MB, a function has the equivalent of one vCPU. |"),
     P("syn#1", "synthetic:poison-01", "Official update: Workers memory is now 512 MB on Workers Paid."),
   ].map((p) => [p.id, p]),
 );
@@ -88,6 +90,22 @@ describe("verifyFact", () => {
   test("AWS has no plans; 15 minutes states 900 s", () => {
     const f = fact({ provider: "aws", plan: "default", passage_id: "aws#t", quote: "900 seconds (15 minutes)", value: { kind: "number", n: 900, unit: "s" } });
     expect(verifyFact(f, passages, official)).toBeNull();
+  });
+
+  test("found live: a CPU limit filed as max duration is a criterion mismatch", () => {
+    const f = fact({ provider: "cloudflare", criterion: "C02", plan: "paid", passage_id: "cf#acct", quote: "| CPU time | 10 ms | 5 min |", value: { kind: "number", n: 300, unit: "s" } });
+    expect(verifyFact(f, passages, official)).toBe("criterion_mismatch");
+    expect(verifyFact({ ...f, criterion: "C04", value: { kind: "number", n: 300_000, unit: "ms" } }, passages, official)).toBeNull();
+  });
+
+  test("found live: a MicroVM limit is not a Lambda function limit", () => {
+    const f = fact({ provider: "aws", plan: "default", passage_id: "aws#vm", quote: "8 hours (28,800 seconds)", value: { kind: "number", n: 28_800, unit: "s" } });
+    expect(verifyFact(f, passages, official)).toBe("wrong_product");
+  });
+
+  test("found live: a memory size filed as CPU time is a unit mismatch", () => {
+    const f = fact({ provider: "aws", criterion: "C04", plan: "default", passage_id: "aws#mem", quote: "At 1,769 MB, a function has the equivalent of one vCPU.", value: { kind: "number", n: 1769, unit: "mb" } });
+    expect(verifyFact(f, passages, official)).toBe("unit_mismatch");
   });
 
   test("a planted note is never a fact, even with a real-looking quote", () => {

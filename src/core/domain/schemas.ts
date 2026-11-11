@@ -172,12 +172,18 @@ const FlatValue = {
   unknown_reason: z.string().nullable(),
 };
 
+/**
+ * The extractor may only report stated values. "unknown" is not in its schema at all: found live, the
+ * model spent its whole output budget listing an "unknown" for every cell despite the prompt.
+ */
 export const ExtractedFact = z.object({
   provider: Provider,
   criterion: CriterionId,
   plan: PlanName,
   conditions: z.string().nullable(),
-  ...FlatValue,
+  value_kind: z.enum(["number", "unbounded"]),
+  n: z.number().nullable(),
+  unit: z.enum(["s", "ms", "mb", "count"]).nullable(),
   passage_id: z.string(),
   quote: z.string(),
 });
@@ -187,7 +193,7 @@ export const ExtractOutput = z.object({ facts: z.array(ExtractedFact) });
 export type ExtractOutput = z.infer<typeof ExtractOutput>;
 
 /** Turns the model's flat value into the internal union; returns null when the fields don't fit together. */
-export function toValue(f: Pick<ExtractedFact, "value_kind" | "n" | "unit" | "unknown_reason">): Value | null {
+export function toValue(f: { value_kind: "number" | "unbounded" | "unknown"; n: number | null; unit: "s" | "ms" | "mb" | "count" | null; unknown_reason?: string | null }): Value | null {
   if (f.value_kind === "number") return f.n !== null && f.unit !== null ? { kind: "number", n: f.n, unit: f.unit } : null;
   if (f.value_kind === "unbounded") return { kind: "unbounded" };
   return f.unknown_reason ? { kind: "unknown", reason: f.unknown_reason } : null;

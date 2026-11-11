@@ -11,7 +11,7 @@ import { Store } from "../store/db";
 import { DocTools } from "../tools/docs";
 import { loadPolicy } from "../tools/policy";
 import { makeRegistry } from "../tools/registry";
-import { assessStep, noteLookups, noteUnavailable, resolvedCells } from "./progress";
+import { assessStep, noteLookups, notePrice, noteUnavailable, resolvedCells } from "./progress";
 
 const dir = process.cwd();
 const manifest = loadManifest(dir);
@@ -95,4 +95,12 @@ test("an unavailable source marks only the aimed-at cells of its provider", () =
   expect(noteUnavailable([], p, r, providerOf)).toEqual(["C02:vercel:pro"]);
   const read = { outcome: "tool_unavailable", result: { error: "unavailable", source_id: "cf-limits" } } as never;
   expect(noteUnavailable([], { tool: "read_passage", cells: ["C05:cloudflare:paid"] } as never, read, providerOf)).toEqual(["C05:cloudflare:paid"]);
+});
+
+test("a price lookup with no price data settles that provider's price cells", () => {
+  const p = { tool: "price_lookup", cells: [] } as unknown as Proposal;
+  const r = { outcome: "ok", result: { status: "unavailable", provider: "aws" } } as never;
+  const checked = notePrice([], p, r);
+  expect(checked).toEqual(["aws"]);
+  expect(resolvedCells(["C12:aws:default", "C12:vercel:pro"], buildLedger([], manifest), {}, [], checked)).toEqual(new Set(["C12:aws:default"]));
 });
