@@ -1,3 +1,5 @@
+import type { RunnerEnv } from "@/core/graph/runner";
+
 /** Everything a command touches from the outside world, so tests can fake it. */
 export interface Deps {
   /** Committed inputs and results. */
@@ -7,6 +9,8 @@ export interface Deps {
   /** True when there is no API key: every model call must come from the cache. */
   replay: boolean;
   approverToken: string | null;
+  /** Runner settings for agent runs; `replay` forces no key even if one is set. */
+  runner: (maxUsd: number, replay?: boolean) => RunnerEnv;
   now: () => Date;
   out: (line: string) => void;
   err: (line: string) => void;

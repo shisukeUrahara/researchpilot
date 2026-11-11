@@ -1,7 +1,11 @@
+import { CacheMissError } from "@/core/llm/errors";
+import { CostGateError } from "@/core/runner/budget";
 import type { Command, Deps } from "./deps";
 import { approve } from "./commands/approve";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
+import { run } from "./commands/run";
+import { timeline } from "./commands/timeline";
 import { applyGoldReviewCmd } from "./commands/goldReview";
 import { buildPassages, verify } from "./commands/verify";
 import { EXIT } from "./exit";
@@ -14,6 +18,8 @@ export const COMMANDS: Record<string, Command> = {
   verify,
   "apply-gold-review": applyGoldReviewCmd,
   approve,
+  run,
+  timeline,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {
@@ -26,6 +32,14 @@ export async function main(argv: string[], deps: Deps, commands = COMMANDS): Pro
   try {
     return await command(rest, deps);
   } catch (e) {
+    if (e instanceof CacheMissError) {
+      deps.err(e.message);
+      return EXIT.CACHE_MISS;
+    }
+    if (e instanceof CostGateError) {
+      deps.err(e.message);
+      return EXIT.BUDGET;
+    }
     // parseArgs rejects unknown or malformed options with an ERR_PARSE_ARGS_* code.
     if (e instanceof Error && "code" in e && String(e.code).startsWith("ERR_PARSE_ARGS")) {
       deps.err(e.message);

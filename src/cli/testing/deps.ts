@@ -9,6 +9,9 @@ export function testDeps(over: Partial<Deps> = {}) {
     stateDir: "/tmp/rp-test-state",
     replay: true,
     approverToken: null,
+    runner: () => {
+      throw new Error("runner not set in this test");
+    },
     now: () => new Date("2026-11-11T09:00:00Z"),
     out: (l) => out.push(l),
     err: (l) => err.push(l),
