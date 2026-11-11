@@ -22,6 +22,12 @@ jobs:
       - run: pnpm test
       - name: Committed passages match their checksums
         run: pnpm rp verify
+      - name: Every eval run set reproduces from the replay cache with no API key
+        run: pnpm rp reproduce
+        env:
+          OPENAI_API_KEY: ""
+      - name: Release gate, critical checks (quality misses are printed and published in gate/gate.json)
+        run: pnpm rp gate --eval eval-bounded --injection injection-bounded --strict eval-ablation --critical-only
       - run: pnpm build
 
   e2e:
