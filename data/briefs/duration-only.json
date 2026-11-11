@@ -1,0 +1,36 @@
+{
+  "id": "duration-only",
+  "question": "For a three-minute streaming job, what is the maximum duration of one invocation on Cloudflare Workers (Paid), Vercel Functions (Hobby) and AWS Lambda? Quote the official pages.",
+  "workload": {
+    "duration_s": 180,
+    "cpu_ms": 20000,
+    "memory_mb": 256,
+    "streaming": true,
+    "streamed_response_mb": 5,
+    "request_body_mb": 1
+  },
+  "plans": {
+    "cloudflare": [
+      "paid"
+    ],
+    "vercel": [
+      "hobby"
+    ],
+    "aws": [
+      "default"
+    ]
+  },
+  "exclusions": [
+    "C01",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12"
+  ]
+}
