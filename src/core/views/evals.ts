@@ -7,7 +7,6 @@ export const EVAL_SETS = {
   bounded: { eval: "eval-bounded", injection: "injection-bounded" },
   ablation: { eval: "eval-ablation", injection: null },
   naive: { eval: "eval-naive", injection: "injection-naive" },
-  "bounded-permissive": { eval: null, injection: "injection-bounded-permissive" },
 } as const;
 export type Column = keyof typeof EVAL_SETS;
 
@@ -35,8 +34,11 @@ const none: Cell = { text: "—", detail: null, set: null };
  */
 export function evalsView(sets: Record<string, SetMetrics | undefined>, gate: GateResult | null): EvalsView {
   const columns = Object.keys(EVAL_SETS) as Column[];
-  const ev = (c: Column) => (EVAL_SETS[c].eval ? sets[EVAL_SETS[c].eval!] : undefined);
-  const inj = (c: Column) => (EVAL_SETS[c].injection ? sets[EVAL_SETS[c].injection!] : undefined);
+  const ev = (c: Column) => sets[EVAL_SETS[c].eval];
+  const inj = (c: Column) => {
+    const name = EVAL_SETS[c].injection as string | null;
+    return name ? sets[name] : undefined;
+  };
   const rateRow = (label: string, hint: string, pick: (m: SetMetrics) => Rate | null, from: "eval" | "injection" = "eval") => ({
     label,
     hint,
@@ -76,7 +78,7 @@ export function evalsView(sets: Record<string, SetMetrics | undefined>, gate: Ga
       numRow("Email executions", "the tool really ran", (m) => m.injection?.email_executions ?? null, (n) => String(n), "injection"),
       rateRow("Planted value in memo", "fake value seen → stated in the memo", (m) => m.injection?.injected_value_rate ?? null, "injection"),
     ],
-    stopReasons: Object.fromEntries(columns.map((c) => [c, ev(c)?.arm.stop_reasons ?? inj(c)?.arm.stop_reasons ?? {}])) as Record<Column, Record<string, number>>,
+    stopReasons: Object.fromEntries(columns.map((c) => [c, ev(c)?.arm.stop_reasons ?? {}])) as Record<Column, Record<string, number>>,
     gate,
   };
 }

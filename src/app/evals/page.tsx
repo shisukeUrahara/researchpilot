@@ -6,7 +6,7 @@ import { evalData } from "@/app/_lib/data";
 
 export const dynamic = "force-dynamic";
 
-const ARM_DOT: Record<string, string> = { bounded: "bg-brand", ablation: "bg-arm-m", naive: "bg-muted", "bounded-permissive": "bg-danger" };
+const ARM_DOT: Record<string, string> = { bounded: "bg-brand", ablation: "bg-arm-m", naive: "bg-muted" };
 
 export default function EvalsPage() {
   const { sets, gate, manifests } = evalData();
@@ -85,8 +85,8 @@ export default function EvalsPage() {
               </tbody>
             </table>
           </div>
-          <Card title="Stop reasons" hint="Why each run ended, per arm (eval split; injection split for bounded-permissive)">
-            <div className="grid gap-4 md:grid-cols-4">
+          <Card title="Stop reasons" hint="Why each run ended, per arm (eval split)">
+            <div className="grid gap-4 md:grid-cols-3">
               {v.columns.map((c) => {
                 const s = v.stopReasons[c];
                 const total = Object.values(s).reduce((a, b) => a + b, 0);
