@@ -59,7 +59,7 @@ export default async function MemoPage({ params, searchParams }: PageProps<"/run
         <>
           {memo && (
             <Card title="Verdict" hint={v.summary}>
-              <div className="overflow-x-auto">
+              <div tabIndex={0} role="region" aria-label="Verdict table" className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="text-left text-[11px] uppercase tracking-[0.08em] text-muted">
                     <tr>

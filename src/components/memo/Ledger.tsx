@@ -45,7 +45,7 @@ export function Ledger({ rows, conflicts }: { rows: LedgerRow[]; conflicts: Conf
             </select>
           </label>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-line">
+        <div tabIndex={0} role="region" aria-label="Facts table" className="overflow-x-auto rounded-2xl border border-line">
           <table className="w-full text-sm">
             <thead className="bg-surface-2 text-left text-[11px] uppercase tracking-[0.08em] text-muted">
               <tr>

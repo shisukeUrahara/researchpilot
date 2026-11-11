@@ -48,7 +48,7 @@ export default function EvalsPage() {
               </ul>
             </Card>
           )}
-          <div className="overflow-x-auto rounded-[20px] border border-line bg-surface/85">
+          <div tabIndex={0} role="region" aria-label="Evals table" className="overflow-x-auto rounded-[20px] border border-line bg-surface/85">
             <table className="w-full min-w-[720px] text-sm">
               <thead className="text-left text-[11px] uppercase tracking-[0.08em] text-muted">
                 <tr>
