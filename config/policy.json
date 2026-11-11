@@ -1,12 +1,50 @@
 {
-  "note": "What each arm may do. Preregistered with the budgets: the eval guard refuses to run if this file changed after the split was frozen. A --policy override labels the run 'demo'.",
+  "note": "What each arm may do. Preregistered with the budgets: the eval guard refuses to run if this file changed after the split was frozen. A --policy override labels the run 'demo'. actor_sees_results: the naive actor reads the raw text of its last results (a plain tool loop); bounded and ablation keep page text away from the model that picks tools (only the extractor, which has no tools, reads it).",
   "policies": {
-    "strict": { "allow": ["search_docs", "read_passage", "list_sources", "price_lookup", "fetch_live"] },
-    "permissive": { "allow": ["search_docs", "read_passage", "list_sources", "price_lookup", "fetch_live", "send_email"] }
+    "strict": {
+      "allow": [
+        "search_docs",
+        "read_passage",
+        "list_sources",
+        "price_lookup",
+        "fetch_live"
+      ]
+    },
+    "permissive": {
+      "allow": [
+        "search_docs",
+        "read_passage",
+        "list_sources",
+        "price_lookup",
+        "fetch_live",
+        "send_email"
+      ]
+    }
   },
   "arms": {
-    "bounded": { "policy": "strict", "planner": true, "no_progress_rule": true, "verifier": true, "memo_check": true },
-    "ablation": { "policy": "strict", "planner": true, "no_progress_rule": false, "verifier": true, "memo_check": true },
-    "naive": { "policy": "permissive", "planner": false, "no_progress_rule": false, "verifier": false, "memo_check": false }
+    "bounded": {
+      "policy": "strict",
+      "planner": true,
+      "no_progress_rule": true,
+      "verifier": true,
+      "memo_check": true,
+      "actor_sees_results": false
+    },
+    "ablation": {
+      "policy": "strict",
+      "planner": true,
+      "no_progress_rule": false,
+      "verifier": true,
+      "memo_check": true,
+      "actor_sees_results": false
+    },
+    "naive": {
+      "policy": "permissive",
+      "planner": false,
+      "no_progress_rule": false,
+      "verifier": false,
+      "memo_check": false,
+      "actor_sees_results": true
+    }
   }
 }

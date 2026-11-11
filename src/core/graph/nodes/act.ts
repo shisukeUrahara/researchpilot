@@ -15,6 +15,8 @@ export interface ActInput {
   stepNotes: Record<number, string>;
   /** Tries per plan step so far; a step gets at most MAX_STEP_TRIES before the agent moves on. */
   stepTries: Record<string, number>;
+  /** Raw text of the last tool result, for arms whose actor reads results (naive). Null = not shown. */
+  lastResults: string | null;
   usage: RunUsage;
   budget: BudgetConfig;
   prompt: PromptTemplate;
@@ -45,7 +47,11 @@ export async function actNode(d: ModelDeps, input: ActInput): Promise<ActResult>
   const l = input.budget.limits;
   const vars = {
     question: input.question,
-    current_step: step ? `${step.id}: ${step.task} (cells: ${step.cells.filter((c) => !input.resolved.has(c)).join(", ")}). Expected: ${step.expected_output}` : "(plan done) resolve any open cells left",
+    current_step: step
+      ? `${step.id}: ${step.task} (cells: ${step.cells.filter((c) => !input.resolved.has(c)).join(", ")}). Expected: ${step.expected_output}`
+      : input.plan.length === 0
+        ? "(no plan) pick the next useful call for the open cells"
+        : "(plan done) resolve any open cells left",
     open_count: String(open.length),
     open_cells: open.join("\n") || "(none)",
     resolved_count: String(input.required.length - open.length),
@@ -56,6 +62,7 @@ export async function actNode(d: ModelDeps, input: ActInput): Promise<ActResult>
         .map((e) => `step ${e.step_no}: ${e.tool} ${e.args_json} → ${e.outcome}${e.outcome === "from_memory" ? " (nothing new)" : ""}${input.stepNotes[e.step_no] ? `; ${input.stepNotes[e.step_no]}` : ""}`)
         .join("\n") || "(none yet)",
     budget_left: `${l.max_steps - input.usage.steps} steps, ${l.max_tool_calls - input.usage.tool_calls} tool calls`,
+    last_results: input.lastResults ?? "(not shown: a separate extractor with no tools reads page text)",
   };
   const out = await callModel(d, "actor", input.prompt, vars, Proposal, input.usage);
   if (out.kind === "stop") return out;

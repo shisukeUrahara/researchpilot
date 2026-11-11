@@ -12,6 +12,8 @@ export const ArmConfig = z.object({
   no_progress_rule: z.boolean(),
   verifier: z.boolean(),
   memo_check: z.boolean(),
+  /** The tool-picking model reads raw page text (naive) or never does (bounded, ablation). */
+  actor_sees_results: z.boolean(),
 });
 export type ArmConfig = z.infer<typeof ArmConfig>;
 

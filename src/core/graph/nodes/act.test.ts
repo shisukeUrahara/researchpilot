@@ -21,6 +21,7 @@ const input = (over: Partial<ActInput> = {}): ActInput => ({
   history: [],
   stepNotes: {},
   stepTries: {},
+  lastResults: null,
   usage: emptyUsage(),
   budget: loadBudgetConfig(dir),
   prompt: loadPrompt(dir, "actor.v1"),

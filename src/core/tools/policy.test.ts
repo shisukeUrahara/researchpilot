@@ -18,7 +18,7 @@ test("the ablation differs from bounded only in the no-progress rule", () => {
 });
 
 test("naive is permissive with no planner, verifier or memo check", () => {
-  expect(p.arms.naive).toEqual({ policy: "permissive", planner: false, no_progress_rule: false, verifier: false, memo_check: false });
+  expect(p.arms.naive).toEqual({ policy: "permissive", planner: false, no_progress_rule: false, verifier: false, memo_check: false, actor_sees_results: true });
 });
 
 test("a policy override marks the run as demo", () => {

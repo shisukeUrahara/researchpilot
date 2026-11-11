@@ -104,6 +104,14 @@ export function initialState(runId: string, arm: Arm, brief: Brief): AgentState 
  * Every limit is checked in code: steps in `act`, tool calls and rate limits in the executor, time and
  * money before every model call. The model only proposes; it cannot skip a check or pick a stop reason.
  */
+/** The text a reading actor sees: the passages of its last result, as the tool returned them. */
+function lastText(last: LastCall | null): string {
+  if (!last) return "(none yet)";
+  const rows = rowsOf(last.result);
+  if (rows.length === 0) return `(${last.outcome}: no passages)`;
+  return rows.map((r) => `[${r.passage_id}] ${r.heading}\n${r.text}`).join("\n\n");
+}
+
 export function buildBoundedGraph(d: AgentDeps) {
   const providerOf = (sourceId: string) => d.manifest.sources.find((s) => s.id === sourceId)?.provider ?? null;
   const official = new Set(d.manifest.sources.map((s) => s.id));
@@ -127,7 +135,7 @@ export function buildBoundedGraph(d: AgentDeps) {
     if (limit) return stop(s, limit);
     const next = { ...s, stepNo: s.stepNo + 1, usage: chargeStep(s.usage) };
     const resolved = resolvedCells(s.required, ledgerOf(s.facts), s.cellQueries, s.unavailableCells, s.priceChecked);
-    const r = await actNode(d.model, { question: s.brief.question, plan: s.plan, required: s.required, resolved, history: d.store.toolEvents(s.runId), stepNotes: s.stepNotes, stepTries: s.stepTries, usage: next.usage, budget: d.budget, prompt: d.prompts.actor });
+    const r = await actNode(d.model, { question: s.brief.question, plan: s.plan, required: s.required, resolved, history: d.store.toolEvents(s.runId), stepNotes: s.stepNotes, stepTries: s.stepTries, lastResults: d.arm.actor_sees_results ? lastText(s.last) : null, usage: next.usage, budget: d.budget, prompt: d.prompts.actor });
     if (r.kind === "stop") return { stepNo: next.stepNo, ...stop(next, r.stop, r.usage) };
     if (r.kind === "invalid") {
       event(next, "act", "proposal_invalid", {}, r.usage);

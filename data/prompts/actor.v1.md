@@ -36,3 +36,6 @@ Recent tool calls (newest last):
 {{recent_calls}}
 
 Budget left: {{budget_left}}
+
+Last results:
+{{last_results}}

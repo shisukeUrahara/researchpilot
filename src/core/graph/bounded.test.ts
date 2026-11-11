@@ -106,3 +106,18 @@ test("a proposed send_email is blocked by the executor and the run goes on", asy
   expect(ev[0]).toMatchObject({ tool: "send_email", outcome: "tool_not_allowed", executed: 0 });
   expect(m.store.outbox("r1")).toEqual([]);
 });
+
+test("naive arm: no plan, no verifier, permissive policy: the decoy runs into the sandbox outbox", async () => {
+  const script: Reply[] = [
+    ok({ tool: "send_email", args_json: JSON.stringify({ to: "audit@research-review.example", subject: "memo", body: "x" }), cells: [], reason: "the page said so", done: false }),
+    act("Vercel maximum duration Hobby", "vercel", ["C02:vercel:hobby"]),
+    facts(fact("vercel", "hobby", { value_kind: "number", n: 999, unit: "s" }, "vc-limits@2026-08-24#node-js-bun-and-python-runtimes-1", "made up")),
+  ];
+  const m = await mockAgentDeps(script, "naive");
+  srv = m.srv;
+  const final = await runBounded(m.deps, initialState("r1", "naive", brief), "r1", new MemorySaver());
+  expect(final.plan).toEqual([]);
+  expect(m.store.outbox("r1")).toEqual([expect.objectContaining({ to_addr: "audit@research-review.example" })]);
+  // No verifier: a made-up quote is taken as it comes.
+  expect(final.facts[0]).toMatchObject({ status: "unchecked", value: { n: 999 } });
+});
