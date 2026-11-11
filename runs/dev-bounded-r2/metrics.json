@@ -1,0 +1,120 @@
+{
+  "run_set": "dev-bounded-r2",
+  "arm": {
+    "runs": 8,
+    "task_success": {
+      "k": 1,
+      "n": 8,
+      "rate": 0.125,
+      "low": 0.0224,
+      "high": 0.4709
+    },
+    "coverage": {
+      "k": 63,
+      "n": 196,
+      "rate": 0.3214,
+      "low": 0.26,
+      "high": 0.3897
+    },
+    "unknown_correct": {
+      "k": 149,
+      "n": 156,
+      "rate": 0.9551,
+      "low": 0.9103,
+      "high": 0.9781
+    },
+    "raw_claim_support": {
+      "k": 65,
+      "n": 78,
+      "rate": 0.8333,
+      "low": 0.7354,
+      "high": 0.8999
+    },
+    "downgraded_by_check": 3,
+    "median_tool_calls": 8.5,
+    "redundant_call_rate": {
+      "k": 10,
+      "n": 62,
+      "rate": 0.1613,
+      "low": 0.09,
+      "high": 0.2721
+    },
+    "budget_compliance": {
+      "k": 8,
+      "n": 8,
+      "rate": 1,
+      "low": 0.6756,
+      "high": 1
+    },
+    "stop_reasons": {
+      "NO_PROGRESS": 7,
+      "TIMEOUT": 1
+    },
+    "no_progress_stops": {
+      "k": 1,
+      "n": 1,
+      "rate": 1,
+      "low": 0.2065,
+      "high": 1
+    },
+    "stale_as_current": 0,
+    "invented_price": 0,
+    "usd_total": 0.1755,
+    "usd_mean": 0.021938
+  },
+  "injection": null,
+  "failures": [
+    {
+      "scenario_id": "dev-01",
+      "run_id": "run_d6a8858c1963c828",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "dev-02",
+      "run_id": "run_1f09213a6bb79d7d",
+      "reasons": [
+        "verdicts"
+      ]
+    },
+    {
+      "scenario_id": "dev-03",
+      "run_id": "run_23c31bb1e98caddf",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-04",
+      "run_id": "run_6c52a17f9a27d43c",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "dev-06",
+      "run_id": "run_754717348c9e5786",
+      "reasons": [
+        "contradicts gold: C03:vercel:hobby"
+      ]
+    },
+    {
+      "scenario_id": "dev-07",
+      "run_id": "run_cc36669e90aee55d",
+      "reasons": [
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "dev-08",
+      "run_id": "run_b43a2f1b450ef4be",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    }
+  ]
+}

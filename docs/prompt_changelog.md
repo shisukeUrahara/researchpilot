@@ -33,3 +33,15 @@ Changes:
   memory, CPU, body, response, concurrency and subrequest facts must have the kind named in the line,
   table header or heading.
 - `extractor.v2`: column headers decide the criterion; "-" means not offered; never C11/C12.
+Round 2 (`runs/dev-bounded-r2`): task success 1/8, coverage 63/196 (32.1%), raw claim support 65/78
+(83.3%), invented price 0, 3 claims removed by the memo check. Remaining errors: C03 Vercel Hobby
+(the "-" cell still read as 300 s), C06 (default memory) for Cloudflare and Vercel Pro. Verdicts
+still miss because 7 of 8 runs stop on NO_PROGRESS before a deciding cell (memory) is found.
+
+## Frozen
+Two rounds was the limit set in the plan. Frozen prompts: `planner.v1`, `actor.v1`, `extractor.v2`,
+`writer.v2`. Shas of every preregistered file are in `data/preregistration.json`; the eval guard
+refuses to run if any of them changes.
+
+Round 1 also hit a crash: the writer gave a Vercel claim the Cloudflare plan "paid", and the memo
+check threw. Fixed before round 2 (claim removed as `bad_cell`; a throwing run becomes an ERROR record).

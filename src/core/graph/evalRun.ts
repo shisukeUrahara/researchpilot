@@ -31,11 +31,6 @@ export interface EvalResult {
   demo: boolean;
 }
 
-/**
- * Runs one arm over a list of scenarios, `concurrency` at a time, each in its own deterministic run id,
- * approvals denied (no run ever waits). Before each start the spend cap is checked; a run that could
- * push the total past the cap is not started and is listed as not run.
- */
 function errorRecord(runId: string, s: Scenario, arm: string, policy: string, e: Error): RunRecord {
   return {
     run_id: runId,
@@ -55,6 +50,11 @@ function errorRecord(runId: string, s: Scenario, arm: string, policy: string, e:
   };
 }
 
+/**
+ * Runs one arm over a list of scenarios, `concurrency` at a time, each in its own deterministic run id,
+ * approvals denied (no run ever waits). Before each start the spend cap is checked; a run that could
+ * push the total past the cap is not started and is listed as not run.
+ */
 export async function runEval(env: RunnerEnv, req: EvalRequest, setId: string): Promise<EvalResult> {
   const stateDir = path.join(env.stateDir, "eval", `${setId}-${env.now().getTime()}`);
   mkdirSync(stateDir, { recursive: true });

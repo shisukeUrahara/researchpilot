@@ -1,0 +1,17 @@
+{
+  "note": "Frozen before the eval and injection runs (2026-11-11). rp eval refuses to run if any of these files changes.",
+  "files": {
+    "data/scenarios/v1.jsonl": "3c9eed4330bc2d4da5837cb372986b606f0b4ee6c87092d4c06dc0a9078c6a32",
+    "data/gold/facts.v1.jsonl": "d9210f60eeb68b8196e943b3f711997ca8078a3ff9151034321115028e73eb60",
+    "data/criteria.v1.json": "9309bb5108809ec367d5a677eb3e19809a2719e032b6eb35e16fb184244a3f5f",
+    "config/budgets.json": "273fec65087b09e9ef7b5c4ed9d48aecbee75c7c5bf4233651949a7c73d23c3e",
+    "config/policy.json": "f119d8a002fb4dc60c590a5aade70b608080a4f4e989284bb207cd2d7cb6973d",
+    "config/models.json": "11c44453a5c802c35488001900bb30405e6699e3506f5f28a79cfc71ab2ec36e",
+    "gate/rules.v1.json": "026183810278171db3163d23bb67828465207f03044135a495e70544fb63b5b4",
+    "fixtures/sources/manifest.json": "3d3899733e52b912dbc20484c97077122b7d82bbd6fb44c7afe768f58a1b975c",
+    "data/prompts/planner.v1.md": "34bafb7ef409106a4468316fe2e5b297e471d7b998e97562a6a90e9166a90a8d",
+    "data/prompts/actor.v1.md": "33137a5afc8d0128c089d6f0937fd9eb551788fd9ad0015ab25f95bd5e359bec",
+    "data/prompts/extractor.v2.md": "0d4ae860f6f7c160788f21dd90d7e41e9b05391adb830ecef764cc4d55cb1171",
+    "data/prompts/writer.v2.md": "1504d63ebd23d1531141ec7dd3f213d32130d1ad307ffbb02930eed4667ecb2e"
+  }
+}
