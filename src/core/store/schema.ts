@@ -75,6 +75,12 @@ CREATE TABLE IF NOT EXISTS resolutions (
   PRIMARY KEY (run_id, cell_key)
 );
 
+-- A cancel asked for from outside the running process (CLI or web). The run checks it before each step.
+CREATE TABLE IF NOT EXISTS cancels (
+  run_id       TEXT PRIMARY KEY REFERENCES runs(run_id),
+  requested_at TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS reports (
   run_id    TEXT PRIMARY KEY REFERENCES runs(run_id),
   memo_json TEXT NOT NULL,

@@ -155,6 +155,18 @@ export class Store {
     this.db.prepare("UPDATE approvals SET status = ?, decided_at = ? WHERE approval_id = ? AND status = 'pending'").run(status, at, id);
   }
 
+  requestCancel(runId: string, at: string): void {
+    this.db.prepare("INSERT OR IGNORE INTO cancels VALUES (?, ?)").run(runId, at);
+  }
+
+  cancelRequested(runId: string): boolean {
+    return this.db.prepare("SELECT 1 FROM cancels WHERE run_id = ?").get(runId) !== undefined;
+  }
+
+  listRuns(limit = 50): RunRow[] {
+    return this.db.prepare("SELECT * FROM runs ORDER BY created_at DESC, run_id LIMIT ?").all(limit) as RunRow[];
+  }
+
   saveReport(runId: string, memoJson: string, checkJson: string): void {
     this.db.prepare("INSERT INTO reports VALUES (?, ?, ?) ON CONFLICT(run_id) DO UPDATE SET memo_json = excluded.memo_json, check_json = excluded.check_json").run(runId, memoJson, checkJson);
   }

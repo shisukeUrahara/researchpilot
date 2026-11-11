@@ -14,7 +14,7 @@ import { loadPrompt } from "../prompts/load";
 import { statusFor } from "../run/status";
 import { Budget } from "../runner/budget";
 import { resolveBrief } from "../scenarios/lint";
-import type { Scenario } from "../scenarios/schema";
+import { loadScenarios, type Scenario } from "../scenarios/schema";
 import { asPassage, loadSynthetic } from "../scenarios/synthetic";
 import { loadManifest } from "../sources/manifest";
 import { loadAllPassages } from "../sources/passages";
@@ -41,6 +41,8 @@ export interface RunnerEnv {
   maxUsd: number;
   now: () => Date;
   prompts?: Partial<Record<keyof typeof PROMPTS, string>>;
+  /** Tests point the Gateway at the local mock OpenAI server. */
+  baseURL?: string;
 }
 
 export interface RunRequest {
@@ -53,6 +55,7 @@ export interface RunRequest {
   /** Fixed run id (evals); a random one is made otherwise. */
   runId?: string;
   signal?: AbortSignal;
+  onStep?: (stepNo: number) => void;
 }
 
 export interface RunOutcome {
@@ -67,9 +70,9 @@ let gatewayFor: { key: string; gateway: Gateway } | null = null;
 
 /** One Gateway per (cache, key, cap): identical calls in flight are shared, as in EvalForge. */
 function gateway(env: RunnerEnv, pricing: Pricing): Gateway {
-  const key = canonicalJson([env.cache.dir, env.apiKey !== null, env.maxUsd]);
+  const key = canonicalJson([env.cache.dir, env.apiKey !== null, env.maxUsd, env.baseURL ?? null]);
   if (gatewayFor?.key !== key) {
-    gatewayFor = { key, gateway: new Gateway(env.cache, env.apiKey ? { apiKey: env.apiKey, pricing, budget: new Budget(pricing, env.maxUsd) } : null, env.now) };
+    gatewayFor = { key, gateway: new Gateway(env.cache, env.apiKey ? { apiKey: env.apiKey, pricing, budget: new Budget(pricing, env.maxUsd), baseURL: env.baseURL } : null, env.now) };
   }
   return gatewayFor.gateway;
 }
@@ -120,6 +123,7 @@ export function buildAgentDeps(env: RunnerEnv, req: RunRequest, store: Store): {
     prompts,
     approvals: req.approvals,
     now: env.now,
+    onStep: req.onStep,
   };
   return { deps, brief, demo: arm.demo, promptSetSha: sha };
 }
@@ -162,4 +166,43 @@ function finishRow(store: Store, runId: string, state: AgentState & { paused: un
   const row = store.getRun(runId)!;
   const status = state.paused ? "awaiting_approval" : state.stopReason ? statusFor(state.stopReason) : state.status;
   store.upsertRun({ ...row, status, stop_reason: state.paused ? null : state.stopReason, updated_at: now.toISOString() });
+}
+
+/** The request a stored run was started with, so it can be continued (resume, approval). */
+export function requestFor(store: Store, runId: string, dataDir: string): RunRequest & { runId: string } {
+  const row = store.getRun(runId);
+  if (!row) throw new Error(`no run ${runId}`);
+  const scenario = row.scenario_id ? (loadScenarios(dataDir).find((s) => s.id === row.scenario_id) ?? null) : null;
+  const arm = row.arm as Arm;
+  const base = loadPolicy(dataDir).arms[arm].policy;
+  return { arm, briefId: row.brief_id, scenario, policy: row.policy === base ? null : (row.policy as PolicyName), approvals: "interrupt", runId };
+}
+
+/** The latest checkpointed state of a run, or null if it has none. */
+export async function readRunState(stateDir: string, runId: string): Promise<AgentState | null> {
+  const t = await checkpointer(stateDir).getTuple({ configurable: { thread_id: runId } });
+  return t ? (t.checkpoint.channel_values as unknown as AgentState) : null;
+}
+
+/**
+ * Rebuilds the runs table's status and stop reason from the checkpoints (the source of truth). The
+ * other tables are written insert-or-ignore by the nodes themselves, so they never hold a half step.
+ */
+export async function rebuildRunRows(stateDir: string, now: Date): Promise<{ runId: string; from: string; to: string }[]> {
+  const store = openStore(stateDir);
+  const changed: { runId: string; from: string; to: string }[] = [];
+  try {
+    for (const row of store.listRuns(10_000)) {
+      const st = await readRunState(stateDir, row.run_id);
+      if (!st) continue;
+      const status = st.stopReason ? statusFor(st.stopReason) : row.status === "awaiting_approval" ? "awaiting_approval" : "running";
+      if (status !== row.status || (st.stopReason ?? null) !== row.stop_reason) {
+        store.upsertRun({ ...row, status, stop_reason: st.stopReason ?? null, updated_at: now.toISOString() });
+        changed.push({ runId: row.run_id, from: `${row.status}/${row.stop_reason ?? "-"}`, to: `${status}/${st.stopReason ?? "-"}` });
+      }
+    }
+  } finally {
+    store.close();
+  }
+  return changed;
 }

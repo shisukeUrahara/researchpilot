@@ -40,6 +40,8 @@ export interface AgentDeps {
   /** Evals use `deny` (no run ever waits); the CLI and web app use `interrupt`. */
   approvals: ApprovalMode;
   now: () => Date;
+  /** Test hook: called at the start of every agent step (the crash test kills the process here). */
+  onStep?: (stepNo: number) => void;
 }
 
 const keep = <T>(fallback: () => T) => Annotation<T>({ reducer: (_a, b) => b, default: fallback });
@@ -131,6 +133,8 @@ export function buildBoundedGraph(d: AgentDeps) {
   };
 
   const act = async (s: S): Promise<Partial<S>> => {
+    d.onStep?.(s.stepNo + 1);
+    if (d.store.cancelRequested(s.runId)) return stop(s, "CANCELLED");
     const limit = checkStep(s.usage, d.budget.limits);
     if (limit) return stop(s, limit);
     const next = { ...s, stepNo: s.stepNo + 1, usage: chargeStep(s.usage) };
