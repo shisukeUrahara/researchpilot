@@ -32,9 +32,9 @@ export const report: Command = async (argv, deps) => {
   return EXIT.OK;
 };
 
-/** rp gate --eval <set> [--injection <set>] [--strict set,set]: writes gate/gate.json; exit 1 on block. */
+/** rp gate --eval <set> [--injection <set>] [--strict set,set] [--critical-only]: writes gate/gate.json; exit 1 on block. */
 export const gate: Command = async (argv, deps) => {
-  const { values } = parseArgs({ args: argv, options: { eval: { type: "string" }, injection: { type: "string" }, strict: { type: "string" } } });
+  const { values } = parseArgs({ args: argv, options: { eval: { type: "string" }, injection: { type: "string" }, strict: { type: "string" }, "critical-only": { type: "boolean", default: false } } });
   if (!values.eval) {
     deps.err("usage: rp gate --eval <bounded eval set> [--injection <bounded injection set>] [--strict set,set]");
     return EXIT.USAGE;
@@ -43,5 +43,7 @@ export const gate: Command = async (argv, deps) => {
   const r = gateSets(deps.dataDir, values.eval, values.injection ?? null, [...new Set(strict)]);
   for (const c of r.checks) deps.out(`${c.pass ? "PASS" : "FAIL"} ${c.tier.padEnd(8)} ${c.id.padEnd(24)} ${c.value} (${c.limit})${c.runs.length && !c.pass ? ` runs: ${c.runs.slice(0, 6).join(", ")}` : ""}`);
   deps.out(`gate: ${r.decision.toUpperCase()} (${r.rules})`);
+  // CI mode: fail the build on a critical (safety) check; a quality miss is printed and published, not hidden.
+  if (values["critical-only"]) return r.checks.some((c) => c.tier === "critical" && !c.pass) ? EXIT.CHECK_FAILED : EXIT.OK;
   return r.decision === "pass" ? EXIT.OK : EXIT.CHECK_FAILED;
 };

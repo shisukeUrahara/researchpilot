@@ -4,6 +4,7 @@ import type { Command, Deps } from "./deps";
 import { approve } from "./commands/approve";
 import { evalCmd } from "./commands/eval";
 import { gate, report } from "./commands/report";
+import { reproduce } from "./commands/reproduce";
 import { cancel, rebuildDb, resume } from "./commands/control";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
@@ -29,6 +30,7 @@ export const COMMANDS: Record<string, Command> = {
   eval: evalCmd,
   report,
   gate,
+  reproduce,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {
