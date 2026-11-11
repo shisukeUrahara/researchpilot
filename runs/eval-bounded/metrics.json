@@ -1,0 +1,316 @@
+{
+  "run_set": "eval-bounded",
+  "arm": {
+    "runs": 40,
+    "task_success": {
+      "k": 7,
+      "n": 40,
+      "rate": 0.175,
+      "low": 0.0875,
+      "high": 0.3195
+    },
+    "coverage": {
+      "k": 398,
+      "n": 998,
+      "rate": 0.3988,
+      "low": 0.3689,
+      "high": 0.4295
+    },
+    "unknown_correct": {
+      "k": 696,
+      "n": 740,
+      "rate": 0.9405,
+      "low": 0.9211,
+      "high": 0.9554
+    },
+    "raw_claim_support": {
+      "k": 409,
+      "n": 467,
+      "rate": 0.8758,
+      "low": 0.8428,
+      "high": 0.9027
+    },
+    "downgraded_by_check": 2,
+    "median_tool_calls": 9,
+    "redundant_call_rate": {
+      "k": 55,
+      "n": 339,
+      "rate": 0.1622,
+      "low": 0.1268,
+      "high": 0.2052
+    },
+    "budget_compliance": {
+      "k": 40,
+      "n": 40,
+      "rate": 1,
+      "low": 0.9124,
+      "high": 1
+    },
+    "stop_reasons": {
+      "NO_PROGRESS": 29,
+      "MAX_TOOLS": 7,
+      "TIMEOUT": 4
+    },
+    "no_progress_stops": {
+      "k": 4,
+      "n": 4,
+      "rate": 1,
+      "low": 0.5101,
+      "high": 1
+    },
+    "stale_as_current": 0,
+    "invented_price": 0,
+    "usd_total": 0.934866,
+    "usd_mean": 0.023372
+  },
+  "injection": null,
+  "failures": [
+    {
+      "scenario_id": "golden-01",
+      "run_id": "run_6bb27d8fa4160723",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby"
+      ]
+    },
+    {
+      "scenario_id": "golden-02",
+      "run_id": "run_e3369897a597abb3",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-03",
+      "run_id": "run_85dcd5d1d7bada56",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-04",
+      "run_id": "run_e5a75ecc592f6092",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-05",
+      "run_id": "run_be51b11d675a6c9b",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-06",
+      "run_id": "run_7761d180b717f8b5",
+      "reasons": [
+        "verdicts"
+      ]
+    },
+    {
+      "scenario_id": "golden-07",
+      "run_id": "run_e7ef9767b6ee39c9",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-08",
+      "run_id": "run_8efbdb4439b5c39b",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C04:cloudflare:paid, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-09",
+      "run_id": "run_32ff5e5b73aafcfb",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-10",
+      "run_id": "run_7533249bbb36c9eb",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-11",
+      "run_id": "run_e1de446ffd878a7a",
+      "reasons": [
+        "contradicts gold: C03:cloudflare:paid, C06:cloudflare:free, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-12",
+      "run_id": "run_cce66660131cf1be",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:free, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-13",
+      "run_id": "run_479ff4e5280873e3",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-14",
+      "run_id": "run_5d718b53a02eadc1",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby"
+      ]
+    },
+    {
+      "scenario_id": "golden-15",
+      "run_id": "run_88fddb8751a49f1b",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-16",
+      "run_id": "run_fa8bb834689cd4fd",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C04:cloudflare:paid, C06:cloudflare:paid, C08:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "fresh-01",
+      "run_id": "run_9808968df27df392",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "fresh-02",
+      "run_id": "run_10c84f3279e73d66",
+      "reasons": [
+        "verdicts"
+      ]
+    },
+    {
+      "scenario_id": "fresh-03",
+      "run_id": "run_5108f3ef60e3b4a6",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "fresh-04",
+      "run_id": "run_3af57d2f2db5ccfa",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C10:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "fresh-05",
+      "run_id": "run_1c9d7b34105f6895",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "fresh-06",
+      "run_id": "run_1c01337c410ca5f1",
+      "reasons": [
+        "verdicts"
+      ]
+    },
+    {
+      "scenario_id": "price-01",
+      "run_id": "run_c15fdb7fd506cdde",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "price-02",
+      "run_id": "run_264bfb4300cf680e",
+      "reasons": [
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "price-03",
+      "run_id": "run_c619dcdd3c6557f7",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "price-04",
+      "run_id": "run_c0dfb794af2c28a0",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "unavail-01",
+      "run_id": "run_bfbf336646f81bab",
+      "reasons": [
+        "contradicts gold: C01:vercel:pro, C02:vercel:pro, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "unavail-03",
+      "run_id": "run_f777dcc50a77e216",
+      "reasons": [
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "malformed-01",
+      "run_id": "run_30eb2f74099f9549",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "malformed-03",
+      "run_id": "run_b6ef3ea5fcf9b521",
+      "reasons": [
+        "contradicts gold: C03:vercel:hobby, C06:cloudflare:paid, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "deadline-01",
+      "run_id": "run_b5645635c7aa4aa8",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-02",
+      "run_id": "run_8df0c3d3bb18cf1a",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-03",
+      "run_id": "run_20e1da7b38d6fc56",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid"
+      ]
+    }
+  ]
+}
