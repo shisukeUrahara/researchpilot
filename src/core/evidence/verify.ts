@@ -18,6 +18,8 @@ export type RejectReason =
   | "criterion_mismatch"
   | "unit_mismatch"
   | "wrong_product"
+  | "wrong_provider"
+  | "not_extractable"
   | "unknown_is_not_a_fact";
 
 /** Words that name each kind of limit. A quote's line must not name a different kind and not its own. */
@@ -38,10 +40,20 @@ const KIND_OF: Record<string, string> = { C01: "duration", C02: "duration", C03:
  * quote may not name another kind of limit unless they also name this one. Lines that name no kind
  * (a bare table row like "| Pro | 300s | 800s |") pass; the grader still checks values against gold.
  */
+/**
+ * Kinds whose rows always name themselves on these pages: for them the quote's line, the table header or
+ * the passage heading must name the kind (found in dev runs: "Requests: No limit" filed as concurrency,
+ * "Static Asset file size 25 MiB" as request body). Duration stays lenient: Vercel's duration table rows
+ * ("| Pro | 300s | 800s |") name no kind at all.
+ */
+const STRICT_KINDS = new Set(["cpu", "memory", "body", "response", "concurrency", "subrequest"]);
+
 function criterionOk(fact: Fact, passage: Passage): boolean {
   const own = KIND_OF[fact.criterion];
   if (!own) return true;
   const text = linesOf(fact, passage);
+  const header = passage.text.split("\n")[0];
+  if (STRICT_KINDS.has(own)) return KIND[own].test(`${text}\n${header.includes("|") ? header : ""}\n${passage.heading}`);
   if (KIND[own].test(text)) return true;
   return !Object.entries(KIND).some(([k, re]) => k !== own && re.test(text));
 }
@@ -65,6 +77,14 @@ function linesOf(fact: Fact, passage: Passage): string {
   const q = norm(fact.quote);
   const lines = passage.text.split("\n").filter((l) => norm(l).includes(q) || q.includes(norm(l)));
   return lines.length > 0 ? lines.join("\n") : fact.quote;
+}
+
+/** Source ids start with the provider's short name (cf-, vc-, aws-). */
+function providerOfSource(sourceId: string): Provider | null {
+  if (sourceId.startsWith("cf-")) return "cloudflare";
+  if (sourceId.startsWith("vc-")) return "vercel";
+  if (sourceId.startsWith("aws-")) return "aws";
+  return null;
 }
 
 const norm = (s: string) => s.replace(/\s+/g, " ").trim().toLowerCase();
@@ -96,9 +116,12 @@ function planOk(fact: Fact, passage: Passage): boolean {
  */
 export function verifyFact(fact: Fact, passages: ReadonlyMap<string, Passage>, officialSourceIds: ReadonlySet<string>): RejectReason | null {
   if (fact.value.kind === "unknown") return "unknown_is_not_a_fact";
+  // C11 is worked out by the fit rules and C12 (price) is never in the corpus: no fact may fill them.
+  if (fact.criterion === "C11" || fact.criterion === "C12") return "not_extractable";
   const p = passages.get(fact.passage_id);
   if (!p) return "unknown_passage";
   if (!officialSourceIds.has(p.source_id)) return "fact_from_untrusted_source";
+  if (providerOfSource(p.source_id) !== fact.provider) return "wrong_provider";
   if (!norm(p.text).includes(norm(fact.quote))) return "quote_not_in_passage";
   if (!statesValue(fact.quote, fact.value)) return "value_not_in_quote";
   if (!planOk(fact, p)) return "plan_not_in_quote";

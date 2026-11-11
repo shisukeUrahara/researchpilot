@@ -29,7 +29,7 @@ import type { ApprovalMode } from "./nodes/approve";
 import type { AgentState } from "./state";
 
 /** The prompts every arm uses. Their shas go into run ids and manifests. */
-export const PROMPTS = { planner: "planner.v1", actor: "actor.v1", extractor: "extractor.v1", writer: "writer.v1" } as const;
+export const PROMPTS = { planner: "planner.v1", actor: "actor.v1", extractor: "extractor.v2", writer: "writer.v2" } as const;
 
 /** One process: one replay cache, one global spend cap. Runs share both. */
 export interface RunnerEnv {
@@ -99,7 +99,9 @@ export function evalRunId(scenarioId: string, arm: string, policy: string, promp
 export function buildAgentDeps(env: RunnerEnv, req: RunRequest, store: Store): { deps: AgentDeps; brief: Brief; demo: boolean; promptSetSha: string } {
   const dir = env.dataDir;
   const pricing = loadPricing(path.join(dir, "pricing.json"));
-  const budget = loadBudgetConfig(dir);
+  const base0 = loadBudgetConfig(dir);
+  // A tight-deadline scenario lowers the deadline; every other limit stays the same for all arms.
+  const budget = req.scenario?.deadline_ms ? { ...base0, limits: { ...base0.limits, deadline_ms: req.scenario.deadline_ms } } : base0;
   const manifest = loadManifest(dir);
   const notes = loadSynthetic(dir);
   const passages = loadAllPassages(dir, manifest.sources.map((s) => s.id));

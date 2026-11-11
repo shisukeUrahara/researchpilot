@@ -89,6 +89,11 @@ describe("gradeRun", () => {
     expect(gradeRun(record({ scenario_id: "deadend-01", arm: "ablation", stop_reason: "MAX_STEPS", memo: empty }), s, ctxFor("deadend-01")).task_success).toBe(true);
   });
 
+  test("units are normalized: Cloudflare CPU 300 s equals gold 300,000 ms", () => {
+    const g = gradeRun(record({ memo: memo([claim("C04:cloudflare:paid", { n: 300, unit: "s", passage_id: "cf-limits@2026-10-29#cpu-time-2" })], goodVerdicts) }), scenarios.get("golden-01")!, ctxFor("golden-01"));
+    expect(g.final_contradictions).toBe(0);
+  });
+
   test("budget violation and missing stop reason are flagged", () => {
     const g = gradeRun(record({ stop_reason: null, usage: { steps: 17, tool_calls: 6, per_tool: {}, virtual_ms: 1, usd: 0 } }), scenarios.get("golden-01")!, ctxFor("golden-01"));
     expect(g).toMatchObject({ budget_violation: true, missing_stop_reason: true, task_success: false });

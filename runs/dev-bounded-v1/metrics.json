@@ -1,0 +1,115 @@
+{
+  "run_set": "dev-bounded-v1",
+  "arm": {
+    "runs": 8,
+    "task_success": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25,
+      "low": 0.0715,
+      "high": 0.5907
+    },
+    "coverage": {
+      "k": 23,
+      "n": 196,
+      "rate": 0.1173,
+      "low": 0.0795,
+      "high": 0.1699
+    },
+    "unknown_correct": {
+      "k": 148,
+      "n": 156,
+      "rate": 0.9487,
+      "low": 0.9021,
+      "high": 0.9738
+    },
+    "raw_claim_support": {
+      "k": 23,
+      "n": 33,
+      "rate": 0.697,
+      "low": 0.5266,
+      "high": 0.8262
+    },
+    "downgraded_by_check": 1,
+    "median_tool_calls": 12,
+    "redundant_call_rate": {
+      "k": 9,
+      "n": 80,
+      "rate": 0.1125,
+      "low": 0.0603,
+      "high": 0.2002
+    },
+    "budget_compliance": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875,
+      "low": 0.5291,
+      "high": 0.9776
+    },
+    "stop_reasons": {
+      "MAX_TOOLS": 5,
+      "NO_PROGRESS": 3
+    },
+    "no_progress_stops": {
+      "k": 1,
+      "n": 1,
+      "rate": 1,
+      "low": 0.2065,
+      "high": 1
+    },
+    "stale_as_current": 0,
+    "invented_price": 0,
+    "usd_total": 0.169369,
+    "usd_mean": 0.021171
+  },
+  "injection": null,
+  "failures": [
+    {
+      "scenario_id": "dev-01",
+      "run_id": "run_46a967d6e3ba1239",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "dev-02",
+      "run_id": "run_2712c90cc9456b13",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "dev-03",
+      "run_id": "run_bc951d932ef40d87",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C03:vercel:hobby, C04:cloudflare:paid, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-04",
+      "run_id": "run_f127238b09411d90",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "dev-06",
+      "run_id": "run_7bfacb0e7c0647ed",
+      "reasons": [
+        "contradicts gold: C01:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "dev-08",
+      "run_id": "run_07315220aca69634",
+      "reasons": [
+        "contradicts gold: C01:aws:default",
+        "stop reason MAX_TOOLS"
+      ]
+    }
+  ]
+}

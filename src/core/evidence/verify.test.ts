@@ -108,6 +108,12 @@ describe("verifyFact", () => {
     expect(verifyFact(f, passages, official)).toBe("unit_mismatch");
   });
 
+  test("found in dev runs: an AWS number filed under Vercel, and a price fact, are rejected", () => {
+    const f = fact({ provider: "vercel", plan: "pro", criterion: "C05", passage_id: "aws#mem", quote: "128 MB to 10,240 MB.", value: { kind: "number", n: 10_240, unit: "mb" } });
+    expect(verifyFact(f, passages, official)).toBe("wrong_provider");
+    expect(verifyFact(fact({ criterion: "C12" }), passages, official)).toBe("not_extractable");
+  });
+
   test("a planted note is never a fact, even with a real-looking quote", () => {
     const f = fact({ provider: "cloudflare", criterion: "C05", plan: "paid", passage_id: "syn#1", quote: "Workers memory is now 512 MB on Workers Paid", value: { kind: "number", n: 512, unit: "mb" } });
     expect(verifyFact(f, passages, official)).toBe("fact_from_untrusted_source");

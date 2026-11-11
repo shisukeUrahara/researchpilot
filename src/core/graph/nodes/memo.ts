@@ -15,6 +15,8 @@ export interface MemoInput {
   manifest: Manifest;
   prompt: PromptTemplate;
   usage: RunUsage;
+  /** Verdicts the fit rules computed from the ledger (arms with the memo check); null = the writer decides. */
+  computed: { provider: string; verdict: string; plan: string | null; reasons: string[] }[] | null;
 }
 
 export type MemoResult = { memo: Memo | null; usage: RunUsage; stop: StopReason | null };
@@ -41,6 +43,9 @@ export async function memoNode(d: ModelDeps, input: MemoInput): Promise<MemoResu
     ledger: ledgerLines.join("\n") || "(empty)",
     conflicts: conflictLines.join("\n") || "(none)",
     unknowns: open.map((c) => `${c}: ${input.unknownReasons[c] ?? "not found in the corpus"}`).join("\n") || "(none)",
+    computed_verdicts: input.computed
+      ? "Verdicts computed from the ledger (copy these):\n" + input.computed.map((v) => `${v.provider}: ${v.verdict}${v.plan ? ` (${v.plan})` : ""} — ${v.reasons.join("; ")}`).join("\n")
+      : "",
   };
   const out = await callModel(d, "writer", input.prompt, vars, Memo, input.usage, true);
   if (out.kind === "stop") return { memo: null, usage: out.usage, stop: out.stop };

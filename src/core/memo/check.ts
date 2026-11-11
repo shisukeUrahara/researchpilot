@@ -17,6 +17,8 @@ export interface CheckedMemo {
   /** The memo after the check: unsupported claims moved to unknowns, disclaimer added. */
   memo: Memo & { disclaimer: string };
   downgraded: Downgrade[];
+  /** Providers whose writer verdict differed from the fit rules and was replaced. */
+  verdictsReplaced: string[];
 }
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
@@ -26,7 +28,7 @@ const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
  * ledger uses exactly that value for that cell; anything else becomes an unknown with a reason. A claim
  * that repeats a value the ledger marked superseded is caught here too.
  */
-export function checkMemo(raw: Memo, ledger: Ledger): CheckedMemo {
+export function checkMemo(raw: Memo, ledger: Ledger, computed: { provider: string; verdict: Memo["verdicts"][number]["verdict"]; plan: string | null }[] | null = null): CheckedMemo {
   const superseded = new Map<string, unknown[]>();
   for (const c of ledger.conflicts) {
     const cell = cellId(c.criterion, c.provider, c.plan);
@@ -54,5 +56,15 @@ export function checkMemo(raw: Memo, ledger: Ledger): CheckedMemo {
     }
   }
   const unknowns = [...raw.unknowns, ...downgraded.map((d) => ({ cell: d.cell, reason: `claim removed by the memo check: ${d.reason}` }))];
-  return { raw, memo: { ...raw, claims: kept, unknowns, disclaimer: DISCLAIMER }, downgraded };
+  // Verdicts come from the fit rules over verified facts, not from the writer.
+  let verdicts = raw.verdicts;
+  const verdictsReplaced: string[] = [];
+  if (computed) {
+    verdicts = computed.map((c) => {
+      const w = raw.verdicts.find((v) => v.provider === c.provider);
+      if (!w || w.verdict !== c.verdict) verdictsReplaced.push(c.provider);
+      return { provider: c.provider as Memo["verdicts"][number]["provider"], verdict: c.verdict, plan: c.plan as Memo["verdicts"][number]["plan"], reasons: w?.reasons ?? "" };
+    });
+  }
+  return { raw, memo: { ...raw, verdicts, claims: kept, unknowns, disclaimer: DISCLAIMER }, downgraded, verdictsReplaced };
 }

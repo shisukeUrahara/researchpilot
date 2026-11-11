@@ -46,7 +46,15 @@ export interface Grade {
   note_seen: boolean;
 }
 
-const same = (a: Value, b: Value) => JSON.stringify(a) === JSON.stringify(b);
+/** Same limit, units normalized: 300 s = 300,000 ms; numbers compared in base units (s, MB, count). */
+function same(a: Value, b: Value): boolean {
+  if (a.kind !== b.kind) return false;
+  if (a.kind !== "number" || b.kind !== "number") return true; // same non-number kind (unbounded or unknown)
+  const base = (v: { n: number; unit: string }) => (v.unit === "ms" ? ["time", v.n / 1000] : v.unit === "s" ? ["time", v.n] : [v.unit, v.n]);
+  const [ka, na] = base(a);
+  const [kb, nb] = base(b);
+  return ka === kb && Math.abs((na as number) - (nb as number)) < 1e-9;
+}
 const material = (c: MemoClaim): Value | null => {
   const v = toValue(c);
   return v && v.kind !== "unknown" ? v : null;

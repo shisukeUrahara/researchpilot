@@ -3,7 +3,8 @@ import { approvedActions } from "../approvals/approvals";
 import { chargeStep, checkStep, emptyUsage, type BudgetConfig, type RunUsage } from "../budget/runBudget";
 import type { CriteriaFile } from "../domain/criteria";
 import { requiredCells, type Arm, type Brief, type Conflict, type FactRecord, type Memo, type PlanStep, type RunStatus, type StopReason } from "../domain/schemas";
-import { addFacts, buildLedger } from "../evidence/ledger";
+import { addFacts, buildLedger, ledgerLookup } from "../evidence/ledger";
+import { fitVerdicts } from "../fit/rules";
 import { execute } from "../exec/executor";
 import type { PromptTemplate } from "../prompts/load";
 import { recordEvent } from "../run/events";
@@ -229,15 +230,16 @@ export function buildBoundedGraph(d: AgentDeps) {
       else if ((s.cellQueries[c]?.length ?? 0) > 0) reasons[c] = `not found in the corpus (${s.cellQueries[c].length} lookups)`;
       else reasons[c] = `not researched before the stop (${s.stopReason})`;
     }
-    const r = await memoNode(d.model, { brief: s.brief, ledger, required: s.required, resolved, unknownReasons: reasons, manifest: d.manifest, prompt: d.prompts.writer, usage: s.usage });
+    const computed = d.arm.memo_check ? fitVerdicts(s.brief, ledgerLookup(ledger)) : null;
+    const r = await memoNode(d.model, { brief: s.brief, ledger, required: s.required, resolved, unknownReasons: reasons, manifest: d.manifest, prompt: d.prompts.writer, usage: s.usage, computed });
     if (!r.memo) {
       event(s, "memo", r.stop ? "memo_skipped" : "memo_invalid", { reason: r.stop }, r.usage);
       return { usage: r.usage };
     }
-    const checked = d.arm.memo_check ? checkMemo(r.memo, ledger) : null;
+    const checked = d.arm.memo_check ? checkMemo(r.memo, ledger, computed) : null;
     const final = checked ? checked.memo : r.memo;
     d.store.saveReport(s.runId, JSON.stringify(final), JSON.stringify({ downgraded: checked?.downgraded ?? [], memo_check: d.arm.memo_check }));
-    event(s, "memo", "memo", { claims: r.memo.claims.length, downgraded: checked?.downgraded.length ?? 0 }, r.usage);
+    event(s, "memo", "memo", { claims: r.memo.claims.length, downgraded: checked?.downgraded.length ?? 0, verdicts_replaced: checked?.verdictsReplaced ?? [] }, r.usage);
     return { usage: r.usage, memo: final, rawMemo: r.memo, downgraded: checked?.downgraded ?? [] };
   };
 

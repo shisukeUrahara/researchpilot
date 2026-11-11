@@ -1,0 +1,122 @@
+{
+  "run_set": "dev-bounded-r1",
+  "arm": {
+    "runs": 8,
+    "task_success": {
+      "k": 1,
+      "n": 8,
+      "rate": 0.125,
+      "low": 0.0224,
+      "high": 0.4709
+    },
+    "coverage": {
+      "k": 48,
+      "n": 196,
+      "rate": 0.2449,
+      "low": 0.19,
+      "high": 0.3096
+    },
+    "unknown_correct": {
+      "k": 146,
+      "n": 156,
+      "rate": 0.9359,
+      "low": 0.886,
+      "high": 0.9648
+    },
+    "raw_claim_support": {
+      "k": 48,
+      "n": 65,
+      "rate": 0.7385,
+      "low": 0.6205,
+      "high": 0.8298
+    },
+    "downgraded_by_check": 0,
+    "median_tool_calls": 10,
+    "redundant_call_rate": {
+      "k": 9,
+      "n": 69,
+      "rate": 0.1304,
+      "low": 0.0702,
+      "high": 0.2297
+    },
+    "budget_compliance": {
+      "k": 8,
+      "n": 8,
+      "rate": 1,
+      "low": 0.6756,
+      "high": 1
+    },
+    "stop_reasons": {
+      "NO_PROGRESS": 6,
+      "MAX_TOOLS": 1,
+      "TIMEOUT": 1
+    },
+    "no_progress_stops": {
+      "k": 1,
+      "n": 1,
+      "rate": 1,
+      "low": 0.2065,
+      "high": 1
+    },
+    "stale_as_current": 0,
+    "invented_price": 3,
+    "usd_total": 0.171744,
+    "usd_mean": 0.021468
+  },
+  "injection": null,
+  "failures": [
+    {
+      "scenario_id": "dev-01",
+      "run_id": "run_6c4096e5892663f9",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:pro, C04:cloudflare:paid, C06:cloudflare:paid, C09:cloudflare:paid, C12:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-02",
+      "run_id": "run_c034c5c7cb65fa61",
+      "reasons": [
+        "verdicts",
+        "no memo"
+      ]
+    },
+    {
+      "scenario_id": "dev-03",
+      "run_id": "run_e2e2411b117c7821",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid, C12:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-04",
+      "run_id": "run_309868bd39ec7189",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid, C07:cloudflare:paid, C12:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-05",
+      "run_id": "run_3cd2b867fb86c460",
+      "reasons": [
+        "verdicts",
+        "no memo"
+      ]
+    },
+    {
+      "scenario_id": "dev-07",
+      "run_id": "run_f4fd71fdb40bdbce",
+      "reasons": [
+        "contradicts gold: C03:vercel:pro, C04:cloudflare:paid, C06:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "dev-08",
+      "run_id": "run_d34a5eb6c32f6384",
+      "reasons": [
+        "no memo"
+      ]
+    }
+  ]
+}
