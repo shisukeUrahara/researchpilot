@@ -7,7 +7,8 @@
         "read_passage",
         "list_sources",
         "price_lookup",
-        "fetch_live"
+        "fetch_live",
+        "send_email"
       ]
     },
     "permissive": {
