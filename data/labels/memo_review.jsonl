@@ -1,0 +1,331 @@
+{"item": "memo-01#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby default 300s", "reviewer": "model"}
+{"item": "memo-01#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-01#2", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-01#3", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-01#4", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-01#5", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-01#6", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-01#7", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-01#8", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby maximum 300s", "reviewer": "model"}
+{"item": "memo-01#9", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-01#10", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "no extended duration stated for Hobby; 300s is standard max", "reviewer": "model"}
+{"item": "memo-01#11", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro 1800s extended maximum Beta", "reviewer": "model"}
+{"item": "memo-01#12", "cell": "C09:vercel:hobby", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-01#13", "cell": "C09:vercel:pro", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-01#14", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "concurrent executions default 1,000", "reviewer": "model"}
+{"item": "memo-01#15", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-02#0", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-02#1", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-02#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby maximum 300s", "reviewer": "model"}
+{"item": "memo-02#3", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-02#4", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-02#5", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "passage ties 1800s/300s to opt-in, not async", "reviewer": "model"}
+{"item": "memo-02#6", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-02#7", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-02#8", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-02#9", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-02#10", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-02#11", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-02#12", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "unsupported", "note": "passage gives maximum memory only, not default/min", "reviewer": "model"}
+{"item": "memo-02#13", "cell": "C06:vercel:pro", "value": "4096 mb", "verdict": "unsupported", "note": "4 GB is Pro maximum, not default/min", "reviewer": "model"}
+{"item": "memo-02#14", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-02#15", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "Lambda default concurrency 1,000", "reviewer": "model"}
+{"item": "memo-02#16", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it concurrency; passage gives subrequests", "reviewer": "model"}
+{"item": "memo-03#0", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-03#1", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-03#2", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-03#3", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-03#4", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-03#5", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-03#6", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-03#7", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "concurrent executions default 1,000", "reviewer": "model"}
+{"item": "memo-03#8", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it concurrency; passage gives subrequests", "reviewer": "model"}
+{"item": "memo-04#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby default 300s", "reviewer": "model"}
+{"item": "memo-04#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-04#2", "cell": "C01:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "Pro default is 300s; 1800s is extended beta max", "reviewer": "model"}
+{"item": "memo-04#3", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-04#4", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-04#5", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "no extended duration stated for Hobby; 300s is standard max", "reviewer": "model"}
+{"item": "memo-04#6", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro 1800s extended maximum Beta", "reviewer": "model"}
+{"item": "memo-04#7", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-04#8", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-04#9", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-04#10", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-04#11", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-04#12", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "unsupported", "note": "passage gives maximum memory only, not default/min", "reviewer": "model"}
+{"item": "memo-04#13", "cell": "C06:vercel:pro", "value": "4096 mb", "verdict": "unsupported", "note": "4 GB is Pro maximum, not default/min", "reviewer": "model"}
+{"item": "memo-04#14", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-04#15", "cell": "C09:aws:default", "value": "1000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-05#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-05#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-05#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-05#3", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-05#4", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "300s is Hobby standard max; no extended duration for Hobby", "reviewer": "model"}
+{"item": "memo-05#5", "cell": "C04:cloudflare:paid", "value": "300 s", "verdict": "unsupported", "note": "text calls it duration; passage gives CPU time", "reviewer": "model"}
+{"item": "memo-05#6", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-05#7", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-05#8", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-05#9", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-05#10", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "Lambda default concurrency 1,000", "reviewer": "model"}
+{"item": "memo-05#11", "cell": "C09:vercel:hobby", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-05#12", "cell": "C09:vercel:pro", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-05#13", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-06#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-06#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-06#2", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-06#3", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-06#4", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-06#5", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro opt-in extended max 1800s beta", "reviewer": "model"}
+{"item": "memo-06#6", "cell": "C04:cloudflare:paid", "value": "300 s", "verdict": "unsupported", "note": "text calls it duration; passage gives CPU time", "reviewer": "model"}
+{"item": "memo-06#7", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-06#8", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-06#9", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-06#10", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-06#11", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-06#12", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-07#0", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-07#1", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-07#2", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-07#3", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-07#4", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-07#5", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-07#6", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-07#7", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-07#8", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-07#9", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-08#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby default 300s", "reviewer": "model"}
+{"item": "memo-08#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-08#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-08#3", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-08#4", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "no extended duration stated for Hobby; 300s is standard max", "reviewer": "model"}
+{"item": "memo-08#5", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro 1800s extended maximum Beta", "reviewer": "model"}
+{"item": "memo-08#6", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-08#7", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-08#8", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-08#9", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-08#10", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-08#11", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "unsupported", "note": "passage gives maximum memory only, not default/min", "reviewer": "model"}
+{"item": "memo-08#12", "cell": "C06:vercel:pro", "value": "4096 mb", "verdict": "unsupported", "note": "4 GB is Pro maximum, not default/min", "reviewer": "model"}
+{"item": "memo-08#13", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-08#14", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-09#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby default 300s", "reviewer": "model"}
+{"item": "memo-09#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro default 300s", "reviewer": "model"}
+{"item": "memo-09#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-09#3", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-09#4", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "no extended duration stated for Hobby; 300s is standard max", "reviewer": "model"}
+{"item": "memo-09#5", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro opt-in extended max 1800s beta", "reviewer": "model"}
+{"item": "memo-09#6", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-09#7", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-09#8", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-09#9", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-09#10", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-09#11", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-09#12", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby default 2 GB", "reviewer": "model"}
+{"item": "memo-09#13", "cell": "C06:vercel:pro", "value": "2048 mb", "verdict": "supported", "note": "Pro default 2 GB", "reviewer": "model"}
+{"item": "memo-09#14", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-09#15", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "concurrent executions default 1,000", "reviewer": "model"}
+{"item": "memo-09#16", "cell": "C09:vercel:hobby", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-09#17", "cell": "C09:vercel:pro", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-09#18", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it concurrency; passage gives subrequests", "reviewer": "model"}
+{"item": "memo-10#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby default 300s", "reviewer": "model"}
+{"item": "memo-10#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro default 300s", "reviewer": "model"}
+{"item": "memo-10#2", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-10#3", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby maximum 300s", "reviewer": "model"}
+{"item": "memo-10#4", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-10#5", "cell": "C03:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "passage ties 1800s/300s to opt-in, not async", "reviewer": "model"}
+{"item": "memo-10#6", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "passage ties 1800s/300s to opt-in, not async", "reviewer": "model"}
+{"item": "memo-10#7", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-10#8", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-10#9", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-10#10", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-10#11", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-10#12", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-10#13", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby default 2 GB", "reviewer": "model"}
+{"item": "memo-10#14", "cell": "C06:vercel:pro", "value": "2048 mb", "verdict": "supported", "note": "Pro default 2 GB", "reviewer": "model"}
+{"item": "memo-10#15", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "text claims request body unbounded; passage limits it", "reviewer": "model"}
+{"item": "memo-10#16", "cell": "C09:vercel:hobby", "value": "30000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-10#17", "cell": "C09:vercel:pro", "value": "30000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-10#18", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-11#0", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-11#1", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-11#2", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro 1800s extended maximum Beta", "reviewer": "model"}
+{"item": "memo-11#3", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-11#4", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-11#5", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-11#6", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-11#7", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-11#8", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-11#9", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-11#10", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-12#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-12#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro default 300s", "reviewer": "model"}
+{"item": "memo-12#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-12#3", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "unsupported", "note": "text calls it CPU time; passage gives wall duration", "reviewer": "model"}
+{"item": "memo-12#4", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro opt-in extended max 1800s beta", "reviewer": "model"}
+{"item": "memo-12#5", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time max 300,000 ms", "reviewer": "model"}
+{"item": "memo-12#6", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-12#7", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-12#8", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro maximum 4 GB", "reviewer": "model"}
+{"item": "memo-12#9", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-12#10", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby default 2 GB", "reviewer": "model"}
+{"item": "memo-12#11", "cell": "C06:vercel:pro", "value": "2048 mb", "verdict": "supported", "note": "Pro default 2 GB", "reviewer": "model"}
+{"item": "memo-13#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-13#1", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "HTTP request duration no limit", "reviewer": "model"}
+{"item": "memo-13#2", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-13#3", "cell": "C03:vercel:hobby", "value": "800 s", "verdict": "unsupported", "note": "no Hobby value; passage is about >800s with Secure Compute", "reviewer": "model"}
+{"item": "memo-13#4", "cell": "C04:cloudflare:paid", "value": "50 ms", "verdict": "unsupported", "note": "Bundled plan value, not Workers Paid", "reviewer": "model"}
+{"item": "memo-13#5", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "memory up to 10,240 MB", "reviewer": "model"}
+{"item": "memo-13#6", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-13#7", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-13#8", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-13#9", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-13#10", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby default 2 GB", "reviewer": "model"}
+{"item": "memo-13#11", "cell": "C07:aws:default", "value": "6 mb", "verdict": "supported", "note": "6 MB sync request payload", "reviewer": "model"}
+{"item": "memo-13#12", "cell": "C08:aws:default", "value": "200 mb", "verdict": "supported", "note": "200 MB per streamed response", "reviewer": "model"}
+{"item": "memo-13#13", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-13#14", "cell": "C09:aws:default", "value": "1000 count", "verdict": "unsupported", "note": "1,000 envs per 10 s is scaling rate, not concurrency limit", "reviewer": "model"}
+{"item": "memo-13#15", "cell": "C09:vercel:hobby", "value": "30000 count", "verdict": "supported", "note": "auto-scales up to 30,000 (Hobby and Pro)", "reviewer": "model"}
+{"item": "memo-13#16", "cell": "C10:cloudflare:paid", "value": "50 count", "verdict": "unsupported", "note": "text calls it concurrency; passage gives subrequests", "reviewer": "model"}
+{"item": "memo-14#0", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-14#1", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-14#2", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-15#0", "cell": "C01:vercel:hobby", "value": "10 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-15#1", "cell": "C01:vercel:pro", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-15#2", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-15#3", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "incoming HTTP wall time unlimited", "reviewer": "model"}
+{"item": "memo-15#4", "cell": "C02:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-15#5", "cell": "C02:vercel:pro", "value": "900 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-15#6", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-15#7", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-15#8", "cell": "C05:vercel:hobby", "value": "1024 mb", "verdict": "stale", "note": "old page 1024 MB; current page 2 GB", "reviewer": "model"}
+{"item": "memo-15#9", "cell": "C05:vercel:pro", "value": "3009 mb", "verdict": "stale", "note": "old page 3009 MB; current page 4 GB", "reviewer": "model"}
+{"item": "memo-16#0", "cell": "C01:vercel:hobby", "value": "10 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-16#1", "cell": "C01:vercel:pro", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-16#2", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-16#3", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "incoming HTTP wall time unlimited", "reviewer": "model"}
+{"item": "memo-16#4", "cell": "C02:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-16#5", "cell": "C02:vercel:pro", "value": "900 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-16#6", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-16#7", "cell": "C03:cloudflare:paid", "value": "300 s", "verdict": "unsupported", "note": "5 min is CPU time, not an extended duration", "reviewer": "model"}
+{"item": "memo-16#8", "cell": "C03:vercel:hobby", "value": "1800 s", "verdict": "unsupported", "note": "passage names no plan; Hobby has no 1800s", "reviewer": "model"}
+{"item": "memo-16#9", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "1800s beta stated but passage names no plan", "reviewer": "model"}
+{"item": "memo-16#10", "cell": "C04:aws:default", "value": "1769 ms", "verdict": "unsupported", "note": "1,769 MB is the one-vCPU memory point, not CPU time", "reviewer": "model"}
+{"item": "memo-16#11", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "supported", "note": "Paid CPU time 5 min", "reviewer": "model"}
+{"item": "memo-16#12", "cell": "C04:vercel:pro", "value": "3009 mb", "verdict": "unsupported", "note": "3009 MB is memory, not CPU time", "reviewer": "model"}
+{"item": "memo-16#13", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-16#14", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-16#15", "cell": "C05:vercel:hobby", "value": "1024 mb", "verdict": "stale", "note": "old page 1024 MB; current page 2 GB", "reviewer": "model"}
+{"item": "memo-16#16", "cell": "C05:vercel:pro", "value": "3009 mb", "verdict": "stale", "note": "old page 3009 MB; current page 4 GB", "reviewer": "model"}
+{"item": "memo-16#17", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-16#18", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage gives memory limit, not a min/default", "reviewer": "model"}
+{"item": "memo-16#19", "cell": "C06:vercel:pro", "value": "15 s", "verdict": "unsupported", "note": "15 s is old Pro default duration, not memory", "reviewer": "model"}
+{"item": "memo-16#20", "cell": "C07:aws:default", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-16#21", "cell": "C07:cloudflare:paid", "value": "1048576 mb", "verdict": "unsupported", "note": "no request body value; table is Worker size/assets", "reviewer": "model"}
+{"item": "memo-16#22", "cell": "C07:vercel:hobby", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
+{"item": "memo-16#23", "cell": "C07:vercel:pro", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
+{"item": "memo-16#24", "cell": "C08:aws:default", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-16#25", "cell": "C08:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "10,000 is subrequests, not streamed response", "reviewer": "model"}
+{"item": "memo-16#26", "cell": "C08:vercel:pro", "value": "no limit", "verdict": "unsupported", "note": "about Edge runtime duration, not streamed response size", "reviewer": "model"}
+{"item": "memo-16#27", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "Lambda default concurrency 1,000", "reviewer": "model"}
+{"item": "memo-16#28", "cell": "C09:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "passage states no concurrency limit; \"No limit\" is requests/day", "reviewer": "model"}
+{"item": "memo-16#29", "cell": "C10:aws:default", "value": "10000 count", "verdict": "unsupported", "note": "10,000 rps is API Gateway throttle, another service", "reviewer": "model"}
+{"item": "memo-16#30", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-16#31", "cell": "C10:vercel:pro", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-17#0", "cell": "C01:vercel:hobby", "value": "10 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-17#1", "cell": "C01:vercel:pro", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-17#2", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-17#3", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "incoming HTTP wall time unlimited", "reviewer": "model"}
+{"item": "memo-17#4", "cell": "C02:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-17#5", "cell": "C02:vercel:pro", "value": "900 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-17#6", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-17#7", "cell": "C03:cloudflare:paid", "value": "300 s", "verdict": "unsupported", "note": "5 min is CPU time, not an extended duration", "reviewer": "model"}
+{"item": "memo-17#8", "cell": "C03:vercel:hobby", "value": "1800 s", "verdict": "unsupported", "note": "passage names no plan; Hobby has no 1800s", "reviewer": "model"}
+{"item": "memo-17#9", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "1800s beta stated but passage names no plan", "reviewer": "model"}
+{"item": "memo-17#10", "cell": "C04:aws:default", "value": "1769 ms", "verdict": "unsupported", "note": "text calls it a timeout; passage gives CPU time", "reviewer": "model"}
+{"item": "memo-17#11", "cell": "C04:cloudflare:paid", "value": "300000 ms", "verdict": "unsupported", "note": "text calls it a timeout; passage gives CPU time", "reviewer": "model"}
+{"item": "memo-17#12", "cell": "C04:vercel:pro", "value": "3009 mb", "verdict": "unsupported", "note": "3009 MB is memory, not CPU time", "reviewer": "model"}
+{"item": "memo-17#13", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-17#14", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-17#15", "cell": "C05:vercel:hobby", "value": "1024 mb", "verdict": "stale", "note": "old page 1024 MB; current page 2 GB", "reviewer": "model"}
+{"item": "memo-17#16", "cell": "C05:vercel:pro", "value": "3009 mb", "verdict": "stale", "note": "old page 3009 MB; current page 4 GB", "reviewer": "model"}
+{"item": "memo-17#17", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-17#18", "cell": "C06:cloudflare:paid", "value": "128 mb", "verdict": "unsupported", "note": "passage states no minimum memory", "reviewer": "model"}
+{"item": "memo-17#19", "cell": "C06:vercel:pro", "value": "15 s", "verdict": "unsupported", "note": "15 s is old Pro default duration, not memory", "reviewer": "model"}
+{"item": "memo-17#20", "cell": "C07:aws:default", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-17#21", "cell": "C07:cloudflare:paid", "value": "1048576 mb", "verdict": "unsupported", "note": "no request body value; table is Worker size/assets", "reviewer": "model"}
+{"item": "memo-17#22", "cell": "C07:vercel:hobby", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
+{"item": "memo-17#23", "cell": "C07:vercel:pro", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
+{"item": "memo-17#24", "cell": "C08:aws:default", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-17#25", "cell": "C08:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "10,000 is subrequests, not streamed response", "reviewer": "model"}
+{"item": "memo-17#26", "cell": "C08:vercel:pro", "value": "no limit", "verdict": "unsupported", "note": "about Edge runtime duration, not streamed response size", "reviewer": "model"}
+{"item": "memo-17#27", "cell": "C09:aws:default", "value": "1000 count", "verdict": "supported", "note": "Lambda default concurrency 1,000", "reviewer": "model"}
+{"item": "memo-17#28", "cell": "C09:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "passage states no concurrency limit; \"No limit\" is requests/day", "reviewer": "model"}
+{"item": "memo-17#29", "cell": "C10:aws:default", "value": "10000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-17#30", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "unsupported", "note": "text calls it a request count; passage gives another limit", "reviewer": "model"}
+{"item": "memo-17#31", "cell": "C10:vercel:pro", "value": "no limit", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-18#0", "cell": "C01:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "states no hard max; no default duration stated", "reviewer": "model"}
+{"item": "memo-18#1", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "incoming HTTP wall time unlimited", "reviewer": "model"}
+{"item": "memo-18#2", "cell": "C03:cloudflare:paid", "value": "30 s", "verdict": "supported", "note": "waitUntil() extends up to 30 s", "reviewer": "model"}
+{"item": "memo-18#3", "cell": "C04:cloudflare:paid", "value": "300 s", "verdict": "supported", "note": "Paid CPU time 5 min (=300 s; ms unit expected)", "reviewer": "model"}
+{"item": "memo-18#4", "cell": "C05:cloudflare:paid", "value": "128 mb", "verdict": "supported", "note": "Workers Paid memory 128 MB", "reviewer": "model"}
+{"item": "memo-18#5", "cell": "C07:cloudflare:paid", "value": "100000 count", "verdict": "unsupported", "note": "100,000/day is Free requests, not request body", "reviewer": "model"}
+{"item": "memo-18#6", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "response body size no enforced limit", "reviewer": "model"}
+{"item": "memo-18#7", "cell": "C09:cloudflare:paid", "value": "100 count", "verdict": "unsupported", "note": "100 MiB is outbound body size, not concurrency", "reviewer": "model"}
+{"item": "memo-18#8", "cell": "C10:cloudflare:paid", "value": "10000 count", "verdict": "supported", "note": "Paid subrequests 10,000/request", "reviewer": "model"}
+{"item": "memo-18#9", "cell": "C12:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "passage is about body sizes, not price", "reviewer": "model"}
+{"item": "memo-18#10", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-18#11", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-18#12", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-18#13", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-18#14", "cell": "C03:vercel:hobby", "value": "900 s", "verdict": "unsupported", "note": "text labels a duration as memory", "reviewer": "model"}
+{"item": "memo-18#15", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "unsupported", "note": "text labels a duration as memory", "reviewer": "model"}
+{"item": "memo-18#16", "cell": "C04:vercel:hobby", "value": "60000 ms", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#17", "cell": "C04:vercel:pro", "value": "100000 ms", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#18", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-18#19", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-18#20", "cell": "C06:vercel:hobby", "value": "1024 mb", "verdict": "stale", "note": "old page 1024 MB default; current 2 GB", "reviewer": "model"}
+{"item": "memo-18#21", "cell": "C06:vercel:pro", "value": "1769 mb", "verdict": "stale", "note": "old page 1769 MB default; current 2 GB", "reviewer": "model"}
+{"item": "memo-18#22", "cell": "C07:vercel:hobby", "value": "1024 mb", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#23", "cell": "C07:vercel:pro", "value": "3009 mb", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#24", "cell": "C08:vercel:hobby", "value": "no limit", "verdict": "unsupported", "note": "cited passage not found", "reviewer": "model"}
+{"item": "memo-18#25", "cell": "C08:vercel:pro", "value": "no limit", "verdict": "unsupported", "note": "cited passage not found", "reviewer": "model"}
+{"item": "memo-18#26", "cell": "C09:vercel:hobby", "value": "1024 count", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#27", "cell": "C09:vercel:pro", "value": "3009 count", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#28", "cell": "C10:vercel:hobby", "value": "1024 count", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#29", "cell": "C10:vercel:pro", "value": "3009 count", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#30", "cell": "C12:vercel:hobby", "value": "1024 mb", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#31", "cell": "C12:vercel:pro", "value": "3009 mb", "verdict": "unsupported", "note": "passage is memory sizes; value not for this criterion", "reviewer": "model"}
+{"item": "memo-18#32", "cell": "C02:aws:default", "value": "900 s", "verdict": "supported", "note": "up to 15 minutes per invocation", "reviewer": "model"}
+{"item": "memo-18#33", "cell": "C03:aws:default", "value": "5400 s", "verdict": "supported", "note": "90 min; passage limits it to Managed Instances async/ESM", "reviewer": "model"}
+{"item": "memo-18#34", "cell": "C04:aws:default", "value": "1769 ms", "verdict": "unsupported", "note": "1,769 MB is the one-vCPU memory point, not CPU time", "reviewer": "model"}
+{"item": "memo-18#35", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "up to 10,240 MB memory", "reviewer": "model"}
+{"item": "memo-18#36", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-18#37", "cell": "C07:aws:default", "value": "6291456 mb", "verdict": "unsupported", "note": "passage is memory allocation, no request body value", "reviewer": "model"}
+{"item": "memo-18#38", "cell": "C09:aws:default", "value": "1000 count", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-18#39", "cell": "C10:aws:default", "value": "10000 count", "verdict": "unsupported", "note": "passage states no value", "reviewer": "model"}
+{"item": "memo-19#0", "cell": "C01:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-19#1", "cell": "C02:cloudflare:paid", "value": "no limit", "verdict": "supported", "note": "no hard duration limit for HTTP Workers", "reviewer": "model"}
+{"item": "memo-19#2", "cell": "C02:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-19#3", "cell": "C03:cloudflare:paid", "value": "30 s", "verdict": "supported", "note": "waitUntil() extends up to 30 s", "reviewer": "model"}
+{"item": "memo-19#4", "cell": "C03:vercel:hobby", "value": "60 s", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-19#5", "cell": "C04:cloudflare:paid", "value": "50 ms", "verdict": "unsupported", "note": "Bundled plan value, not Workers Paid", "reviewer": "model"}
+{"item": "memo-19#6", "cell": "C04:vercel:hobby", "value": "no limit", "verdict": "unsupported", "note": "cited passage is an intro line with no values", "reviewer": "model"}
+{"item": "memo-19#7", "cell": "C05:vercel:hobby", "value": "1024 mb", "verdict": "unsupported", "note": "passage only gives 250 MB bundle size", "reviewer": "model"}
+{"item": "memo-19#8", "cell": "C06:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Standard default 2 GB; Hobby uses Standard", "reviewer": "model"}
+{"item": "memo-19#9", "cell": "C07:cloudflare:paid", "value": "5120 mb", "verdict": "unsupported", "note": "5 GB is Enterprise CDN cache limit", "reviewer": "model"}
+{"item": "memo-19#10", "cell": "C07:vercel:hobby", "value": "4096 mb", "verdict": "unsupported", "note": "4 GB is Performance memory, not request body", "reviewer": "model"}
+{"item": "memo-19#11", "cell": "C08:cloudflare:paid", "value": "no limit", "verdict": "unsupported", "note": "states no duration limit, not response size", "reviewer": "model"}
+{"item": "memo-19#12", "cell": "C08:vercel:hobby", "value": "250 mb", "verdict": "unsupported", "note": "passage only gives 250 MB bundle size", "reviewer": "model"}
+{"item": "memo-19#13", "cell": "C09:cloudflare:paid", "value": "50 count", "verdict": "unsupported", "note": "50 is Bundled subrequests, not concurrency", "reviewer": "model"}
+{"item": "memo-20#0", "cell": "C01:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s default", "reviewer": "model"}
+{"item": "memo-20#1", "cell": "C01:vercel:pro", "value": "300 s", "verdict": "supported", "note": "Pro 300s default", "reviewer": "model"}
+{"item": "memo-20#2", "cell": "C02:aws:default", "value": "28800 s", "verdict": "unsupported", "note": "8 h is per MicroVM, not Lambda function max", "reviewer": "model"}
+{"item": "memo-20#3", "cell": "C02:vercel:hobby", "value": "300 s", "verdict": "supported", "note": "Hobby 300s maximum", "reviewer": "model"}
+{"item": "memo-20#4", "cell": "C02:vercel:pro", "value": "800 s", "verdict": "supported", "note": "Pro 800s maximum", "reviewer": "model"}
+{"item": "memo-20#5", "cell": "C03:vercel:pro", "value": "1800 s", "verdict": "supported", "note": "Pro 1800s extended maximum Beta", "reviewer": "model"}
+{"item": "memo-20#6", "cell": "C05:aws:default", "value": "10240 mb", "verdict": "supported", "note": "memory up to 10,240 MB", "reviewer": "model"}
+{"item": "memo-20#7", "cell": "C05:vercel:hobby", "value": "2048 mb", "verdict": "supported", "note": "Hobby max memory 2 GB", "reviewer": "model"}
+{"item": "memo-20#8", "cell": "C05:vercel:pro", "value": "4096 mb", "verdict": "supported", "note": "Pro max memory 4 GB", "reviewer": "model"}
+{"item": "memo-20#9", "cell": "C06:aws:default", "value": "128 mb", "verdict": "supported", "note": "memory from 128 MB", "reviewer": "model"}
+{"item": "memo-20#10", "cell": "C07:vercel:hobby", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
+{"item": "memo-20#11", "cell": "C07:vercel:pro", "value": "250 mb", "verdict": "unsupported", "note": "250 MB is function bundle size, not request body", "reviewer": "model"}
