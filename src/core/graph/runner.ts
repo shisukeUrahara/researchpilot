@@ -43,6 +43,8 @@ export interface RunnerEnv {
   prompts?: Partial<Record<keyof typeof PROMPTS, string>>;
   /** Tests point the Gateway at the local mock OpenAI server. */
   baseURL?: string;
+  /** Shared live budget (rp eval reads its spend for the spend ledger). Made from maxUsd if absent. */
+  liveBudget?: Budget;
 }
 
 export interface RunRequest {
@@ -66,13 +68,14 @@ export interface RunOutcome {
   promptSetSha: string;
 }
 
-let gatewayFor: { key: string; gateway: Gateway } | null = null;
+let gatewayFor: { key: string; gateway: Gateway; budget?: Budget } | null = null;
 
 /** One Gateway per (cache, key, cap): identical calls in flight are shared, as in EvalForge. */
 function gateway(env: RunnerEnv, pricing: Pricing): Gateway {
   const key = canonicalJson([env.cache.dir, env.apiKey !== null, env.maxUsd, env.baseURL ?? null]);
+  if (env.liveBudget && gatewayFor?.key === key && gatewayFor.budget !== env.liveBudget) gatewayFor = null;
   if (gatewayFor?.key !== key) {
-    gatewayFor = { key, gateway: new Gateway(env.cache, env.apiKey ? { apiKey: env.apiKey, pricing, budget: new Budget(pricing, env.maxUsd), baseURL: env.baseURL } : null, env.now) };
+    gatewayFor = { key, budget: env.liveBudget, gateway: new Gateway(env.cache, env.apiKey ? { apiKey: env.apiKey, pricing, budget: env.liveBudget ?? new Budget(pricing, env.maxUsd), baseURL: env.baseURL } : null, env.now) };
   }
   return gatewayFor.gateway;
 }

@@ -50,10 +50,11 @@ export class GuardError extends Error {
   }
 }
 
-const git = (dataDir: string, args: string[]) => execFileSync("git", args, { cwd: dataDir, encoding: "utf8" }).trim();
+const git = (dataDir: string, args: string[]) => execFileSync("git", args, { cwd: dataDir, encoding: "utf8" });
 
 export function gitState(dataDir: string): { sha: string; dirty: string[] } {
-  const sha = git(dataDir, ["rev-parse", "HEAD"]);
+  const sha = git(dataDir, ["rev-parse", "HEAD"]).trim();
+  // Porcelain lines start with a 2-letter status and a space; trimming the output would eat the first one.
   const dirty = git(dataDir, ["status", "--porcelain", "--untracked-files=no"])
     .split("\n")
     .filter(Boolean)

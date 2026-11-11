@@ -32,7 +32,7 @@ test("with matching shas the eval may run; a changed preregistered file is refus
   commitAll(dir);
   expect(() => guardRun(dir, "eval", false, [])).not.toThrow();
   writeFileSync(path.join(dir, "config/budgets.json"), "{}");
-  expect(() => guardRun(dir, "eval", false, [])).toThrow(/uncommitted changes/);
+  expect(() => guardRun(dir, "eval", false, [])).toThrow(/uncommitted changes in config\/budgets.json/);
   commitAll(dir);
   expect(() => guardRun(dir, "eval", false, [])).toThrow(/changed since preregistration: config\/budgets.json/);
 });

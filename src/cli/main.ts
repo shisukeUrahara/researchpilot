@@ -2,6 +2,7 @@ import { CacheMissError } from "@/core/llm/errors";
 import { CostGateError } from "@/core/runner/budget";
 import type { Command, Deps } from "./deps";
 import { approve } from "./commands/approve";
+import { evalCmd } from "./commands/eval";
 import { cancel, rebuildDb, resume } from "./commands/control";
 import { doctor } from "./commands/doctor";
 import { fetchSources } from "./commands/fetchSources";
@@ -24,6 +25,7 @@ export const COMMANDS: Record<string, Command> = {
   cancel,
   resume,
   "rebuild-db": rebuildDb,
+  eval: evalCmd,
 };
 
 export async function main(argv: string[], deps: Deps, commands = COMMANDS): Promise<number> {
