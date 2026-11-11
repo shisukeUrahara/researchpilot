@@ -1,0 +1,42 @@
+{
+  "run_set": "eval-naive",
+  "kind": "eval",
+  "split": "eval",
+  "arm": "naive",
+  "policy": "permissive",
+  "demo": false,
+  "sample_count": 40,
+  "repetitions": 1,
+  "concurrency": 4,
+  "git_sha": "f404b838f77335cb2c8f72ee084212b679d8ad56",
+  "git_dirty": true,
+  "prompt_set_sha": "f3bf11042cf99e52",
+  "prompts": {
+    "planner": "planner.v1 34bafb7ef409",
+    "actor": "actor.v1 33137a5afc8d",
+    "extractor": "extractor.v2 0d4ae860f6f7",
+    "writer": "writer.v2 1504d63ebd23"
+  },
+  "model_spec": "openai:gpt-4.1-mini-2025-04-14",
+  "index_version": "bm25 over passages d29ac9c32033",
+  "file_shas": {
+    "data/scenarios/v1.jsonl": "3c9eed4330bc2d4da5837cb372986b606f0b4ee6c87092d4c06dc0a9078c6a32",
+    "data/gold/facts.v1.jsonl": "d9210f60eeb68b8196e943b3f711997ca8078a3ff9151034321115028e73eb60",
+    "data/criteria.v1.json": "9309bb5108809ec367d5a677eb3e19809a2719e032b6eb35e16fb184244a3f5f",
+    "config/budgets.json": "273fec65087b09e9ef7b5c4ed9d48aecbee75c7c5bf4233651949a7c73d23c3e",
+    "config/policy.json": "f119d8a002fb4dc60c590a5aade70b608080a4f4e989284bb207cd2d7cb6973d",
+    "config/models.json": "11c44453a5c802c35488001900bb30405e6699e3506f5f28a79cfc71ab2ec36e",
+    "gate/rules.v1.json": "026183810278171db3163d23bb67828465207f03044135a495e70544fb63b5b4",
+    "fixtures/sources/manifest.json": "3d3899733e52b912dbc20484c97077122b7d82bbd6fb44c7afe768f58a1b975c"
+  },
+  "region": "local",
+  "hardware": "13th Gen Intel(R) Core(TM) i7-13620H × 8, linux x64, node v24.14.1",
+  "created_at_utc": "2026-11-11T10:55:21.757Z",
+  "live_usd": 0.494181,
+  "not_run": [],
+  "limitations": [
+    "one model (gpt-4.1-mini-2025-04-14), temperature 0, one repetition",
+    "time is virtual (3,000 ms per model call, 500 ms per tool call); real latency is not measured",
+    "gold facts and memo samples are reviewed by a model, not by a human"
+  ]
+}

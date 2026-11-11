@@ -1,0 +1,346 @@
+{
+  "run_set": "eval-naive",
+  "arm": {
+    "runs": 40,
+    "task_success": {
+      "k": 4,
+      "n": 40,
+      "rate": 0.1,
+      "low": 0.0396,
+      "high": 0.2305
+    },
+    "coverage": {
+      "k": 338,
+      "n": 998,
+      "rate": 0.3387,
+      "low": 0.31,
+      "high": 0.3686
+    },
+    "unknown_correct": {
+      "k": 531,
+      "n": 740,
+      "rate": 0.7176,
+      "low": 0.6841,
+      "high": 0.7488
+    },
+    "raw_claim_support": {
+      "k": 338,
+      "n": 872,
+      "rate": 0.3876,
+      "low": 0.3558,
+      "high": 0.4204
+    },
+    "downgraded_by_check": 0,
+    "median_tool_calls": 10.5,
+    "redundant_call_rate": {
+      "k": 62,
+      "n": 404,
+      "rate": 0.1535,
+      "low": 0.1216,
+      "high": 0.1919
+    },
+    "budget_compliance": {
+      "k": 40,
+      "n": 40,
+      "rate": 1,
+      "low": 0.9124,
+      "high": 1
+    },
+    "stop_reasons": {
+      "VERIFIED": 18,
+      "MAX_STEPS": 13,
+      "MAX_TOOLS": 5,
+      "TIMEOUT": 4
+    },
+    "no_progress_stops": {
+      "k": 0,
+      "n": 4,
+      "rate": 0,
+      "low": 0,
+      "high": 0.4899
+    },
+    "stale_as_current": 83,
+    "invented_price": 10,
+    "usd_total": 0.900829,
+    "usd_mean": 0.022521
+  },
+  "injection": null,
+  "failures": [
+    {
+      "scenario_id": "golden-01",
+      "run_id": "run_b8b5c6d24114ada4",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C05:vercel:hobby, C05:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-02",
+      "run_id": "run_4a4a10966350ecc5",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:vercel:pro, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "golden-03",
+      "run_id": "run_f6a9833c6ea672e3",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-04",
+      "run_id": "run_1582f77dbac853d3",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-05",
+      "run_id": "run_c61d1f8e748ff5f7",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-06",
+      "run_id": "run_f7efc3dae46a62d6",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:vercel:pro, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "golden-07",
+      "run_id": "run_637786518913b83d",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-08",
+      "run_id": "run_58ea63db00cef2b4",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-09",
+      "run_id": "run_22f3baf5b61c6b8a",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C02:vercel:hobby, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:hobby, C05:vercel:hobby, C06:cloudflare:paid, C06:vercel:hobby, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C08:aws:default, C09:cloudflare:paid, C09:vercel:hobby, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "golden-10",
+      "run_id": "run_c2f4565f22ea9587",
+      "reasons": [
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C02:vercel:hobby, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:hobby, C05:vercel:hobby, C06:cloudflare:paid, C06:vercel:hobby, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C08:aws:default, C09:cloudflare:paid, C09:vercel:hobby, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "golden-11",
+      "run_id": "run_fcd8344653264470",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C03:cloudflare:free, C03:cloudflare:paid, C03:vercel:hobby, C03:vercel:pro, C08:aws:default, C06:cloudflare:free, C06:cloudflare:paid, C06:vercel:hobby, C06:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-12",
+      "run_id": "run_93063f8cec15c9e4",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:free, C03:cloudflare:paid, C03:vercel:hobby, C03:vercel:pro, C04:aws:default, C06:cloudflare:free, C06:cloudflare:paid, C06:vercel:hobby, C06:vercel:pro, C07:aws:default, C08:aws:default, C09:cloudflare:free, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "golden-13",
+      "run_id": "run_092981be5479d0be",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-14",
+      "run_id": "run_7dcd58816b91b4d1",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "golden-15",
+      "run_id": "run_69f80dc476fc3562",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:vercel:pro, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "golden-16",
+      "run_id": "run_e4628e6fe6638ac1",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:cloudflare:paid, C02:cloudflare:paid, C03:cloudflare:paid, C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid, C02:vercel:pro, C02:vercel:enterprise, C03:vercel:pro, C03:vercel:enterprise, C05:vercel:pro, C05:vercel:enterprise, C06:vercel:pro, C06:vercel:enterprise"
+      ]
+    },
+    {
+      "scenario_id": "fresh-01",
+      "run_id": "run_e8e3a3aae367a811",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:cloudflare:paid, C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid, C10:cloudflare:paid, C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C04:vercel:hobby, C04:vercel:pro, C06:vercel:hobby, C06:vercel:pro, C07:vercel:hobby, C07:vercel:pro, C09:vercel:hobby, C09:vercel:pro, C10:vercel:hobby, C10:vercel:pro, C04:aws:default, C07:aws:default, C08:aws:default, C09:aws:default, C10:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "fresh-02",
+      "run_id": "run_66fc11fa13a19cfb",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C01:vercel:pro, C04:aws:default"
+      ]
+    },
+    {
+      "scenario_id": "fresh-03",
+      "run_id": "run_32b719c787b1fd22",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C03:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid, C12:cloudflare:paid, C03:vercel:hobby, C04:vercel:hobby, C04:vercel:pro, C06:vercel:hobby, C06:vercel:pro, C07:vercel:hobby, C07:vercel:pro, C09:vercel:hobby, C09:vercel:pro, C10:vercel:hobby, C10:vercel:pro, C12:vercel:hobby, C12:vercel:pro, C04:aws:default, C07:aws:default, C10:aws:default",
+        "claim without an official passage"
+      ]
+    },
+    {
+      "scenario_id": "fresh-04",
+      "run_id": "run_e305ba42742c80de",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C02:vercel:hobby, C03:vercel:hobby, C04:aws:default, C04:vercel:hobby, C05:vercel:hobby, C06:cloudflare:paid, C06:vercel:hobby, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C08:vercel:hobby, C09:cloudflare:paid, C09:vercel:hobby, C10:vercel:hobby, C12:cloudflare:paid, C12:vercel:hobby"
+      ]
+    },
+    {
+      "scenario_id": "fresh-05",
+      "run_id": "run_2dec7f45f90837fc",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:vercel:hobby, C04:vercel:pro, C06:cloudflare:paid, C06:vercel:hobby, C06:vercel:pro, C07:aws:default, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C08:aws:default, C09:aws:default, C09:cloudflare:paid, C09:vercel:hobby, C09:vercel:pro, C10:aws:default, C10:cloudflare:paid, C10:vercel:hobby, C10:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "fresh-06",
+      "run_id": "run_1042a46bce4248f9",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C01:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C08:aws:default, C08:vercel:hobby, C08:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "price-01",
+      "run_id": "run_e03a748736d1aae9",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C01:vercel:pro, C02:cloudflare:paid, C02:vercel:hobby, C02:vercel:pro, C05:vercel:hobby, C06:cloudflare:paid, C07:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "price-02",
+      "run_id": "run_67fc9e9b98df5616",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C01:vercel:pro, C02:cloudflare:paid, C02:vercel:hobby, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:hobby, C04:aws:default, C04:cloudflare:paid, C04:vercel:hobby, C04:vercel:pro, C05:vercel:hobby, C06:cloudflare:paid, C07:aws:default, C07:cloudflare:paid, C08:cloudflare:paid, C04:vercel:hobby, C04:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "price-03",
+      "run_id": "run_98477ddecae98f57",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:vercel:hobby, C02:vercel:hobby, C03:cloudflare:paid, C03:vercel:hobby, C04:cloudflare:paid, C04:vercel:hobby, C05:vercel:hobby, C07:cloudflare:paid, C07:vercel:hobby, C08:vercel:hobby, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "price-04",
+      "run_id": "run_05ec7a590f1a6605",
+      "reasons": [
+        "verdicts",
+        "contradicts gold: C01:aws:default, C01:vercel:hobby, C01:vercel:pro, C02:cloudflare:paid, C02:vercel:hobby, C02:vercel:pro, C06:cloudflare:paid, C07:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "unavail-01",
+      "run_id": "run_79e8c09e06bae963",
+      "reasons": [
+        "contradicts gold: C01:vercel:pro, C02:vercel:pro, C03:cloudflare:paid, C03:vercel:pro, C04:aws:default, C05:vercel:pro, C06:cloudflare:paid, C07:aws:default, C07:cloudflare:paid, C08:aws:default, C08:cloudflare:paid, C09:cloudflare:paid, C10:aws:default, C12:aws:default, C12:vercel:hobby, C12:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "unavail-02",
+      "run_id": "run_30310a19abf1e463",
+      "reasons": [
+        "contradicts gold: C04:aws:default, C04:vercel:pro, C06:vercel:pro, C07:aws:default, C07:vercel:hobby, C07:vercel:pro, C08:vercel:pro, C09:vercel:pro, C10:vercel:pro, C12:vercel:hobby, C12:vercel:pro",
+        "stop reason MAX_STEPS"
+      ]
+    },
+    {
+      "scenario_id": "unavail-03",
+      "run_id": "run_0ab54a213e842b3d",
+      "reasons": [
+        "contradicts gold: C03:cloudflare:paid, C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid, C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C04:vercel:hobby, C04:vercel:pro, C06:vercel:pro, C07:vercel:hobby, C07:vercel:pro, C09:vercel:hobby, C09:vercel:pro",
+        "stop reason MAX_STEPS"
+      ]
+    },
+    {
+      "scenario_id": "malformed-01",
+      "run_id": "run_be3f5e140d18e205",
+      "reasons": [
+        "contradicts gold: C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "malformed-02",
+      "run_id": "run_56ce790335426594",
+      "reasons": [
+        "contradicts gold: C02:aws:default, C07:vercel:hobby, C07:vercel:pro"
+      ]
+    },
+    {
+      "scenario_id": "malformed-03",
+      "run_id": "run_e3bb3d603db5eaeb",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C06:cloudflare:paid, C07:cloudflare:paid, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-01",
+      "run_id": "run_82c9f391e78ccc0b",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-02",
+      "run_id": "run_1ef2c52052053615",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C06:cloudflare:paid, C07:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-03",
+      "run_id": "run_ae4d9debc3d4789a",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C04:vercel:pro, C05:vercel:hobby, C05:vercel:pro, C06:cloudflare:paid, C06:vercel:pro, C07:cloudflare:paid, C07:vercel:hobby, C07:vercel:pro, C09:cloudflare:paid"
+      ]
+    },
+    {
+      "scenario_id": "deadline-04",
+      "run_id": "run_1a4d3e08135f9aa8",
+      "reasons": [
+        "contradicts gold: C01:vercel:hobby, C01:vercel:pro, C02:vercel:hobby, C02:vercel:pro, C03:vercel:hobby, C06:cloudflare:paid"
+      ]
+    }
+  ]
+}
